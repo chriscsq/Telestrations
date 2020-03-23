@@ -1,0 +1,13 @@
+{
+  "name": "telestrations",
+  "version": "1.0.0",
+  "description": "Web based game inspired by the board game Telestrations",
+  "main": "index.js",
+  "author": "SENG 513 - Group 9",
+  "license": "ISC",
+  "homepage": "https://github.com/chriscsq/Telestrations",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
