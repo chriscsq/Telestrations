@@ -1,0 +1,71 @@
+.container {
+    background-color: red;
+    height: 600px;
+}
+
+#top-section {
+    background-color: #DEF0FF;
+    height: 30%;
+}
+
+#return {
+    /* border: red 5px solid; */
+    text-align: center;
+}
+
+#banner {
+    /* border: black 5px solid; */
+    background-color: red;
+}
+
+.username {
+    background-color: #FCF9ED;
+    height: 80%;
+}
+
+.change-btn-row {
+    background-color: #DEF0FF;
+    height: 20%;
+}
+.change-btn-parent {
+    position: relative;
+}
+
+.change-btn {
+    position: absolute; 
+    bottom: 0; 
+    right: 0; 
+    /* text-align:right; */
+}
+
+.btn-size {
+    font-size: 25px;
+}
+
+.avatar-size {
+    font-size: 100px;
+}
+
+.avatar-icon {
+    background-color: #DEF0FF;
+    height: 80%;
+    border: black 2px solid;
+}
+
+#bottom-section {
+    background-color:#DEF0FF;
+    height: 70%;
+}
+
+#previous {
+    /* border: black 5px solid; */
+    text-align: center;
+}
+
+#saved {
+    /* border: green 5px solid; */
+    text-align: center;
+}
+ .return-btn {
+     margin-top: 20px;
+ }
