@@ -35,7 +35,6 @@
     position: absolute; 
     bottom: 0; 
     right: 0; 
-    /* text-align:right; */
 }
 
 .btn-size {
@@ -55,6 +54,34 @@
 #bottom-section {
     background-color:#DEF0FF;
     height: 70%;
+}
+.test {
+    background-color: white;
+}
+
+.first-content {
+    margin-top: 50px;
+    height: 20%;
+    /* background-color: yellow */
+}
+
+.content {
+    margin-top: 30px;
+    /* background-color: yellow; */
+    height: 20%;
+}
+
+.sketchbook-size {
+    font-size: 60px;
+}
+
+.vote {
+    /* border: white 5px solid; */
+    text-align: right;
+}
+
+.word {
+    text-align: left;
 }
 
 #previous {
