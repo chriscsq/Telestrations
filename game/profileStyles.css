@@ -96,3 +96,25 @@
  .return-btn {
      margin-top: 20px;
  }
+
+ .modal-word{
+     padding-right: 35px;
+ }
+ .modal-sketchArea {
+     background-color: wheat;
+     height: 500px;
+ }
+
+.modal-sketchbook {
+     background-color: white;
+     height: 425px;
+ }
+
+ .modal-vote{
+     /* border: black 5px solid; */
+     padding-left: 40px;
+ }
+
+ .modal-whichUser {
+     margin-top: 15px;
+ }
