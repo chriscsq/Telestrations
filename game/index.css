@@ -1,0 +1,79 @@
+:root {}
+
+* {
+    /* border: 1px dotted cyan; */
+}
+
+.container-fluid {
+    max-width: 97%;
+}
+
+#title-bar, #playArea, #infoArea {
+    margin-top: 10px;
+    background-color: gray;
+    border: 2px solid red;
+    border-radius: 10px;
+}
+
+#logo {
+    padding-left: 10px;
+}
+
+#title {
+    font-size: 4em;
+}
+
+#logo, #title {
+    padding-left: 20px;
+}
+
+#username {
+    color: darkblue;
+    font-size: 2em;
+}
+
+#user-icon, #username {
+    padding-right: 15px;
+}
+
+.btn {
+    font-size: 1.5em;
+}
+
+#contentArea {
+    padding-top: 5px;
+}
+
+#playArea {
+    margin-right: 5px;
+}
+
+#infoArea {
+    margin-left: 5px;
+}
+
+.header {
+    text-align: center;
+    text-decoration: underline;
+    font-size: 3em;
+}
+
+.info {
+    font-size: 1.1em;
+    padding-bottom: 10px;
+}
+
+#createRoomButton, #joinRoomButton {
+    margin: 10px;
+}
+
+input {
+    margin: 10px;
+    font-size: 2em;
+}
+
+.error {
+    font-size: 1.5em;
+    color: darkred;
+    text-align: center;
+}
