@@ -1,14 +1,7 @@
-const EVENTS = {
-    CONNECT: 'connect',
-    DISCONNECT: 'disconnect',
-};
-
-let express = require('express');
-let path = require('path');
-
-let app = express();
-let server = require('http').Server(app);
-let io = require('socket.io')(server);
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 app.use(express.static('game/', { extensions: ['html'] }));
 
@@ -16,10 +9,41 @@ server.listen(80, () => {
     console.log('Game server started on port 80');
 });
 
-io.on(EVENTS.CONNECT, socket => {
+io.on('connect', socket => {
     console.log('Client connected');
 
-    socket.on(EVENTS.DISCONNECT, () => {
+    socket.on('create-room', () => {
+        let randomCode = 'ASDF';
+        socket.emit('create-room', { code: randomCode });
+    });
+
+    socket.on('join-room', data => {
+        let response = {
+            success: true,
+            code: data.code,
+        };
+        socket.emit('join-room', response);
+    });
+
+    socket.on('login', data => {
+        let response = {
+            success: true,
+            user: data.username,
+            usericon: 'fa-camera',
+        };
+        socket.emit('login', response);
+    });
+
+    socket.on('register', data => {
+        let response = {
+            success: true,
+            user: data.username,
+            usericon: 'fa-camera',
+        };
+        socket.emit('register', response);
+    });
+
+    socket.on('disconnect', () => {
         console.log('Client disconnected');
     });
 });
