@@ -45,7 +45,7 @@
                 <div class="header">Play</div>
                 <template v-if="inputVisible">
                     <div class="row">
-                        <input class="form-input col" type="text" placeholder="Enter Room Code" maxlength="4"
+                        <input class="col" type="text" placeholder=" Enter Room Code" maxlength="4"
                             v-model.trim="roomCode" v-on:keyup.enter="joinRoom" v-on:input="roomCodeChanged">
                     </div>
                 </template>
