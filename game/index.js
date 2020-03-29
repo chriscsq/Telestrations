@@ -1,16 +1,33 @@
+let socket = io();
+
+socket.on('create-room', data => {
+    console.log(data);
+    Cookies.set('roomCode', data.code);
+    window.location.href = '/create';
+});
+
+socket.on('join-room', data => {
+    if (data.success) {
+        Cookies.set('roomCode', data.code);
+        window.location.href = '/room';
+    } else {
+        playArea.errorMsg = 'Invalid room code';
+    }
+});
+
 let loginButton = new Vue({
     el: '#loginButton',
     data: {
-        isLoggedIn: false, //Cookies.get('user') !== null,
-        userIconClasses: 'justify-content-center align-self-center fas fa-3x ' + 'fa-dot-circle',//Cookies.get('user-icon'),
-        username: 'Test User',//Cookies.get('user'),
+        isLoggedIn: Cookies.get('user') !== undefined,
+        userIconClasses: 'justify-content-center align-self-center fas fa-3x ' + Cookies.get('user-icon'),
+        username: Cookies.get('user'),
     },
     methods: {
         click: function (event) {
             if (this.isLoggedIn) {
-                console.log('Go to profile');
+                window.location.href = '/account';
             } else {
-                console.log('Go to login');
+                window.location.href = '/login';
             }
         },
     },
@@ -26,8 +43,7 @@ let playArea = new Vue({
     methods: {
         createRoom: function (event) {
             if (this.altButtonText === 'Create Room') {
-                // should retrieve new code first
-                window.location.href = '/create';
+                socket.emit('create-room');
             } else {
                 this.altButtonText = 'Create Room';
                 this.roomCode = '';
@@ -39,8 +55,7 @@ let playArea = new Vue({
                 if (this.roomCode.length !== 4) {
                     this.errorMsg = 'Room code must be four characters';
                 } else {
-                    Cookies.set('roomCode', this.roomCode);
-                    window.location.href = '/room';
+                    socket.emit('join-room', { code: this.roomCode });
                 }
             } else {
                 this.altButtonText = 'Back';
@@ -58,19 +73,4 @@ let playArea = new Vue({
             return (this.errorMsg !== '') && (this.altButtonText === 'Back');
         },
     },
-})
-
-const EVENTS = {
-    CONNECT: 'connect',
-    DISCONNECT: 'disconnect',
-};
-
-let socket = io();
-
-socket.on(EVENTS.CONNECT, () => {
-    console.log("Connected");
-});
-
-socket.on(EVENTS.DISCONNECT, () => {
-    console.log("Disconnected");
 });
