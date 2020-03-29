@@ -1,5 +1,5 @@
 .container {
-    background-color: red;
+    background-color:#DEF0FF;
     height: 600px;
 }
 
@@ -15,7 +15,7 @@
 
 #banner {
     /* border: black 5px solid; */
-    background-color: red;
+    background-color:#DEF0FF;
 }
 
 .username {
@@ -54,6 +54,7 @@
 #bottom-section {
     background-color:#DEF0FF;
     height: 70%;
+    margin-top: 20px;
 }
 .test {
     background-color: white;
@@ -101,7 +102,7 @@
      padding-right: 35px;
  }
  .modal-sketchArea {
-     background-color: wheat;
+     background-color:#FCF9ED;
      height: 500px;
  }
 
@@ -117,4 +118,12 @@
 
  .modal-whichUser {
      margin-top: 15px;
+ }
+
+ .modal-background {
+     background-color: #DEF0FF;
+ }
+
+ .counter {
+     margin: 50px;
  }

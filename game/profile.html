@@ -56,7 +56,7 @@
 				<div class=" row first-content d-flex align-items-center">
 					<div class="col vote">+3</div>
 					<div class="col">
-						<button class="btn" data-toggle="modal" data-target="#viewPrev"><i
+						<button class="btn" data-toggle="modal" data-target="#viewSketch"><i
 								class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">WORD</div>
@@ -65,7 +65,7 @@
 				<div class=" row content d-flex align-items-center">
 					<div class="col vote">+3</div>
 					<div class="col">
-						<button class="btn" data-toggle="modal" data-target="#viewPrev"><i
+						<button class="btn" data-toggle="modal" data-target="#viewSketch"><i
 								class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">WORD</div>
@@ -74,32 +74,35 @@
 				<div class=" row content d-flex align-items-center">
 					<div class="col vote">+3</div>
 					<div class="col">
-						<button class="btn" data-toggle="modal" data-target="#viewPrev"><i class="far fa-edit sketchbook-size"></i></button>
+						<button class="btn" data-toggle="modal" data-target="#viewSketch"><i
+								class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">WORD</div>
 				</div>
 
-				<!-- Modal class for viewing sketchbook for previous games -->
-				<div class="modal fade" id="viewPrev" tabindex="-1">
+				<!-- Modal class for viewing sketchbook -->
+				<div class="modal fade" id="viewSketch" tabindex="-1">
 					<div class="modal-dialog modal-lg">
-						<div class="modal-content">
+						<div class="modal-content modal-background">
 							<div class="modal-header">
 								<div class="modal-vote">+3</div>
-								<div class="col modal-word">WORD</div>								
+								<div class="col modal-word">WORD</div>
 								<button type="button" class="close" data-dismiss="modal">
 									<span>&times;</span>
 								</button>
 							</div>
 							<div class="modal-body modal-sketchArea">
 								<div class="modal-sketchbook"></div>
-								<div class="modal-whichUser">DRAWN BY: <span>DAVID</span></div>
+								<div class="modal-whichUser">DRAWN BY: <span>DAVID</span> <span class="counter">1/6</span></div>
 							</div>
 							<div class="modal-footer">
 								<div class="col">
 									<button class="btn"><i class="fas fa-arrow-circle-left fa-3x"></i></button>
 									<button class="btn"><i class="fas fa-arrow-circle-right fa-3x"></i></button>
 								</div>
-								
+								<div class="col">
+									<button type="button" class="btn btn-primary">Save Sketchbook</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -112,7 +115,8 @@
 				<div class=" row first-content d-flex align-items-center">
 					<div class="col vote">+3</div>
 					<div class="col sketch">
-						<button class="btn"><i class="far fa-edit sketchbook-size"></i></button>
+						<button class="btn" data-toggle="modal" data-target="#viewSketch"><i
+								class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">WORD</div>
 				</div>
@@ -120,7 +124,8 @@
 				<div class=" row content d-flex align-items-center">
 					<div class="col vote">+3</div>
 					<div class="col">
-						<button class="btn"><i class="far fa-edit sketchbook-size"></i></button>
+						<button class="btn" data-toggle="modal" data-target="#viewSketch"><i
+								class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">WORD</div>
 				</div>
@@ -128,7 +133,8 @@
 				<div class=" row content d-flex align-items-center">
 					<div class="col vote">+3</div>
 					<div class="col">
-						<button class="btn"><i class="far fa-edit sketchbook-size"></i></button>
+						<button class="btn" data-toggle="modal" data-target="#viewSketch"><i
+								class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">WORD</div>
 				</div>
