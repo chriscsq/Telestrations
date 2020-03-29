@@ -1,17 +1,10 @@
-:root {}
-
-* {
-    /* border: 1px dotted cyan; */
-}
-
+@import url('styles.css');
 .container-fluid {
     max-width: 97%;
 }
 
 #title-bar, #playArea, #infoArea {
     margin-top: 10px;
-    background-color: gray;
-    border: 2px solid red;
     border-radius: 10px;
 }
 
