@@ -23,12 +23,62 @@
 			<div class="col-1"></div>
 
 			<div class="col-6" id="banner">
-				<div class="row username">
-					<div class="col justify-content-center d-flex align-items-center">USERNAME</div>
+				<div class="row banner-colour">
+					<div class="col justify-content-center d-flex align-items-center username-colour">USERNAME</div>
 				</div>
 				<div class="row change-btn-row">
 					<div class="col change-btn-parent">
-						<button class="btn change-btn"><i class="fas fa-sync-alt btn-size"></i></button>
+						<button class="btn change-btn" data-toggle="modal" data-target="#changeColour"><i class="fas fa-sync-alt btn-size"></i></button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal class for changing banner and username colour  -->
+			<div class="modal fade" id="changeColour" tabindex="-1">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content modal-background">
+						<div class="modal-header">
+							<div class="col">
+								<h2 class="modal-change-title">Change Banner and Username Colour</h2>
+							</div>							
+							<button type="button" class="close" data-dismiss="modal">
+								<span>&times;</span>
+							</button>
+						</div>
+						<div class="modal-body modal-changeArea">
+							<div class="row modal-banner banner-colour">
+								<div class="col justify-content-center d-flex align-items-center username-colour">USERNAME</div>
+							</div>
+							<div class="row modal-top-row">
+								<div class="col justify-content-center d-flex align-items-center"><button class="btn"><i class="fas fa-square fa-5x modal-first"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button class="btn"><i class="fas fa-square fa-5x modal-second"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button class="btn"><i class="fas fa-square fa-5x modal-third"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button class="btn"><i class="fas fa-square fa-5x modal-fourth"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button class="btn"><i class="fas fa-square fa-5x modal-fifth"></i></button></div>
+							</div>
+							<div class="row modal-bottom-row">
+								<div class="col justify-content-center d-flex align-items-center"><button class="btn"><i class="fas fa-square fa-5x modal-sixth"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button class="btn"><i class="fas fa-square fa-5x modal-seventh"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button class="btn"><i class="fas fa-square fa-5x modal-eighth"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button class="btn"><i class="fas fa-square fa-5x modal-nineth"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button class="btn"><i class="fas fa-square fa-5x modal-tenth"></i></button></div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="col">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+									<label class="form-check-label" for="inlineRadio1">Banner</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+									<label class="form-check-label" for="inlineRadio2">Username</label>
+								</div>
+							</div>
+							<div class="col">
+								<button type="button" class="btn btn-primary" data-dismiss="modal">Save Changes</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -101,7 +151,7 @@
 									<button class="btn"><i class="fas fa-arrow-circle-right fa-3x"></i></button>
 								</div>
 								<div class="col">
-									<button type="button" class="btn btn-primary">Save Sketchbook</button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Save Sketchbook</button>
 								</div>
 							</div>
 						</div>
