@@ -1,0 +1,121 @@
+<div id="app">
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>Game Screen</title>
+    <link href="styles.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+    <script src="https://unpkg.com/vue@latest/dist/vue.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+    <script src="//use.edgefonts.net/love-ya-like-a-sister.js"></script>
+    <script src="func.js"></script>
+  </head>
+
+  <body>
+
+    <b-container class="cont">
+      <!-- Outside row -->
+      <b-row class="main-row">
+        <!-- user list -->
+        <b-col cols="2" id="userlist-container">
+          <p id="players-title">
+            PLAYERS
+          </p>
+          <ul class="userlist">
+            <li>Player 1</li>
+            <li>Player 2</li>
+            <li>Player 3</li>
+            <li>Player 4</li>
+            <li>Player 5</li>
+            <li>Player 6</li>
+            <li>Player 7</li>
+            <li>Player 8</li>
+
+          </ul>
+        </b-col>
+
+        <!-- rightside screen, divides into 2 more rows-->
+        <b-col cols="10" class="d-flex flex-column h-100" id="gamescreen-container">
+
+          <!-- gamescreen, splits into whiteboard and palette -->
+          <b-row id="whiteboard-container">
+
+            <b-col cols="9" id="whiteboard">
+              <p id="timer">
+                0
+              </p>
+              <p id="telestrations">
+                TELESTRATIONS
+              </p>
+
+            </b-col>
+
+            <b-col cols="3" id="palette">
+              <b-row>
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+              </b-row>
+              <b-row>
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+              </b-row>
+              <b-row>
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+              </b-row>
+              <b-row>
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+              </b-row>
+              <b-row>
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+              </b-row>
+              <b-row>
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+
+                <b-col><input type="image" src="https://i.stack.imgur.com/P0Bxd.jpg?s=32&g=1" /></b-col>
+              </b-row>
+            </b-col>
+          </b-row>
+          <!-- chat is the entire row -->
+          <b-row class="flex-grow-1" id="chat">
+
+          </b-row>
+        </b-col>
+
+      </b-row>
+
+    </b-container>
+
+  </body>
+
+  </html>
+</div>
+
+
+
+
+
+
+
+
