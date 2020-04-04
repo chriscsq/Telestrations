@@ -46,10 +46,11 @@ let formArea = new Vue({
                 return;
             }
             if (this.isRegistering) {
-                if (this.email.length === 0) {
+                if (this.email.length === 0 || !this.validEmail()) {
                     this.errorMsg = 'Please enter a valid email';
+                } else {
+                    socket.emit('register', { username: this.username, password: this.password, email: this.email });
                 }
-                socket.emit('register', { username: this.username, password: this.password, email: this.email });
             } else {
                 socket.emit('login', { username: this.username, password: this.password });
             }
@@ -57,6 +58,10 @@ let formArea = new Vue({
         switchType: function (event) {
             this.isRegistering = !this.isRegistering;
         },
+        validEmail: function () {
+            let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(this.email);
+        }
     },
     computed: {
         showError: function () {
