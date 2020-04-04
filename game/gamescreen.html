@@ -1,65 +1,63 @@
-<div id="app">
-  <!DOCTYPE html>
-  <html>
+<!DOCTYPE html>
+<html>
 
-  <head>
-    <title>Game Screen</title>
+<head>
+  <title>Game Screen</title>
 
-    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
-    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
-    <link href="gamescreen.css" rel="stylesheet" />
-  </head>
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
+  <link href="gamescreen.css" rel="stylesheet" />
+</head>
 
-  <body>
-    <b-container class="cont">
-      <!-- Outside row -->
-      <b-row class="main-row">
-        <!-- user list -->
-        <b-col cols="2" id="userlist-container">
-          <p id="players-title">
-            PLAYERS
-          </p>
-          <ul id="userlist">
-            <li v-for="item in items" :key="item.name">
-              {{item.name}} </li>
-          </ul>
-        </b-col>
+<body>
+  <b-container id="app" class="cont">
+    <!-- Outside row -->
+    <b-row class="main-row">
+      <!-- user list -->
+      <b-col cols="2" id="userlist-container">
+        <p id="players-title">
+          PLAYERS
+        </p>
+        <ul id="userlist">
+          <li v-for="item in items" :key="item.name">
+            {{item.name}} </li>
+        </ul>
+      </b-col>
 
-        <!-- rightside screen, divides into 2 more rows-->
-        <b-col cols="10" class="d-flex flex-column h-100" id="gamescreen-container">
+      <!-- rightside screen, divides into 2 more rows-->
+      <b-col cols="10" class="d-flex flex-column h-100" id="gamescreen-container">
 
-          <!-- gamescreen, splits into whiteboard and palette -->
-          <b-row id="whiteboard-container">
+        <!-- gamescreen, splits into whiteboard and palette -->
+        <b-row id="whiteboard-container">
 
-            <b-col cols="9" id="whiteboard">
-              <p id="timer">
-                {{time}}
-              </p>
-              <p id="telestrations">
-                TELESTRATIONS
-              </p>
+          <b-col cols="9" id="whiteboard">
+            <p id="timer">
+              {{time}}
+            </p>
+            <p id="telestrations">
+              TELESTRATIONS
+            </p>
 
-            </b-col>
+          </b-col>
 
-            <b-col cols="3" id="palette">
+          <b-col cols="3" id="palette">
 
-            </b-col>
-          </b-row>
-          <!-- chat is the entire row -->
-          <b-row class="flex-grow-1" id="chat">
+          </b-col>
+        </b-row>
+        <!-- chat is the entire row -->
+        <b-row class="flex-grow-1" id="chat">
 
-          </b-row>
-        </b-col>
+        </b-row>
+      </b-col>
 
-      </b-row>
+    </b-row>
 
-    </b-container>
+  </b-container>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
-    <script src="gamescreen.js"></script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+  <script src="gamescreen.js"></script>
+</body>
 
-  </html>
-</div>
+</html>
