@@ -30,6 +30,11 @@ let drawTime = new Vue({
       { id: 100 },
     ],
   },
+  methods: {
+    changeTime: function (event) {
+
+    },
+  },
 });
 
 let startButton = new Vue({
