@@ -1,4 +1,13 @@
-@import url('styles.css');
+:root {
+    --light-blue: #DEF0FF;
+    --grey-font: #767A88;
+    --orange-titles: #FFC871;
+}
+
+body {
+    background-color: var(--light-blue);
+}
+
 .container-fluid {
     max-width: 97%;
 }
