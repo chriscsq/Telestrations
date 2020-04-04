@@ -1,0 +1,36 @@
+@import url('index.css');
+.container-fluid {
+    max-width: 50%;
+}
+
+#backButton {
+    margin-right: 15px;
+}
+
+#formArea {
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+label {
+    font-size: 2em;
+}
+
+.error {
+    font-size: 1.5em;
+    color: darkred;
+    text-align: center;
+}
+
+#buttonRow {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+#mainButton {
+    margin-right: 15xp;
+}
+
+#secondButton {
+    margin-left: 15px;
+}

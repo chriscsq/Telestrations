@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Telestrations</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+
+    <script src="https://kit.fontawesome.com/6fbf4e38e3.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div id="title-bar" class="row">
+            <div class="col d-inline-flex flex row">
+                <i id="logo" class="justify-content-center align-self-center fas fa-3x fa-pencil-alt"></i>
+                <div id="title">Telestrations</div>
+            </div>
+            <div class="col text-right my-auto">
+                <div id="loginButton" class="d-inline-flex flex-row">
+                    <template v-if="isLoggedIn">
+                        <i id="user-icon" v-bind:class="userIconClasses"></i>
+                        <span id="username">
+                            {{ username }}
+                        </span>
+                        <span class="justify-content-center align-self-center btn btn-primary btn-lg"
+                            v-on:click="click">
+                            View Profile
+                        </span>
+                    </template>
+                    <template v-else>
+                        <div class="justify-content-center align-self-center btn btn-primary btn-lg" v-on:click="click">
+                            Login / Create Account
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <div id="contentArea" class="row">
+            <div id="playArea" class="col">
+                <div class="header">Play</div>
+                <template v-if="inputVisible">
+                    <div class="row">
+                        <input class="col" type="text" placeholder=" Enter Room Code" maxlength="4"
+                            v-model.trim="roomCode" v-on:keyup.enter="joinRoom" v-on:input="roomCodeChanged">
+                    </div>
+                </template>
+                <template v-if="showError">
+                    <div class="error">
+                        {{ errorMsg }}
+                    </div>
+                </template>
+                <div class="row">
+                    <div id="joinRoomButton" class="col justify-content-center align-self-center btn btn-primary btn-lg"
+                        v-on:click="joinRoom">Join Room</div>
+                    <div id="createRoomButton"
+                        class="col justify-content-center align-self-center btn btn-primary btn-lg"
+                        v-on:click="createRoom">{{ altButtonText }}</div>
+                </div>
+            </div>
+            <div id="infoArea" class="col">
+                <div class="header">Updates & News</div>
+                <div class="info">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique mauris odio, non
+                    bibendum ipsum commodo quis. In hac habitasse platea dictumst. Cras sagittis velit tortor, a
+                    ultricies augue aliquam quis. Sed eget sem porta, feugiat nisi vitae, eleifend nunc. Etiam porta, ex
+                    et condimentum fringilla, metus velit aliquam lacus, eget porta mi arcu ac nibh. Etiam sed laoreet
+                    mauris, non pulvinar dolor. Donec et ligula at dui ornare maximus quis accumsan mauris. In purus
+                    massa, ultrices sed ipsum a, interdum suscipit elit. Aenean venenatis lorem nec venenatis rutrum.
+                    Nulla diam nisi, congue id nisl sed, scelerisque iaculis odio. Nullam blandit pulvinar lobortis.
+                    Aenean facilisis non nisi vel tempor. Morbi metus augue, euismod posuere lectus vitae, tincidunt
+                    ultrices nunc. Phasellus et ligula ut erat lacinia ullamcorper. Donec pretium est sed dui aliquet,
+                    id ultricies dui ornare.
+                </div>
+
+                <div class="header">About</div>
+                <div class="info">
+                    Nullam sodales orci ac felis maximus placerat. Sed rutrum est a nisi commodo, sagittis tristique
+                    magna bibendum. Ut at leo quis dolor suscipit efficitur sit amet a turpis. Praesent bibendum arcu a
+                    blandit cursus. Maecenas aliquam ante in sem malesuada, vitae vulputate tortor fringilla. Phasellus
+                    convallis facilisis orci, in interdum nunc accumsan ut. Nam laoreet tincidunt orci eu scelerisque.
+                    Morbi ac orci iaculis, aliquet orci id, volutpat velit. Mauris eget suscipit ipsum. Fusce lacinia
+                    gravida neque, vitae tincidunt magna rutrum quis. Vivamus id interdum ligula.
+                </div>
+
+                <div class="header">How to Play</div>
+                <div class="info">
+                    Nam ante velit, condimentum non porta eget, tristique nec justo. Nunc felis felis, ornare malesuada
+                    imperdiet eu, hendrerit eu tellus. Vivamus tellus nulla, faucibus ut tempor in, sodales ac nunc.
+                    Aenean at felis vitae augue pellentesque consectetur eget et felis. Sed sit amet turpis urna.
+                    Vivamus ultrices, dui id sollicitudin tempus, erat nibh dignissim dolor, eget blandit tortor tortor
+                    et turpis. Nulla est tellus, bibendum eget tincidunt vitae, rutrum in nisi. Duis tincidunt bibendum
+                    diam.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
