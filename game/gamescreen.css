@@ -1,0 +1,99 @@
+.cont {
+  height: 90vh;
+  border-radius: 10px;
+  margin-top: 2%;
+}
+
+.main-row {
+  height: inherit;
+}
+
+#userlist-container {
+  border-radius: 5px;
+  padding: 0px;
+  
+}
+
+#userlist {
+  list-style: none;
+  background: black;
+  padding: 0px;
+  }
+
+#userlist > li {
+  color: #767A88;
+  padding: 2px;
+  line-height: 6vh;
+  padding-left: .5vh;
+  height: 6vh;
+  width: inherit;
+  background: #DEF0FF;
+  font-size: calc(0.75em + 1vmin);
+}
+
+#userlist > li:nth-child(odd) {
+  background: #FCF9ED;
+}
+
+#gamescreen-container {
+  background: #1D97FF;
+  border-radius: 5px;
+}
+
+#whiteboard-container {
+  position:relative;
+  padding: 5px;
+  height: inherit;
+  border-radius: 5px;
+  height: 70%;
+}
+
+#whiteboard {
+  position: relative;
+  background: white;
+  height: 100%;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius:5px;
+}
+
+#palette {
+  background: #EFEFEF;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius:5px;
+  display: flex;
+  flex-direction: column;
+}
+
+#chat {
+  background: white;
+  border-radius: 5px;
+  border:  #1D97FF solid 5px;
+}
+
+#telestrations {
+  position: relative;
+  text-align: center;
+  top: -2.5vw;
+  font-size: 3vw;
+  font-weight: bold;
+  color: #FFC871;
+  text-shadow: .2vw .2vw #FF9871;
+}
+
+#timer {
+  position: absolute;
+  text-align: right;
+  font-family: 'Love Ya Like A Sister', cursive;
+  font-size: 3.5vw;
+  transform: rotate(-10deg);
+
+}
+
+#players-title {
+  font-weight: bold;
+  color: #767A88;
+  text-align: center;
+  font-size: calc(1.2em + 1vmin);;
+  
+}
+
