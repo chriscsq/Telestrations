@@ -1,15 +1,14 @@
 let socket = io();
 
 socket.on('create-room', data => {
-    console.log(data);
     Cookies.set('roomCode', data.code);
-    window.location.href = '/create';
+    window.location.href = '/lobby';
 });
 
 socket.on('join-room', data => {
     if (data.success) {
         Cookies.set('roomCode', data.code);
-        window.location.href = '/room';
+        window.location.href = '/lobby';
     } else {
         playArea.errorMsg = 'Invalid room code';
     }
