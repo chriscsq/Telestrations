@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</head>
+<body>
+    
+    <style>
+
+        div.col-md-3 {
+            background-color: #DEF0FF;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row" style="height: 100vh;">
+            <div class="col-md-3">
+                <h1>Settings</h1>
+                <form action="">
+                    <h4>Number of Players</h4>
+                    <div class="dropdown" id="players">
+                        <select class="form-control" id="player-dropdown" @change="changeNumPlayers($event)">
+                            <option selected disabled>How many players?</option>
+                            <option v-for="player in players" :value="players.id" :key="players.id">{{  player.id    }}</option>
+                        </select>
+                    </div>
+                    <h4>Draw Time in Seconds</h4>
+                    <div class="dropdown" id="draw-time">
+                        <select class="form-control" id="time-dropdown" @change="changeTime($event)">
+                            <option selected disabled>How long to draw?</option>
+                            <option v-for="time in times" :value="times.id" :key="times.id">{{  time.id }}</option>
+                        </select>
+                    </div>
+                    <h4>Language</h4>
+                    <div class="dropdown" id="language-dropdown">
+                        <select class="form-control" id="language">
+                            <option selected>English</option>        
+                        </select>
+                    </div>
+                    <div></div>
+                    <center>
+                        <button type="submit" class="btn btn-primary">Start Game</button>
+                    </center>
+                    
+                </form>
+            </div>
+            
+            <div class="col-md-9" style="background-color: #1D97FF;">
+                <center>
+                    <h1 style="color: #FFC871;">Players</h1>
+                </center>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="lobby.js"></script>
+</body>
