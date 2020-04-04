@@ -1,36 +1,42 @@
-var players = new Vue({
-    el: '#players',
-    data: {
-      players: [
-        {id: 4},
-        {id: 5},
-        {id: 6},
-        {id: 7},
-        {id: 8}
-
-      ]
+let players = new Vue({
+  el: '#players',
+  data: {
+    players: [
+      { id: 4 },
+      { id: 5 },
+      { id: 6 },
+      { id: 7 },
+      { id: 8 },
+    ],
+  },
+  methods: {
+    changeNumPlayers: function (event) {
+      this.selectedPlayers = event.target.options[event.target.options.selectedIndex].text
     },
-    methods: {
-      changeNumPlayers (event) {
-        this.selectedPlayers = event.target.options[event.target.options.selectedIndex].text
-      }
-    }
-  })
+  },
+});
 
-  var drawTime = new Vue({
-    el: "#draw-time",
-    data: {
-      times: [
-        {id: 30},
-        {id: 40},
-        {id: 50},
-        {id: 60},
-        {id: 70},
-        {id: 80},
-        {id: 90},
-        {id: 100}
-      ]
-    }
-  })
+let drawTime = new Vue({
+  el: "#draw-time",
+  data: {
+    times: [
+      { id: 30 },
+      { id: 40 },
+      { id: 50 },
+      { id: 60 },
+      { id: 70 },
+      { id: 80 },
+      { id: 90 },
+      { id: 100 },
+    ],
+  },
+});
 
-
+let startButton = new Vue({
+  el: '#start-button',
+  methods: {
+    start: function (event) {
+      window.location.href = '/gamescreen';
+    },
+  },
+});
