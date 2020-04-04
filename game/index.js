@@ -25,7 +25,7 @@ let loginButton = new Vue({
     methods: {
         click: function (event) {
             if (this.isLoggedIn) {
-                window.location.href = '/account';
+                window.location.href = '/profile';
             } else {
                 window.location.href = '/login';
             }
