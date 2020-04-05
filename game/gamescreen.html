@@ -38,7 +38,9 @@
             <p id="telestrations">
               TELESTRATIONS
             </p>
-
+            <div>
+              <canvas id="myCanvas"></canvas>
+            </div>
           </b-col>
 
           <b-col cols="3" id="palette">
@@ -54,10 +56,15 @@
     </b-row>
 
   </b-container>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
-  <script src="gamescreen.js"></script>
+  <script src="./gamescreen.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.2.min.js" integrity="sha256-Ls0pXSlb7AYs7evhd+VLnWsZ/AqEHcXBeMZUycz/CcA=" crossorigin="anonymous"></script>
+
+<script src="./whiteboard.js"></script>
+<!-- Our JavaScript code -->
+<script src="./js/script.js"></script>
 </body>
 
 </html>

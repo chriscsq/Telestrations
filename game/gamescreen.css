@@ -97,3 +97,8 @@
   
 }
 
+#myCanvas {
+  background-color: aquamarine;
+  width: 650px;
+  height: 500px;
+}
