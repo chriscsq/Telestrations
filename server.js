@@ -3,6 +3,8 @@ var app = express();
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 
+const socketEvents = require('./socket-events')
+
 app.use("/js", express.static(__dirname + "/game/js"));
 
 app.get("/", function(req, res) {
@@ -11,12 +13,12 @@ app.get("/", function(req, res) {
 
 io.on("connection", function(socket) {
   // at this point a client has connected
-  socket.on("draw", function(data) {
-    socket.broadcast.emit("draw", data);
+  socket.on(socketEvents.DRAW, function(data) {
+    socket.broadcast.emit(socketEvents.DRAW, data);
   });
 
-  socket.on("draw begin path", function() {
-    socket.broadcast.emit("draw begin path");
+  socket.on(socketEvents.DRAW_BEGIN_PATH, function() {
+    socket.broadcast.emit(socketEvents.DRAW_BEGIN_PATH);
   });
 });
 
