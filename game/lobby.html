@@ -7,37 +7,28 @@
 </head>
 
 <body>
-    <style>
-        div.col-md-3 {
-            background-color: #DEF0FF;
-        }
-    </style>
+
     <div class="container-fluid">
         <div class="row" style="height: 100vh;">
-            <div class="col-md-3">
-                <h1>Settings</h1>
+            <div class="col-md-3" id="background-left">
+            <span id="settings">Settings</span>
                 <form action="">
-                    <h4>Number of Players</h4>
+                    <span id="sub-headers">Room limit</span>
                     <div class="dropdown" id="players">
                         <select class="form-control" id="player-dropdown" @change="changeNumPlayers($event)">
-                            <option selected disabled>How many players?</option>
+                            <option selected disabled>Number of players</option>
                             <option v-for="player in players" :value="players.id" :key="players.id">{{  player.id    }}
                             </option>
                         </select>
                     </div>
-                    <h4>Draw Time in Seconds</h4>
+                    <span id="sub-headers">Time per round</span>
                     <div class="dropdown" id="draw-time">
                         <select class="form-control" id="time-dropdown" @change="changeTime($event)">
-                            <option selected disabled>How long to draw?</option>
+                            <option selected disabled>Seconds</option>
                             <option v-for="time in times" :value="times.id" :key="times.id">{{  time.id }}</option>
                         </select>
                     </div>
-                    <h4>Language</h4>
-                    <div class="dropdown" id="language-dropdown">
-                        <select class="form-control" id="language">
-                            <option selected>English</option>
-                        </select>
-                    </div>
+                    
                     <div></div>
                     <center>
                         <button id="start-button" class="btn btn-primary" v-on:click.prevent="start">Start Game</button>
@@ -46,9 +37,9 @@
                 </form>
             </div>
 
-            <div class="col-md-9" style="background-color: #1D97FF;">
+            <div class="col-md-9" id="background-right">
                 <center>
-                    <h1 style="color: #FFC871;">Players</h1>
+                <span id="players">Players</span>
                 </center>
             </div>
         </div>

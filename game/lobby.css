@@ -1,1 +1,48 @@
-/* styling for lobby should go here */
+:root {
+    --light-blue: #e8f0ff;
+    --grey-font: #767A88;
+    --orange-titles: #f3c98b;
+    --orange-shadow: #daa588;
+    --blue-titles: #84bcda;
+    --blue-shadow: #d7e5ea;
+    --orange-button: #e5b769;
+    --orange-button-hover: #cca158;
+    --username: #ca5a5a;
+    --light-yellow: #FCF9ED;
+  }
+  
+  #background-left {
+    background-color: var(--light-blue);
+  }
+  #background-right {
+    background-color: var(--light-yellow);
+  }
+  
+  #players, #settings {
+  
+    font-size: 4vw;
+    font-weight: bold;
+    color: var(--orange-titles);
+    text-shadow: .2vw .2vw var(--orange-shadow);
+  }
+  
+  #sub-headers {
+  
+    text-align: center;
+    font-size: 1.5vw;
+    font-weight: bold;
+    color: var(--blue-titles);
+    text-shadow: .2vw .2vw var(--blue-shadow);
+  }
+  
+  .btn-primary, .btn-primary:active, .btn-primary:visited {
+      margin-top: 5vh;
+      border-color: var(--orange-button) !important;
+      background-color: var(--orange-button) !important;
+  }
+  
+  .btn-primary:hover {
+      border-color: var(--orange-button-hover) !important;
+      background-color: var(--orange-button-hover) !important;
+  }
+  
