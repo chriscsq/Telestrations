@@ -7,6 +7,7 @@
   <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
   <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
   <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/>
   <link href="gamescreen.css" rel="stylesheet" />
 </head>
 
@@ -39,23 +40,27 @@
               TELESTRATIONS
             </p>
             <div>
+              <section class="colorpicker">
+                <div class="pickr"></div>
+              </section>
               <canvas id="myCanvas"></canvas>
             </div>
           </b-col>
-
           <b-col cols="3" id="palette">
 
           </b-col>
         </b-row>
         <!-- chat is the entire row -->
         <b-row class="flex-grow-1" id="chat">
-
         </b-row>
       </b-col>
 
     </b-row>
 
   </b-container>
+  <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
+  <script src="./js/colorpicker.js"></script>
   <script src="./whiteboard.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -63,8 +68,8 @@
   <script src="./gamescreen.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.2.min.js" integrity="sha256-Ls0pXSlb7AYs7evhd+VLnWsZ/AqEHcXBeMZUycz/CcA=" crossorigin="anonymous"></script>
 
-<!-- Our JavaScript code -->
-<script src="./js/script.js"></script>
+
+  <script src="./js/script.js"></script>
 </body>
 
 </html>

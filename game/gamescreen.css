@@ -112,6 +112,13 @@
 
 #myCanvas {
   background-color: whitesmoke;
-  width: 650px;
-  height: 500px;
+  width: 670px;
+  height: 460px;
+  border-radius: 5px;
+  border-color: black;
+}
+
+.colorpicker {
+  display: flex;
+  justify-content: left;
 }
