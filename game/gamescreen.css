@@ -1,3 +1,16 @@
+:root {
+  --light-blue: #e8f0ff;
+  --grey-font: #767A88;
+  --orange-titles: #f3c98b;
+  --orange-shadow: #daa588;
+  --blue-titles: #84bcda;
+  --blue-shadow: #d7e5ea;
+  --orange-button: #e5b769;
+  --orange-button-hover: #cca158;
+  --username: #ca5a5a;
+  --light-yellow: #FCF9ED;
+}
+
 .cont {
   height: 90vh;
   border-radius: 10px;
@@ -16,23 +29,22 @@
 
 #userlist {
   list-style: none;
-  background: black;
   padding: 0px;
-  }
+}
 
 #userlist > li {
-  color: #767A88;
+  color: var(--grey-font);
   padding: 2px;
   line-height: 6vh;
   padding-left: .5vh;
   height: 6vh;
   width: inherit;
-  background: #DEF0FF;
+  background: var(--light-blue);
   font-size: calc(0.75em + 1vmin);
 }
 
 #userlist > li:nth-child(odd) {
-  background: #FCF9ED;
+  background: var(--light-yellow);
 }
 
 #gamescreen-container {
@@ -76,8 +88,8 @@
   top: -2.5vw;
   font-size: 3vw;
   font-weight: bold;
-  color: #FFC871;
-  text-shadow: .2vw .2vw #FF9871;
+  color: var(--orange-titles);
+  text-shadow: .2vw .2vw var(--orange-shadow);
 }
 
 #timer {
@@ -90,10 +102,16 @@
 }
 
 #players-title {
-  font-weight: bold;
-  color: #767A88;
   text-align: center;
+  font-weight: bold;
+  color: var(--blue-titles);
+  text-shadow: .2vw .2vw var(--blue-shadow);
   font-size: calc(1.2em + 1vmin);;
   
 }
 
+#myCanvas {
+  background-color: whitesmoke;
+  width: 650px;
+  height: 500px;
+}

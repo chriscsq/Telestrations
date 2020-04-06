@@ -1,7 +1,13 @@
 :root {
-    --light-blue: #DEF0FF;
+    --light-blue: #e8f0ff;
     --grey-font: #767A88;
-    --orange-titles: #FFC871;
+    --orange-titles: #f3c98b;
+    --orange-shadow: #daa588;
+    --blue-titles: #84bcda;
+    --blue-shadow: #d7e5ea;
+    --orange-button: #e5b769;
+    --orange-button-hover: #cca158;
+    --username: #ca5a5a;
 }
 
 body {
@@ -22,15 +28,19 @@ body {
 }
 
 #title {
-    font-size: 4em;
+    font-size: 8vw;
+    font-weight: bold;
+    color: var(--orange-titles);
+    text-shadow: .2vw .2vw var(--orange-shadow);
 }
+
 
 #logo, #title {
     padding-left: 20px;
 }
 
 #username {
-    color: darkblue;
+    color: var(--username);
     font-size: 2em;
 }
 
@@ -56,13 +66,16 @@ body {
 
 .header {
     text-align: center;
-    text-decoration: underline;
-    font-size: 3em;
+    font-size: 2.5vw;
+    font-weight: bold;
+    color: var(--blue-titles);
+    text-shadow: .2vw .2vw var(--blue-shadow);
 }
 
 .info {
     font-size: 1.1em;
     padding-bottom: 10px;
+    color: var(--grey-font);
 }
 
 #createRoomButton, #joinRoomButton {
@@ -78,4 +91,14 @@ input {
     font-size: 1.5em;
     color: darkred;
     text-align: center;
+}
+
+.btn-primary, .btn-primary:active, .btn-primary:visited {
+    border-color: var(--orange-button) !important;
+    background-color: var(--orange-button) !important;
+}
+
+.btn-primary:hover {
+    border-color: var(--orange-button-hover) !important;
+    background-color: var(--orange-button-hover) !important;
 }
