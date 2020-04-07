@@ -32,16 +32,7 @@ let drawTime = new Vue({
   },
   methods: {
     changeTime: function (event) {
-
-    },
-  },
-});
-
-let startButton = new Vue({
-  el: '#start-button',
-  methods: {
-    start: function (event) {
-      window.location.href = '/gamescreen';
+        
     },
   },
 });

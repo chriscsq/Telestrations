@@ -12,12 +12,12 @@
         <div class="row" style="height: 100vh;">
             <div class="col-md-3" id="background-left">
             <span id="settings">Settings</span>
-                <form action="">
+                <form id="game-settings" action = "gamescreen.html" method="POST">
                     <span id="sub-headers">Room limit</span>
                     <div class="dropdown" id="players">
                         <select class="form-control" id="player-dropdown" @change="changeNumPlayers($event)">
                             <option selected disabled>Number of players</option>
-                            <option v-for="player in players" :value="players.id" :key="players.id">{{  player.id    }}
+                            <option v-for="player in players" :value="player.id" :key="player.id">{{  player.id    }}
                             </option>
                         </select>
                     </div>
@@ -25,13 +25,13 @@
                     <div class="dropdown" id="draw-time">
                         <select class="form-control" id="time-dropdown" @change="changeTime($event)">
                             <option selected disabled>Seconds</option>
-                            <option v-for="time in times" :value="times.id" :key="times.id">{{  time.id }}</option>
+                            <option v-for="time in times" :value="time.id" :key="time.id">{{  time.id }}</option>
                         </select>
                     </div>
                     
                     <div></div>
                     <center>
-                        <button id="start-button" class="btn btn-primary" v-on:click.prevent="start">Start Game</button>
+                        <input value="Start Game" id="start-button" class="btn btn-primary" onclick="validateForm();"/>
                     </center>
 
                 </form>
@@ -44,6 +44,22 @@
             </div>
         </div>
     </div>
+    <script>
+        function validateForm() {
+            var numPlayers = $("#player-dropdown :selected").val();
+            var timeLimit = $("#time-dropdown :selected").val();
+            if (numPlayers === "Number of players") {
+                alert("Please select the room limit");
+            }
+            else if (timeLimit === "Seconds") {
+                alert("Please select a time limit");
+            }
+            else {
+                $("#game-settings").submit();
+            }
+            
+        }
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
