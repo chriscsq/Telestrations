@@ -50,11 +50,19 @@
             var timeLimit = $("#time-dropdown :selected").val();
             if (numPlayers === "Number of players") {
                 alert("Please select the room limit");
+                if (timeLimit === "Seconds") {
+                    alert("Please select a time limit");
+                }
             }
             else if (timeLimit === "Seconds") {
                 alert("Please select a time limit");
+                if (numPlayers === "Number of players") {
+                    alert("Please select the room limit");
+                }
             }
+
             else {
+                var selectedValues = [numPlayers, timeLimit];
                 $("#game-settings").submit();
             }
             
