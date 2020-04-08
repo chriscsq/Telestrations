@@ -82,6 +82,18 @@
                 } else if (event.target.value == "blue"){
                     console.log('blue chosen')
                     whiteboard.color = lastChosenColor = '#0000ff';
+                } else if (event.target.value == "green"){
+                    console.log('green chosen')
+                    whiteboard.color = lastChosenColor = '#00ff00';
+                } else if (event.target.value == "pink"){
+                    console.log('pink chosen')
+                    whiteboard.color = lastChosenColor = '#ffc0cb';
+                } else if (event.target.value == "orange"){
+                    console.log('orange chosen')
+                    whiteboard.color = lastChosenColor = '#FFA500';
+                } else if (event.target.value == "yellow"){
+                    console.log('yellow chosen')
+                    whiteboard.color = lastChosenColor = '#ffff00';
                 } 
 
             })
