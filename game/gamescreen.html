@@ -40,9 +40,17 @@
               TELESTRATIONS
             </p>
             <div>
-              <section class="colorpicker">
-                <div class="pickr"></div>
-              </section>
+              <!-- <section class="colorpicker"> -->
+                <!-- <div class="pickr"></div> -->
+                <label>Choose your color: 
+                  <select class="colorSelect" name="colorSelect">
+                    <option value="">Select one..</option>
+                    <option value="black" selected>Black</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                  </select> 
+                </label>
+              <!-- </section> -->
               <button type="button" id="eraser">Eraser</button>
               <canvas id="myCanvas"></canvas>
             </div>
