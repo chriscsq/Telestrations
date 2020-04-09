@@ -15,7 +15,7 @@ class Whiteboard {
      * @param {string} [color='#4d4d4d']    The default color
      * @param {number} [thickness=4]        The default thickness
      */
-    constructor(canvas, socket, color = '#4d4d4d', thickness = 4) {
+    constructor(canvas, socket, color = '#000000', thickness = 4) {
         this.canvas = canvas;
         this.socket = socket;
         this.color = color;
@@ -160,5 +160,13 @@ class Whiteboard {
         if (this.thickness < this._thicknessMin) {
             this.thickness = this._thicknessMin;
         }
+    }
+
+    enableEraser(){
+        this.color = '#ffffff';
+    }
+
+    disableEraser(){
+        this.color = '#4d4d4d';
     }
 }
