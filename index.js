@@ -4,7 +4,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 const admin = require('firebase-admin');
-const serviceAccount = require('./telestrations-45c76-firebase-adminsdk-g3nms-3d9cefae9d.json');
+const serviceAccount = require('./telestrations.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://telestrations-45c76.firebaseio.com'
