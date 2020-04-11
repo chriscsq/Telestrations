@@ -6,7 +6,7 @@ socket.on('register', data => {
         Cookies.set('user-icon', data.usericon);
         window.location.href = '/';
     } else {
-        formArea.errorMsg = 'Username or email already taken';
+        formArea.errorMsg = 'A user with that email already exists';
     }
 });
 

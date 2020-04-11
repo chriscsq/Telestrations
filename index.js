@@ -51,18 +51,53 @@ io.on('connect', socket => {
                     socket.emit('login', { success: false });
                 }
             }).catch(err => {
-                console.log(`Error: DB login for ${data.username}`);
+                console.log(`Error: DB login for ${data.username}, ${err}`);
                 socket.emit('login', { success: false });
             });
     });
 
     socket.on('register', data => {
-        let response = {
-            success: true,
-            user: data.username,
-            usericon: 'fa-camera',
-        };
-        socket.emit('register', response);
+        let players = db.collection('players');
+        players.where('email', '==', data.email)
+            .get().then(querySnapshot => {
+                if (querySnapshot.size === 0) {
+                    players.where('username', '==', data.username)
+                        .get().then(nameQuery => {
+                            let toAdd = {
+                                username: data.username,
+                                usericon: 'fa-crow',
+                                email: data.email,
+                                password: data.password,
+                                nextNum: 1,
+                            };
+                            if (nameQuery.size === 1) {
+                                let doc = nameQuery.docs[0].data();
+                                toAdd.nextNum = doc.nextNum + 1;
+                                toAdd.username = `${toAdd.username}#${doc.nextNum}`;
+                            }
+                            players.add(toAdd).then(docRef => {
+                                console.log(`User registered as ${docRef.id}`);
+                                socket.emit('register', {
+                                    success: true,
+                                    user: toAdd.username,
+                                    usericon: toAdd.usericon,
+                                });
+                            }).catch(err => {
+                                console.log(`Error: DB register add failed, ${err}`);
+                                socket.emit('register', { success: false });
+                            });
+                        }).catch(err => {
+                            console.log(`Error: DB inner name for ${data.username}, ${err}`);
+                            socket.emit('register', { success: false });
+                        });
+                } else {
+                    console.log(`${data.email} failed sign-up, duplicate email`);
+                    socket.emit('register', { success: false });
+                }
+            }).catch(err => {
+                console.log(`Error: DB register for ${data.email}, ${err}`);
+                socket.emit('register', { success: false });
+            });
     });
 
     socket.on('disconnect', () => {
