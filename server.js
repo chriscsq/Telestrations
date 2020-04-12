@@ -5,10 +5,10 @@ var io = require("socket.io")(http);
 
 const socketEvents = require('./socket-events')
 
-app.use("/js", express.static(__dirname + "/game/js"));
+app.use("/js", express.static(__dirname + "/game/gamescreen/js"));
 
 app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/game/gamescreen.html");
+  res.sendFile(__dirname + "/game/gamescreen/gamescreen.html");
 });
 
 io.on("connection", function(socket) {

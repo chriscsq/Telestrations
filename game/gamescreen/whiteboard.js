@@ -163,7 +163,7 @@ class Whiteboard {
     }
 
     enableEraser(){
-        this.color = '#ffffff';
+        this.color = '#FFFFFF';
     }
 
     disableEraser(){
