@@ -45,8 +45,13 @@
             </div>
         </div>
     </div>
-    
+
     <script>
+        $(document).ready(function() {
+            var gameCode = Cookies.get('roomCode');
+            $("#game-code").append(gameCode)
+        })
+        
         function validateForm() {
             var numPlayers = $("#player-dropdown :selected").val();
             var timeLimit = $("#time-dropdown :selected").val();
