@@ -8,7 +8,8 @@
 </head>
 
 <body>
-
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../index.js"></script>
     <div class="container-fluid">
         <div class="row" style="height: 100vh;">
             <div class="col-md-3" id="background-left">
@@ -46,7 +47,8 @@
             </div>
         </div>
     </div>
-    <script src="../index.js"></script>
+    
+    
     <script>
         var socket_io = io();
         $(document).ready(function() {
@@ -71,7 +73,7 @@
             }
 
             else {
-                var selectedValues = [numPlayers, timeLimit];
+                var selectedValues = {"numPlayers":numPlayers, "timeLimit":timeLimit};
                 socket_io.emit("GAME_SETTINGS", selectedValues);
                 $("#game-settings").submit();
             }
@@ -87,9 +89,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    
     <script src="lobby.js"></script>
 </body>
