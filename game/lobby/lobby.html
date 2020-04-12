@@ -46,8 +46,9 @@
             </div>
         </div>
     </div>
-
+    <script src="../index.js"></script>
     <script>
+        var socket_io = io();
         $(document).ready(function() {
             var gameCode = Cookies.get('roomCode');
             $("#game-code").append(gameCode)
@@ -71,6 +72,7 @@
 
             else {
                 var selectedValues = [numPlayers, timeLimit];
+                socket_io.emit("GAME_SETTINGS", selectedValues);
                 $("#game-settings").submit();
             }
             
@@ -88,5 +90,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    
     <script src="lobby.js"></script>
 </body>
