@@ -15,6 +15,16 @@
   <b-container id="app" class="cont">
     <!-- Outside row -->
     <b-row class="main-row">
+      <div id="overlay" onclick="off()">
+        <div id="overlayText">
+          Choose your Word: 
+          <div id="wordList">
+            <div id="word1" onclick="wordChosen('word1')">Fish</div>
+            <div id="word2" onclick="wordChosen('word2')">Jackass</div>
+            <div id="word3" onclick="wordChosen('word3')">Elton John</div>
+          </div>
+        </div>
+      </div>
       <!-- user list -->
       <b-col cols="2" id="userlist-container">
         <p id="players-title">
@@ -39,8 +49,13 @@
             <p id="telestrations">
               TELESTRATIONS
             </p>
-
-              <canvas id="myCanvas"></canvas>
+            <button onclick="on()">DRAW</button>
+            <label>Your Word is: 
+              <p id="selectedWord">
+                Fish
+              </p>
+            </label>
+            <canvas id="myCanvas"></canvas>
           </b-col>
           <b-col cols="3" id="palette">
             <div>
@@ -81,6 +96,17 @@
   <script src="./gamescreen.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.2.min.js" integrity="sha256-Ls0pXSlb7AYs7evhd+VLnWsZ/AqEHcXBeMZUycz/CcA=" crossorigin="anonymous"></script>
   <script src="./js/script.js"></script>
+  <script>
+    function on(){
+      document.getElementById("overlay").style.display = "block";
+    }
+    function off(){
+      document.getElementById("overlay").style.display = "none";
+    }
+    function wordChosen(string){
+      document.getElementById("selectedWord").innerHTML = document.getElementById(string).innerHTML;
+    }
+  </script>
 </body>
 
 </html>
