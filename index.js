@@ -17,20 +17,68 @@ server.listen(80, () => {
     console.log('Game server started on port 80');
 });
 
+let generateRandomCode = (socket, user) => {
+    let randomCode = '';
+    for (let i = 0; i < 4; i++) {
+        randomCode += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+    }
+
+    db.collection('game-rooms')
+        .where('roomCode', '==', randomCode)
+        .get()
+        .then(querySnapshot => {
+            if (querySnapshot.size === 0) {
+                let toAdd = {
+                    players: [user],
+                    roomCode: randomCode,
+                    roomLimit: 5,
+                    timeLimit: 60,
+                };
+                db.collection('game-rooms').add(toAdd).then(docRef => {
+                    console.log(`Room created as ${docRef.id}`);
+                    socket.emit('create-room', { code: randomCode });
+                }).catch(err => {
+                    console.log(`Error: DB room can't be created, ${err}`);
+                });
+            } else {
+                console.log(`Error: DB room ${randomCode} duplicate during creation`);
+                generateRandomCode(socket, user);
+            }
+        }).catch(err => {
+            console.log(`Error: Room find failed, ${err}`);
+        });
+}
+
 io.on('connect', socket => {
     console.log('Client connected');
 
-    socket.on('create-room', () => {
-        let randomCode = 'ASDF';
-        socket.emit('create-room', { code: randomCode });
+    socket.on('create-room', data => {
+        generateRandomCode(socket, data.user);
     });
 
     socket.on('join-room', data => {
-        let response = {
-            success: true,
-            code: data.code,
-        };
-        socket.emit('join-room', response);
+        let rooms = db.collection('game-rooms');
+        rooms.where('roomCode', '==', data.code)
+            .get().then(querySnapshot => {
+                if (querySnapshot.size === 1) {
+                    let ref = querySnapshot.docs[0].ref;
+                    ref.update({
+                        players: admin.firestore.FieldValue.arrayUnion(data.user),
+                    }).then(() => {
+                        let response = {
+                            success: true,
+                            code: data.code,
+                        };
+                        socket.emit('join-room', response);
+                    }).catch(err => {
+                        console.log(`Error: DB error adding user to room, ${err}`);
+                    });
+                } else {
+                    socket.emit('join-room', { success: false });
+                }
+            }).catch(err => {
+                console.log(`Error: DB join query failed, ${err}`);
+            });
     });
 
     socket.on('login', data => {
@@ -43,7 +91,7 @@ io.on('connect', socket => {
                     let doc = querySnapshot.docs[0].data();
                     socket.emit('login', {
                         success: true,
-                        user: doc.username,
+                        username: doc.username,
                         usericon: doc.usericon,
                         iconColor: doc.iconColor,
                         bannerColor: doc.bannerColor,
@@ -85,7 +133,7 @@ io.on('connect', socket => {
                                 console.log(`User registered as ${docRef.id}`);
                                 socket.emit('register', {
                                     success: true,
-                                    user: toAdd.username,
+                                    username: toAdd.username,
                                     usericon: toAdd.usericon,
                                     iconColor: toAdd.iconColor,
                                     bannerColor: toAdd.bannerColor,

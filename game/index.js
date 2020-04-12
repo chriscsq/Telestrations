@@ -69,7 +69,7 @@ let playArea = new Vue({
                 if (this.roomCode.length !== 4) {
                     this.errorMsg = 'Room code must be four characters';
                 } else {
-                    socket.emit('join-room', { code: this.roomCode });
+                    socket.emit('join-room', { code: this.roomCode, user: Cookies.get('username') });
                 }
             } else {
                 this.altButtonText = 'Back';
