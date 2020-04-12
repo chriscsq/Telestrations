@@ -1,5 +1,16 @@
 let socket = io();
 
+let defaultUser = {
+    username: 'Anonymous',
+    usericon: 'fa-crow',
+    iconColor: '#5A5ACA',
+    bannerColor: '#5ACA5A',
+    usernameColor: '#CA5A5A',
+};
+for (key in defaultUser) {
+    Cookies.set(key, defaultUser[key]);
+}
+
 socket.on('create-room', data => {
     Cookies.set('roomCode', data.code);
     window.location.href = '/lobby';
@@ -44,7 +55,7 @@ let playArea = new Vue({
     methods: {
         createRoom: function (event) {
             if (this.altButtonText === 'Create Room') {
-                socket.emit('create-room');
+                socket.emit('create-room', { user: Cookies.get('user') });
             } else {
                 this.altButtonText = 'Create Room';
                 this.roomCode = '';
