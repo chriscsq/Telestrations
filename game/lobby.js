@@ -32,7 +32,7 @@ let drawTime = new Vue({
   },
   methods: {
     changeTime: function (event) {
-        
+      this.selectedTime = event.target.options[event.target.options.selectedIndex].text
     },
   },
 });
