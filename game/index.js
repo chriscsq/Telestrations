@@ -18,8 +18,10 @@ let loginButton = new Vue({
     el: '#loginButton',
     data: {
         isLoggedIn: Cookies.get('user') !== undefined,
-        userIconClasses: 'justify-content-center align-self-center fas fa-3x ' + Cookies.get('user-icon'),
+        userIconClasses: 'justify-content-center align-self-center fas fa-3x ' + Cookies.get('usericon'),
         username: Cookies.get('user'),
+        userIconStyle: { color: Cookies.get('iconColor') },
+        usernameStyle: { color: Cookies.get('usernameColor') },
     },
     methods: {
         click: function (event) {

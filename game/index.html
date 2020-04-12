@@ -22,8 +22,8 @@
             <div class="col text-right my-auto">
                 <div id="loginButton" class="d-inline-flex flex-row">
                     <template v-if="isLoggedIn">
-                        <i id="user-icon" v-bind:class="userIconClasses"></i>
-                        <span id="username">
+                        <i id="user-icon" v-bind:class="userIconClasses" v-bind:style="userIconStyle"></i>
+                        <span id="username" v-bind:style="usernameStyle">
                             {{ username }}
                         </span>
                         <span class="justify-content-center align-self-center btn btn-primary btn-lg"

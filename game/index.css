@@ -40,7 +40,6 @@ body {
 }
 
 #username {
-    color: var(--username);
     font-size: 2em;
 }
 

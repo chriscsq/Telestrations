@@ -45,6 +45,9 @@ io.on('connect', socket => {
                         success: true,
                         user: doc.username,
                         usericon: doc.usericon,
+                        iconColor: doc.iconColor,
+                        bannerColor: doc.bannerColor,
+                        usernameColor: doc.usernameColor,
                     });
                 } else {
                     console.log(`${data.username} failed login`);
@@ -69,6 +72,9 @@ io.on('connect', socket => {
                                 email: data.email,
                                 password: data.password,
                                 nextNum: 1,
+                                iconColor: '#5A5ACA',
+                                bannerColor: '#5ACA5A',
+                                usernameColor: '#CA5A5A',
                             };
                             if (nameQuery.size === 1) {
                                 let doc = nameQuery.docs[0].data();
@@ -81,6 +87,9 @@ io.on('connect', socket => {
                                     success: true,
                                     user: toAdd.username,
                                     usericon: toAdd.usericon,
+                                    iconColor: toAdd.iconColor,
+                                    bannerColor: toAdd.bannerColor,
+                                    usernameColor: toAdd.usernameColor,
                                 });
                             }).catch(err => {
                                 console.log(`Error: DB register add failed, ${err}`);
