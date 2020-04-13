@@ -11,6 +11,23 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-db.settings({timestampsInSnapshots: true});
 firebase.analytics();
+const db = firebase.firestore();
+
+/* Add parameter which should be room code later, change YNOV to be parameter */
+async function getPlayersInRoom() {
+    var room = db.collection("game-rooms").doc("YNQV");
+    const snapshot = await room.get();
+    let playerList = snapshot.data().players;
+    return playerList;
+}
+
+/* Add parameter which should be room code later, change YNOV to be parameter */
+async function getTimeLimit() {
+    var room = db.collection("game-rooms").doc("YNQV");
+    const snapshot = await room.get(); 
+    let timeLimit = snapshot.data().timeLimit;
+    return timeLimit;
+}
+
+//module.exports = getRoomTimer;
