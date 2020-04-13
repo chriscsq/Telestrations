@@ -31,3 +31,9 @@ async function getTimeLimit() {
 }
 
 //module.exports = getRoomTimer;
+
+async function getWordList() {
+    var list = db.collection("dictionary").doc("phrases")
+    const snapshot = await list.get();
+    return wordList = snapshot.data().phrase;
+}

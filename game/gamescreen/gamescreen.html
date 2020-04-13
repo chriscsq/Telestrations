@@ -18,11 +18,10 @@
       <div id="overlay" onclick="off()">
         <div id="overlayText">
           Choose your Word: 
-          <div id="wordList">
-            <div id="word1" onclick="wordChosen('word1')">Fish</div>
-            <div id="word2" onclick="wordChosen('word2')">Jackass</div>
-            <div id="word3" onclick="wordChosen('word3')">Elton John</div>
-          </div>
+          <ul id="wordList">
+            <li v-for="word in threeRandom" :key="word" @click="wordChosen(word)">
+              {{word}} </li>
+            </ul>
         </div>
       </div>
       <!-- user list -->
@@ -49,10 +48,9 @@
             <p id="telestrations">
               TELESTRATIONS
             </p>
-            <button onclick="on()">DRAW</button>
+            <button id="chooseWord" onclick="on()">DRAW</button>
             <label>Your Word is: 
               <p id="selectedWord">
-                Fish
               </p>
             </label>
             <canvas id="myCanvas"></canvas>
@@ -103,12 +101,14 @@
   <script>
     function on(){
       document.getElementById("overlay").style.display = "block";
+
     }
     function off(){
       document.getElementById("overlay").style.display = "none";
     }
-    function wordChosen(string){
-      document.getElementById("selectedWord").innerHTML = document.getElementById(string).innerHTML;
+    function wordChosen(word){
+      console.log(word)
+      document.getElementById("selectedWord").innerHTML = word;
     }
   </script>
 </body>
