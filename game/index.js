@@ -15,13 +15,13 @@ if (Cookies.get('username') === undefined) {
 
 socket.on('create-room', data => {
     Cookies.set('roomCode', data.code);
-    window.location.href = '/lobby';
+    window.location.href = 'lobby/lobby.html';
 });
 
 socket.on('join-room', data => {
     if (data.success) {
         Cookies.set('roomCode', data.code);
-        window.location.href = '/lobby';
+        window.location.href = 'lobby/lobby.html';
     } else {
         playArea.errorMsg = 'Invalid room code';
     }
@@ -39,9 +39,9 @@ let loginButton = new Vue({
     methods: {
         click: function (event) {
             if (this.isLoggedIn) {
-                window.location.href = '/profile';
+                window.location.href = 'profile/profile.html';
             } else {
-                window.location.href = '/login';
+                window.location.href = 'login/login.html';
             }
         },
     },
