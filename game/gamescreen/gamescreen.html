@@ -19,7 +19,7 @@
         <div id="overlayText">
           Choose your Word: 
           <ul id="wordList">
-            <li v-for="word in threeRandom" :key="word" @click="wordChosen(word)">
+            <li v-for="word in threeRandom" :key="word" onclick="wordChosen(this.innerText.trim())">
               {{word}} </li>
             </ul>
         </div>
