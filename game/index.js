@@ -3,7 +3,7 @@ let socket = io();
 if (Cookies.get('username') === undefined) {
     let defaultUser = {
         username: 'Anonymous',
-        usericon: 'fa-crow',
+        usericon: 'fas fa-crow',
         iconColor: '#5A5ACA',
         bannerColor: '#5ACA5A',
         usernameColor: '#CA5A5A',
@@ -35,6 +35,7 @@ let loginButton = new Vue({
         username: Cookies.get('username'),
         userIconStyle: { color: Cookies.get('iconColor') },
         usernameStyle: { color: Cookies.get('usernameColor') },
+        userBannerStyle: { background: Cookies.get('bannerColor') },
     },
     methods: {
         click: function (event) {

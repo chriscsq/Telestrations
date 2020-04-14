@@ -116,7 +116,7 @@ io.on('connect', socket => {
                         .get().then(nameQuery => {
                             let toAdd = {
                                 username: data.username,
-                                usericon: 'fa-crow',
+                                usericon: 'fas fa-crow',
                                 email: data.email,
                                 password: data.password,
                                 nextNum: 1,
