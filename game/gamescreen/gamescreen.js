@@ -1,12 +1,12 @@
 window.onload = async() => {
-
+  new Vue({ el: '#app' })
   let timeLimit = await getTimeLimit();
   setTimeLimit(timeLimit);
   let playerList = await getPlayersInRoom();
   setPlayerList(playerList);
   let dbWordList = await getWordList();
   setWordList(dbWordList);
-  new Vue({ el: '#app' })
+
 
 } 
   

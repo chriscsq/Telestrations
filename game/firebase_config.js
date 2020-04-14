@@ -13,6 +13,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 const db = firebase.firestore();
+const storage = firebase.storage();
 
 /* Add parameter which should be room code later, change YNOV to be parameter */
 async function getPlayersInRoom() {
@@ -36,4 +37,12 @@ async function getWordList() {
     var list = db.collection("dictionary").doc("phrases")
     const snapshot = await list.get();
     return wordList = snapshot.data().phrase;
+}
+
+async function sendImgToFirebase(image){
+
+    console.log(image)
+    firebase.storage().ref().put(image).then(function(snapshot){
+        console.log('uploaded blob to storage!');
+    })
 }

@@ -60,11 +60,16 @@
                 } 
             })
             //check whether timer is finished and save the image (should be saving in firebase)
-            timer.addEventListener('finish', function () {
-                whiteboard.download('image.png')
-            })
+           // timer.addEventListener('finish', function () {
+
+            //})
             // Expose the whiteboard instance
             window.whiteboard = whiteboard;
+
+            const takePic = document.getElementById("takePic");
+            takePic.addEventListener('click', function() {
+                whiteboard.download('image.png')
+            })
         });
     });
 })(io, Whiteboard);
