@@ -41,8 +41,13 @@ async function getWordList() {
 
 async function sendImgToFirebase(image){
 
-    console.log(image)
-    firebase.storage().ref().put(image).then(function(snapshot){
-        console.log('uploaded blob to storage!');
+    var storage = firebase.storage();
+    var storageRef = storage.ref();
+    var nameIncrement = 1;
+    var imagesRef = storageRef.child('images/'+ 'canvas' + new Date().getTime());
+    var file = image;
+    imagesRef.put(file).then(function(snapshot) {
+        console.log('blob uploaded to firebase.');
+        nameIncrement++;
     })
 }
