@@ -1,15 +1,66 @@
 window.onload = async() => {
-  new Vue({ el: '#app' })
-  let timeLimit = await getTimeLimit();
-  setTimeLimit(timeLimit);
-  let playerList = await getPlayersInRoom();
-  setPlayerList(playerList);
-  let dbWordList = await getWordList();
-  setWordList(dbWordList);
+  new Vue({ el: '#app', 
+    data: {
+      playerList: [''],
+      timers: [''],
+      wordList: ['']
+    },
+    mounted() {
+      this.getPlayerList();
+      this.getTimeLimit();
+    },
+    methods: {
+      async getPlayerList() {
+        console.log(await getPlayersInRoom());
+        return  this.playerList = await getPlayersInRoom();
+      },
+      async getTimeLimit() {
+        console.log("time " + await getTimeLimit());
+        return this.timers = await getTimeLimit();
 
-
+      }
+    }
+  })
 } 
+
+Vue.component("timercomponent", {
+  template: "#timer-component",
+  props: ['value']
   
+})
+
+Vue.component("playerlist", {
+  template: "#player-list",
+  props: ['name']
+
+})
+
+
+async function getWordList(dbWordList) {
+  const words = [];
+  let threeRandom = [];
+  for (i = 0; i < dbWordList.length; i++) {
+    words.push(dbWordList[i]);
+    console.log(dbWordList[i]);
+  }
+  //three random words
+  const shuffled = words.sort(()=> 0.5 - Math.random());
+  threeRandom = shuffled.slice(0, 3);
+  console.log(threeRandom)
+  /*
+  let wordList = new Vue({
+    el: "#wordList",
+    props: dbWordList,
+    data: {
+      threeRandom
+    }
+  })
+  */
+ return threeRandom;
+}
+
+
+/*
 async function setPlayerList(playerList) {
     const items = [];
     for (i = 0; i < playerList.length; i++) {
@@ -37,25 +88,4 @@ async function setTimeLimit(timeLimit) {
     }
   })
 }
-
-async function setWordList(dbWordList) {
-  const words = [];
-  let threeRandom = [];
-  for (i = 0; i < dbWordList.length; i++) {
-    words.push(dbWordList[i]);
-    console.log(dbWordList[i]);
-  }
-  //three random words
-  const shuffled = words.sort(()=> 0.5 - Math.random());
-  threeRandom = shuffled.slice(0, 3);
-  console.log(threeRandom)
-    
-  let wordList = new Vue({
-    el: "#wordList",
-    props: dbWordList,
-    data: {
-      threeRandom
-    }
-  })
-}
-
+*/
