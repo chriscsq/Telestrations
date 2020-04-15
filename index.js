@@ -43,7 +43,6 @@ io.on('connect', socket => {
         socket.emit('register', response);
     });
     socket.on('GAME_SETTINGS', data => {
-        alert("SOCKET DETECTED"); //debug
         let response = {
             numPlayers: data.numPlayers,
             timeLimit: data.timeLimit,
