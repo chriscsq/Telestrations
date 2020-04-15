@@ -36,3 +36,31 @@ let drawTime = new Vue({
     },
   },
 });
+
+var socket_io = io();
+var roomCode = Cookies.get("roomCode");
+document.getElementById("game-code").innerHTML += roomCode;
+
+function validateForm() {
+    var numPlayers = $("#player-dropdown :selected").val();
+    var timeLimit = $("#time-dropdown :selected").val();
+    if (numPlayers === "Number of players") {
+        alert("Please select the room limit");
+        if (timeLimit === "Seconds") {
+            alert("Please select a time limit");
+        }
+    }
+    else if (timeLimit === "Seconds") {
+        alert("Please select a time limit");
+        if (numPlayers === "Number of players") {
+            alert("Please select the room limit");
+        }
+    }
+
+    else {
+        var selectedValues = {"numPlayers":numPlayers, "timeLimit":timeLimit, "roomCode":roomCode};
+        socket_io.emit("settings", selectedValues);
+        $("#game-settings").submit();
+    }
+    
+}

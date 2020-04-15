@@ -42,10 +42,11 @@ io.on('connect', socket => {
         };
         socket.emit('register', response);
     });
-    socket.on('GAME_SETTINGS', data => {
+    socket.on('settings', data => {
         let response = {
             numPlayers: data.numPlayers,
             timeLimit: data.timeLimit,
+            gameCode: data.gameCode,
         };
         socket.emit('settings', response);
     })

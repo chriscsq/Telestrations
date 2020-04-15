@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <head>
@@ -9,7 +8,6 @@
 
 <body>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="../index.js"></script>
     <div class="container-fluid">
         <div class="row" style="height: 100vh;">
             <div class="col-md-3" id="background-left">
@@ -32,7 +30,7 @@
                     </div>
                     
                     <div></div>
-                    <span id="#game-code">Game Code: </span>
+                    <div id="game-code">Game Code: </div>
 
                     <center>
                         <input value="Start Game" id="start-button" class="btn btn-primary" onclick="validateForm();"/>
@@ -48,38 +46,6 @@
         </div>
     </div>
     
-    
-    <script>
-        var socket_io = io();
-        $(document).ready(function() {
-            var gameCode = Cookies.get('roomCode');
-            $("#game-code").append(gameCode)
-        })
-        
-        function validateForm() {
-            var numPlayers = $("#player-dropdown :selected").val();
-            var timeLimit = $("#time-dropdown :selected").val();
-            if (numPlayers === "Number of players") {
-                alert("Please select the room limit");
-                if (timeLimit === "Seconds") {
-                    alert("Please select a time limit");
-                }
-            }
-            else if (timeLimit === "Seconds") {
-                alert("Please select a time limit");
-                if (numPlayers === "Number of players") {
-                    alert("Please select the room limit");
-                }
-            }
-
-            else {
-                var selectedValues = {"numPlayers":numPlayers, "timeLimit":timeLimit};
-                socket_io.emit("GAME_SETTINGS", selectedValues);
-                $("#game-settings").submit();
-            }
-            
-        }
-    </script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
