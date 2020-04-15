@@ -15,22 +15,39 @@ firebase.analytics();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-/* Add parameter which should be room code later, change YNOV to be parameter */
-async function getPlayersInRoom() {
-    var room = db.collection("game-rooms").doc("YNQV");
-    const snapshot = await room.get();
-    let playerList = snapshot.data().players;
-    return playerList;
-}
 
-/* Add parameter which should be room code later, change YNOV to be parameter */
-async function getTimeLimit() {
-    var room = db.collection("game-rooms").doc("YNQV");
-    const snapshot = await room.get(); 
-    let timeLimit = snapshot.data().timeLimit;
+async function getTimeLimit(roomCode) {
+    var timeLimit;
+    let query = db.collection("game-rooms");
+    try {
+        var allRoomsSnapShot = await query.get();
+        allRoomsSnapShot.forEach(doc => {
+            if (doc.data().roomCode == roomCode) {
+                timeLimit = doc.data().timeLimit;
+                console.log(doc.data().timeLimit);
+            }
+        })
+    } catch (err) {
+        console.log("Error getting document", err);
+    }
     return timeLimit;
 }
 
+async function getPlayersInRoom(roomCode) {
+    var playerList;
+    let query = db.collection("game-rooms");
+    try {
+        var allRoomsSnapShot = await query.get();
+        allRoomsSnapShot.forEach(doc => {
+            if (doc.data().roomCode == roomCode) {
+                playerList = doc.data().players;
+            }
+        })
+    } catch (err) {
+        console.log("Error getting document", err);
+    }
+    return playerList;
+}
 //module.exports = getRoomTimer;
 
 async function getWordList() {

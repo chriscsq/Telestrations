@@ -1,3 +1,4 @@
+
 window.onload = async() => {
   new Vue({ el: '#app', 
     data: {
@@ -12,20 +13,36 @@ window.onload = async() => {
     },
     methods: {
       async getPlayerList() {
-        console.log(await getPlayersInRoom());
-        return  this.playerList = await getPlayersInRoom();
+        /* replace param with Cookies.get(roomCode) after testing */
+        return  this.playerList = await getPlayersInRoom("GCWD");
       },
       async getTimeLimit() {
-        console.log("time " + await getTimeLimit());
-        return this.timers = await getTimeLimit();
-
+          /* replace param with Cookies.get(roomCode) after testing */
+        return this.timers = await getTimeLimit("GCWD");
       },
       async getWordList(){
         console.log("wordList " + await getWordList());
         return this.wordList = await getWordList();
+      },
+      
+      async startGame() {
+        /* replace param with Cookies.get(roomCode) after testing */
+        let timers = await getTimeLimit("GCWD");
+        setInterval(function() {
+          if (timers <= 0) {
+            clearInterval(timers);
+            document.getElementById("timer").innerHTML = "Time's up";
+          } else {
+            document.getElementById("timer").innerHTML = timers;
+          }
+          timers -= 1;
+        }, 1000);
+        console.log("game started" + timers);
       }
+      
     }
   })
+
 } 
 
 Vue.component("timercomponent", {
@@ -40,62 +57,21 @@ Vue.component("playerlist", {
 
 })
 
-Vue.component("wordList", {
-  template: "#wordList",
-  props: ['word']
-})
-
-
-// async function getWordList(dbWordList) {
-//   const words = [];
-//   let threeRandom = [];
-//   for (i = 0; i < dbWordList.length; i++) {
-//     words.push(dbWordList[i]);
-//     console.log(dbWordList[i]);
-//   }
-//   //three random words
-//   const shuffled = words.sort(()=> 0.5 - Math.random());
-//   threeRandom = shuffled.slice(0, 3);
-//   console.log(threeRandom)
-//   /*
-//   let wordList = new Vue({
-//     el: "#wordList",
-//     props: dbWordList,
-//     data: {
-//       threeRandom
-//     }
-//   })
-//   */
-//  return threeRandom;
-// }
-
 
 /*
-async function setPlayerList(playerList) {
-    const items = [];
-    for (i = 0; i < playerList.length; i++) {
-      items.push({name:playerList[i]});
-    }
-
-    let userlist = new Vue({
-      el: "#userlist",
-      props: playerList,
-      data: {
-        items
-      }
-    })
-  
+async function getWordList(dbWordList) {
+  const words = [];
+  let threeRandom = [];
+  for (i = 0; i < dbWordList.length; i++) {
+    words.push(dbWordList[i]);
+    console.log(dbWordList[i]);
   }
+  //three random words
+  const shuffled = words.sort(()=> 0.5 - Math.random());
+  threeRandom = shuffled.slice(0, 3);
+  console.log(threeRandom)
 
-
-async function setTimeLimit(timeLimit) {
-  let timer = new Vue({
-    el: "#timer",
-    data: function () {
-      return {
-        time: timeLimit
-      }
-    }
-  })
+ return threeRandom;
 }
 */
+
