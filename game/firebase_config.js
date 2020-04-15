@@ -36,7 +36,13 @@ async function getTimeLimit() {
 async function getWordList() {
     var list = db.collection("dictionary").doc("phrases")
     const snapshot = await list.get();
-    return wordList = snapshot.data().phrase;
+    var wordList = snapshot.data().phrase;
+    var threeRandom = [];
+
+    const shuffled = wordList.sort(()=> 0.5 - Math.random());
+    threeRandom = shuffled.slice(0, 3);
+    console.log(threeRandom)
+    return threeRandom;
 }
 
 async function sendImgToFirebase(image){

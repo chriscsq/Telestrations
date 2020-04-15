@@ -8,6 +8,7 @@ window.onload = async() => {
     mounted() {
       this.getPlayerList();
       this.getTimeLimit();
+      this.getWordList();
     },
     methods: {
       async getPlayerList() {
@@ -18,6 +19,10 @@ window.onload = async() => {
         console.log("time " + await getTimeLimit());
         return this.timers = await getTimeLimit();
 
+      },
+      async getWordList(){
+        console.log("wordList " + await getWordList());
+        return this.wordList = await getWordList();
       }
     }
   })
@@ -35,29 +40,34 @@ Vue.component("playerlist", {
 
 })
 
+Vue.component("wordList", {
+  template: "#wordList",
+  props: ['word']
+})
 
-async function getWordList(dbWordList) {
-  const words = [];
-  let threeRandom = [];
-  for (i = 0; i < dbWordList.length; i++) {
-    words.push(dbWordList[i]);
-    console.log(dbWordList[i]);
-  }
-  //three random words
-  const shuffled = words.sort(()=> 0.5 - Math.random());
-  threeRandom = shuffled.slice(0, 3);
-  console.log(threeRandom)
-  /*
-  let wordList = new Vue({
-    el: "#wordList",
-    props: dbWordList,
-    data: {
-      threeRandom
-    }
-  })
-  */
- return threeRandom;
-}
+
+// async function getWordList(dbWordList) {
+//   const words = [];
+//   let threeRandom = [];
+//   for (i = 0; i < dbWordList.length; i++) {
+//     words.push(dbWordList[i]);
+//     console.log(dbWordList[i]);
+//   }
+//   //three random words
+//   const shuffled = words.sort(()=> 0.5 - Math.random());
+//   threeRandom = shuffled.slice(0, 3);
+//   console.log(threeRandom)
+//   /*
+//   let wordList = new Vue({
+//     el: "#wordList",
+//     props: dbWordList,
+//     data: {
+//       threeRandom
+//     }
+//   })
+//   */
+//  return threeRandom;
+// }
 
 
 /*
