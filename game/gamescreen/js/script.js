@@ -59,17 +59,28 @@
                     whiteboard.color = lastChosenColor = '#fafad2';
                 } 
             })
-            //check whether timer is finished and save the image (should be saving in firebase)
-           // timer.addEventListener('finish', function () {
-
-            //})
-            // Expose the whiteboard instance
             window.whiteboard = whiteboard;
 
-            const takePic = document.getElementById("takePic");
-            takePic.addEventListener('click', function() {
-                whiteboard.download('image.png')
-            })
+            // const takePic = document.getElementById("takePic");
+            // takePic.addEventListener('click', function() {
+            //     whiteboard.download('image.png')
+            // })
+
+            var watchTimer = {watch: null, prev: timer.innerHTML}
+
+            function Watch(timerO, e){
+                timerO.watch = setInterval(function() {
+                    if (e.innerHTML != timerO.prev){
+                        timerO.prev = e.innerHTML;
+                        if (timerO.prev === "Time's up" || e.innerHTML === "Time's up"){
+                            console.log('timer ran out you can trigger download now')
+                            whiteboard.download('image.png')
+                        }
+                    }
+                }, 1000);
+            }
+            Watch(watchTimer, timer)
+
         });
     });
 })(io, Whiteboard);

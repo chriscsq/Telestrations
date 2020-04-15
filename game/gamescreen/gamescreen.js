@@ -58,20 +58,3 @@ Vue.component("playerlist", {
 })
 
 
-/*
-async function getWordList(dbWordList) {
-  const words = [];
-  let threeRandom = [];
-  for (i = 0; i < dbWordList.length; i++) {
-    words.push(dbWordList[i]);
-    console.log(dbWordList[i]);
-  }
-  //three random words
-  const shuffled = words.sort(()=> 0.5 - Math.random());
-  threeRandom = shuffled.slice(0, 3);
-  console.log(threeRandom)
-
- return threeRandom;
-}
-*/
-
