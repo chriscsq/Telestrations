@@ -24,6 +24,7 @@ let savedBook =    [{vote : '+4', word : 'Goat', images : ['./images/goat1.jpeg'
 let profile = new Vue({
   el: '#profile',
   data: {
+    update : '',
     userInfo: { 
       username: Cookies.get('username'),
       userColor: Cookies.get('usernameColor'),
@@ -53,6 +54,7 @@ let profile = new Vue({
       images : [savedBook[0].images, savedBook[1].images, savedBook[2].images],
       owners : [savedBook[0].owners, savedBook[1].owners, savedBook[2].owners]
     },
+
     displaySketchbook : {
       vote: 0,
       word: '',
@@ -62,7 +64,9 @@ let profile = new Vue({
       currentSide: 0,
       currentSlot: 0,
       owner : '',
-      showSaveButton : true
+      showSaveButton : true,
+      saveSlot : '1',
+      bookSlot : '1'
     },
     userColorPicker : {
       colorPick : ['#aa96da','#fcbad3','#ffffd2','#a8d8ea','#222831',
@@ -129,6 +133,7 @@ let profile = new Vue({
       this.displaySketchbook.currentSlot = whichSlot;
       this.displaySketchbook.counter = 1;
       this.displaySketchbook.counterSize = this.prevSketchbook.images[0].length;
+      this.update = '';
 
       if(whichSide === 0) {
           this.displaySketchbook.vote = this.prevSketchbook.vote[whichSlot];
@@ -183,6 +188,14 @@ let profile = new Vue({
       this.userInfo.avatarColor = this.modalAvatar.avatarColor;
       Cookies.set('usericon', this.modalAvatar.avatar);
       Cookies.set('iconColor', this.modalAvatar.avatarColor);
+    },
+    saveBook : function () {
+      this.savedSketchbook.vote[this.displaySketchbook.saveSlot-1] = this.displaySketchbook.vote;
+      this.savedSketchbook.word[this.displaySketchbook.saveSlot-1] = this.displaySketchbook.word;
+      this.savedSketchbook.images[this.displaySketchbook.saveSlot-1] = this.prevSketchbook.images[this.displaySketchbook.currentSlot];
+      this.savedSketchbook.owners[this.displaySketchbook.saveSlot-1] = this.prevSketchbook.owners[this.displaySketchbook.currentSlot];
+      this.update = 'Book Saved';
+      
     },
 
     counterCheck : function (num) {
