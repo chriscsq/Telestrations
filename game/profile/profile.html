@@ -231,12 +231,12 @@
 									<button v-on:click="counterCheck(+1)" class="btn"><i class="fas fa-arrow-circle-right fa-3x"></i></button>
 								</div>
 								<div v-if="displaySketchbook.showSaveButton" class="col">
-									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio" checked>Slot 1</label>
-									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio">Slot 2</label>
-									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio">Slot 3</label>
+									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio" value="1" v-model="displaySketchbook.saveSlot">Slot 1</label>
+									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio" value="2" v-model="displaySketchbook.saveSlot">Slot 2</label>
+									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio" value="3" v-model="displaySketchbook.saveSlot">Slot 3</label>
 								</div>
 								<div class="col">
-									<button v-if="displaySketchbook.showSaveButton" type="button" class="btn btn-primary" data-dismiss="modal">Save
+									<button v-on:click="saveBook" v-if="displaySketchbook.showSaveButton" type="button" class="btn btn-primary" data-dismiss="modal">Save
 										Sketchbook</button>
 								</div>
 							</div>
@@ -246,7 +246,7 @@
 
 			</div>
 
-			<div class="col" id="saved"><span id="sub-title">SAVED GAMES</span>
+			<div class="col" id="saved"><span id="sub-title">SAVED GAMES<div>{{update}}</div></span>
 
 				<div class=" row first-content d-flex align-items-center">
 					<div class="col vote">{{savedSketchbook.vote[0]}}</div>
