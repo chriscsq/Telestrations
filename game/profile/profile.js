@@ -112,6 +112,9 @@ let profile = new Vue({
       }
     }
   },
+  created : function (){
+    // test();
+  },
   methods: {
     checkNA : function (whichSide, whichSlot) {
       if(whichSide === 0) {
@@ -182,12 +185,14 @@ let profile = new Vue({
       this.userInfo.bannerColor = this.modalInfo.bannerColor;
       Cookies.set('usernameColor', this.modalInfo.userColor);
       Cookies.set('bannerColor', this.modalInfo.bannerColor);
+      updateUserData(0, this.modalInfo.userColor, this.modalInfo.bannerColor);
     },
     saveAvatar : function () {
       this.userInfo.avatar = this.modalAvatar.avatar;
       this.userInfo.avatarColor = this.modalAvatar.avatarColor;
       Cookies.set('usericon', this.modalAvatar.avatar);
       Cookies.set('iconColor', this.modalAvatar.avatarColor);
+      updateUserData(1, this.modalAvatar.avatar, this.modalAvatar.avatarColor);
     },
     saveBook : function () {
       this.savedSketchbook.vote[this.displaySketchbook.saveSlot-1] = this.displaySketchbook.vote;

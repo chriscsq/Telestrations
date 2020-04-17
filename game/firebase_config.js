@@ -54,3 +54,39 @@ async function getUserIcons(playerList) {
     }
     return iconList;
 }
+
+
+// Parameters : pick is either 0 or 1 (user customization or avatar customization)
+//              info1 is either username color or avatar depending on pick
+//              info2 is either banner color or avatar color depending on pick
+async function updateUserData (pick, info1, info2) {
+    let docID = '';
+
+    let query = db.collection("players").where("username", "==", Cookies.get('username'));
+    try {
+        var snapShot = await query.get();
+        docID = snapShot.docs[0].id;
+        
+    } catch (err) {
+        console.log("Error getting document ID", err);
+    }
+
+    var playerRef = db.collection("players").doc(docID);
+
+    try {
+        if(pick === 0) {
+            playerRef.update({
+                usernameColor : info1,
+                bannerColor : info2
+            })
+        } else {
+            playerRef.update({
+                usericon : info1,
+                iconColor : info2
+            })
+        }     
+    } catch (err) {
+        console.log("Error updating document", err);
+    }
+
+}
