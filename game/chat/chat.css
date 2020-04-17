@@ -1,0 +1,52 @@
+:root {
+    --light-blue: #e8f0ff;
+    --grey-font: #767A88;
+    --orange-titles: #f3c98b;
+    --orange-shadow: #daa588;
+    --blue-titles: #84bcda;
+    --blue-shadow: #d7e5ea;
+    --orange-button: #e5b769;
+    --orange-button-hover: #cca158;
+    --username: #ca5a5a;
+    --light-yellow: #FCF9ED;
+}
+
+#messages {
+    min-height: 210px;
+    max-height: 210px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    margin-left: 10px;
+}
+
+.message, .user, .message>* {
+    padding-top: 2px;
+    font-size: 20px;
+}
+
+.message-current-user, .message-current-user>* {
+    font-weight: bold;
+    background-color: var(--blue-shadow);
+}
+
+.username {
+    color: var(--grey-font);
+}
+
+.time {
+    color: var(--orange-button-hover);
+}
+
+.message-data {
+    color: black;
+}
+
+#input {
+    width: 100%;
+    margin-top: 10px;
+    background-color: border;
+    border: 2px solid grey;
+    border-radius: 5px;
+    margin: 4px;
+}

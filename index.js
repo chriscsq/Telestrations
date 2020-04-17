@@ -13,9 +13,31 @@ const db = admin.firestore();
 
 app.use(express.static('game/', { extensions: ['html'] }));
 
+let messages = {}
+
 server.listen(80, () => {
     console.log('Game server started on port 80');
 });
+
+let getTimestamp = () => {
+    let date = new Date();
+    let minutes = date.getMinutes();
+    if (minutes <= 9) {
+        minutes = `0${minutes}`;
+    }
+    let time = `:${minutes}`;
+    let hour = date.getHours();
+    if (hour > 12) {
+        time = `${hour - 12}${time}PM`;
+    } else if (hour == 0) {
+        time = `${hour + 12}${time}AM`;
+    } else if (hour == 12) {
+        time = `${hour}${time}PM`;
+    } else {
+        time = `${hour}${time}AM`;
+    }
+    return time;
+}
 
 let generateRandomCode = (socket, user) => {
     let randomCode = '';
@@ -155,6 +177,23 @@ io.on('connect', socket => {
                 console.log(`Error: DB register for ${data.email}, ${err}`);
                 socket.emit('register', { success: false });
             });
+    });
+
+    socket.on('chat-connect', data => {
+        socket.join(data.roomCode);
+        if (!(data.roomCode in messages)) {
+            messages[data.roomCode] = [];
+        }
+        socket.emit('chat-messages', { messages: messages[data.roomCode] });
+    });
+
+    socket.on('chat-message', data => {
+        messages[data.roomCode].push({
+            time: getTimestamp(),
+            user: data.user,
+            message: data.message,
+        });
+        io.to(data.roomCode).emit('chat-messages', { messages: messages[data.roomCode] });
     });
 
     socket.on('disconnect', () => {
