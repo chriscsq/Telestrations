@@ -37,12 +37,12 @@ html {
 }
 
 .banner-colour {
-    background-color: #ffffd2;
+    /* background-color: #ffffd2; */
     height: 80%;
 }
 
-.username-colour {
-    color: #fcbad3;
+.username-font {
+    /* color: #fcbad3; */
     font-size: 4vw;
 }
 
@@ -141,6 +141,10 @@ html {
      height: 425px;
  }
 
+ .img-size {
+     height: 400px;
+ }
+
  .modal-vote{
      /* border: black 5px solid; */
      padding-left: 40px;
@@ -211,4 +215,38 @@ html {
 }
 .modal-tenth {
     color: #eaffd0
+}
+
+.avatar-color-1 {
+    color: red
+}
+.avatar-color-2 {
+    color: brown
+}
+.avatar-color-3 {
+    color: blue
+}
+.avatar-color-4{
+    color: orange
+}
+.avatar-color-5 {
+    color:gold
+}
+.avatar-color-6 {
+    color: black
+}
+.avatar-color-7 {
+    color:purple
+}
+.avatar-color-8 {
+    color: green
+}
+.avatar-color-9{
+    color:indigo
+}
+.avatar-color-10 {
+    color: gray
+}
+.radio-space {
+    margin: 10px;
 }
