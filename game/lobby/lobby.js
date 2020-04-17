@@ -41,6 +41,28 @@ var socket_io = io();
 var roomCode = Cookies.get("roomCode");
 document.getElementById("game-code").innerHTML += roomCode;
 
+var playerPromise = getPlayersInRoom(roomCode);
+var playerList = Promise.resolve(playerPromise);
+var playerIconPromise = getUserIcons(playerList)
+var iconList = Promise.resolve(playerIconPromise);
+
+playerList.then(function(players) {
+    for (var i = 0; i < players.length; i++) {
+        $("#room_players").append(`<b>${players[i]}</b> &nbsp &nbsp`);
+    }
+    $("#room_players").append("<br>");
+})
+
+iconList.then(function (icons) {
+  for (var i = 0; i < icons.length; i++) {
+    var iconObject = icons[i];
+    var iconMap = Object.values(iconObject);
+    var icon = iconMap[1];
+    $("#player_icons").append(`<i class='${icon} avatar-size'></i>&nbsp &nbsp`);
+  }
+})
+
+
 function validateForm() {
     var numPlayers = $("#player-dropdown :selected").val();
     var timeLimit = $("#time-dropdown :selected").val();
