@@ -11,5 +11,46 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 firebase.analytics();
-var db = firebase.firestore();
+
+async function getPlayersInRoom(roomCode) {
+    var playerList;
+    let query = db.collection("game-rooms");
+    try {
+        var allRoomsSnapShot = await query.get();
+        allRoomsSnapShot.forEach(doc => {
+            if (doc.data().roomCode == roomCode) {
+                playerList = doc.data().players;
+            }
+        })
+    } catch (err) {
+        console.log("Error getting document", err);
+    }
+    return playerList;
+}
+
+async function getUserIcons(playerList) {
+    var iconList = Array();
+    var iconMap;
+    let query = db.collection("players");
+    try {
+        var allPlayerSnapShot = await query.get();
+        playerList.then(function (players) {
+            for(var i = 0; i < players.length; i++) {
+                allPlayerSnapShot.forEach(doc => {
+                    if (doc.data().username == players[i]) {
+                        iconMap = Object();
+                        var icon = doc.data().usericon;
+                        iconMap.name = players[i];
+                        iconMap.icon = icon;
+                        iconList.push(iconMap);
+                    }
+                })
+            }
+        }) 
+    } catch (err) {
+        console.log("Error getting user icon", err)
+    }
+    return iconList;
+}

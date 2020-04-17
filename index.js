@@ -195,6 +195,14 @@ io.on('connect', socket => {
         });
         io.to(data.roomCode).emit('chat-messages', { messages: messages[data.roomCode] });
     });
+    socket.on('settings', data => {
+        let response = {
+            numPlayers: data.numPlayers,
+            timeLimit: data.timeLimit,
+            gameCode: data.gameCode,
+        };
+        socket.emit('settings', response);
+    })
 
     socket.on('disconnect', () => {
         console.log('Client disconnected');
