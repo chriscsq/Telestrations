@@ -7,8 +7,9 @@
   <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
   <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
   <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css" />
   <link href="gamescreen.css" rel="stylesheet" />
+  <link href="../chat/chat.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -40,34 +41,39 @@
               TELESTRATIONS
             </p>
 
-              <canvas id="myCanvas"></canvas>
+            <canvas id="myCanvas"></canvas>
           </b-col>
           <b-col cols="3" id="palette">
             <div>
               <!-- <section class="colorpicker"> -->
-                <!-- <div class="pickr"></div> -->
-                <label>Choose your color: 
-                  <select class="colorSelect" name="colorSelect">
-                    <option value="">Select one..</option>
-                    <option value="black" selected style="background-color: black;color:white">Black</option>
-                    <option value="red" style="background-color: lightcoral">Red</option>
-                    <option value="blue" style="background-color: lightskyblue; ">Blue</option>
-                    <option value="green" style="background-color: rgb(176, 204, 176);">Green</option>
-                    <option value="pink" style="background-color: pink;">Pink</option>
-                    <option value="yellow" style="background-color: lightgoldenrodyellow;">Yellow</option>
-                    <option value="orange" style="background-color: lightsalmon;">Orange</option>
-                  </select> 
-                </label>
+              <!-- <div class="pickr"></div> -->
+              <label>Choose your color:
+                <select class="colorSelect" name="colorSelect">
+                  <option value="">Select one..</option>
+                  <option value="black" selected style="background-color: black;color:white">Black</option>
+                  <option value="red" style="background-color: lightcoral">Red</option>
+                  <option value="blue" style="background-color: lightskyblue; ">Blue</option>
+                  <option value="green" style="background-color: rgb(176, 204, 176);">Green</option>
+                  <option value="pink" style="background-color: pink;">Pink</option>
+                  <option value="yellow" style="background-color: lightgoldenrodyellow;">Yellow</option>
+                  <option value="orange" style="background-color: lightsalmon;">Orange</option>
+                </select>
+              </label>
               <!-- </section> -->
               <button type="button" id="eraser">Eraser</button>
-              </div>
+            </div>
           </b-col>
         </b-row>
         <!-- chat is the entire row -->
-        <b-row class="flex-grow-1" id="chat">
-        </b-row>
+        <b-col class="flex-grow-1" id="chat">
+          <b-row>
+            <div id="messages" class="w-100"></div>
+          </b-row>
+          <b-row>
+            <input type="text" id="input" placeholder="Enter your message...">
+          </b-row>
+        </b-col>
       </b-col>
-
     </b-row>
 
   </b-container>
@@ -79,8 +85,12 @@
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
   <script src="./gamescreen.js"></script>
-  <script src="https://code.jquery.com/jquery-1.11.2.min.js" integrity="sha256-Ls0pXSlb7AYs7evhd+VLnWsZ/AqEHcXBeMZUycz/CcA=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-1.11.2.min.js"
+    integrity="sha256-Ls0pXSlb7AYs7evhd+VLnWsZ/AqEHcXBeMZUycz/CcA=" crossorigin="anonymous"></script>
   <script src="./js/script.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script src="../chat/chat.js"></script>
 </body>
 
 </html>
