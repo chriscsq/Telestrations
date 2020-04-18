@@ -80,8 +80,8 @@ function validateForm() {
     }
 
     else {
-        var selectedValues = {"numPlayers":numPlayers, "timeLimit":timeLimit, "roomCode":roomCode};
-        socket_io.emit("settings", selectedValues);
+        updateTimeLimit(roomCode, timeLimit);
+        updateRoomLimit(roomCode, numPlayers);
         $("#game-settings").submit();
     }
     

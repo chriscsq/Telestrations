@@ -141,3 +141,47 @@ async function updateUserData (pick, info1, info2) {
         console.log("Error updating document", err);
     }
 }
+
+async function updateTimeLimit(roomCode, timeLimit) {
+    let docID = '';
+    let query = db.collection("game-rooms").where("roomCode", "==", roomCode);
+    try {
+        var snapShot = await query.get();
+        docID = snapShot.docs[0].id;
+        
+    } catch (err) {
+        console.log("Error getting document ID", err);
+    }
+    var roomRef = db.collection("game-rooms").doc(docID);
+    try {
+        roomRef.update({
+            timeLimit : timeLimit
+        })
+        console.log("SUCCESSFUL UPDATE OF TIME LIMIT TO -- ", timeLimit);
+    } catch (err) {
+        console.log("Error getting room document: ", err);
+    }
+
+}
+
+async function updateRoomLimit(roomCode, roomLimit) {
+    let docID = '';
+    let query = db.collection("game-rooms").where("roomCode", "==", roomCode);
+    try {
+        var snapShot = await query.get();
+        docID = snapShot.docs[0].id;
+        
+    } catch (err) {
+        console.log("Error getting document ID", err);
+    }
+    var roomRef = db.collection("game-rooms").doc(docID);
+    try {
+        roomRef.update({
+            roomLimit : roomLimit
+        })
+        console.log("SUCCESSFUL UPDATE OF ROOM LIMIT TO -- ", roomLimit);
+    } catch (err) {
+        console.log("Error getting room document: ", err);
+    }
+
+}
