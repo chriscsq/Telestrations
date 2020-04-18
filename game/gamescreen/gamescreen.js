@@ -11,9 +11,6 @@ window.onload = async() => {
       this.getTimeLimit();
       this.getWordList();
     },
-    updated() {
-      this.getPlayerList();
-    },
     methods: {
       async getPlayerList() {
         /* replace param with Cookies.get(roomCode) after testing */
