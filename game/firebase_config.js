@@ -100,12 +100,6 @@ async function sendImgToFirebase(image){
             previousBook1 : firebase.firestore.FieldValue.arrayUnion({imageOwner, imageURL : url, word : chosenWord})
         })
 
-        // playerRef.update({
-        //     previousBook1 : firebase.firestore.FieldValue.arrayRemove({imageOwner : 'test'})
-        // });
-
-        // console.log("REMOVED");
-           
     } catch (err) {
         console.log("Error updating document", err);
     }
@@ -189,6 +183,45 @@ async function getSketchbook() {
         return docData.data();
     } catch (err) {
         console.log("Error getting Sketchbook from Database", err);
+    }
+
+}
+
+async function updateSavedBook(saveSlot, word, images, owners){
+    let docID = await getDocID(Cookies.get('username'));
+    
+
+    var playerRef = db.collection("players").doc(docID);
+    let bookNum;
+    if(saveSlot === '1') {
+        bookNum = 'savedBook1';
+    } else if (saveSlot === '2') {
+        bookNum = 'savedBook2';
+    } else {
+        bookNum = 'savedBook3';
+    }
+
+    var Book = {};
+    Book[`${bookNum}`] = firebase.firestore.FieldValue.delete();
+    
+    // Delete the saved slot from database
+    try {
+        playerRef.update(Book);
+    } catch (err) {
+        console.log("Error deleting book", err);
+    }
+
+    // Update saved slot with new sketchbook chosen
+    Book = {};
+    try {
+        var i;
+        for(i = 0; i < owners.length; i++) {
+            Book[`${bookNum}`] = firebase.firestore.FieldValue.arrayUnion({imageOwner : owners[i], imageURL : images[i], word})
+            playerRef.update(Book); 
+        }
+        
+    } catch (err) {
+        console.log("Error saving new sketchbook", err);
     }
 
 }
