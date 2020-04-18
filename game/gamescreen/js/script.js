@@ -19,7 +19,6 @@
             const whiteboard = new Whiteboard(canvas, socket);
 
             eraser.addEventListener("click", function () {
-                console.log('eraser pressed')
                 if (isEraser === false){
                     isEraser = true;
                     console.log('eraser is now true')
@@ -32,31 +31,52 @@
                     whiteboard.color = lastChosenColor;
                     whiteboard.thickness = 4;
                     eraser.innerHTML = 'Eraser';
+                    console.log("eraser is false")
                 }
             })
             colorSelect.addEventListener('change', (event) => {
-                console.log('colorSelect activated')
                 if(event.target.value == "red"){
                     console.log('red chosen')
                     whiteboard.color = lastChosenColor = '#f08080';
+                    if (whiteboard.thickness > 5){
+                        whiteboard.color = '#ffffff'
+                    }
                 } else if (event.target.value == "black"){
                     console.log('black chosen')
                     whiteboard.color = lastChosenColor = '#000000';
+                    if (whiteboard.thickness > 5){
+                        whiteboard.color = '#ffffff'
+                    }
                 } else if (event.target.value == "blue"){
                     console.log('blue chosen')
                     whiteboard.color = lastChosenColor = '#87cefa';
+                    if (whiteboard.thickness > 5){
+                        whiteboard.color = '#ffffff'
+                    }
                 } else if (event.target.value == "green"){
                     console.log('green chosen')
                     whiteboard.color = lastChosenColor = '#90ee90';
+                    if (whiteboard.thickness > 5){
+                        whiteboard.color = '#ffffff'
+                    }
                 } else if (event.target.value == "pink"){
                     console.log('pink chosen')
                     whiteboard.color = lastChosenColor = '#ffc0cb';
+                    if (whiteboard.thickness > 5){
+                        whiteboard.color = '#ffffff'
+                    }
                 } else if (event.target.value == "orange"){
                     console.log('orange chosen')
                     whiteboard.color = lastChosenColor = '#ffa07a';
+                    if (whiteboard.thickness > 5){
+                        whiteboard.color = '#ffffff'
+                    }
                 } else if (event.target.value == "yellow"){
                     console.log('yellow chosen')
                     whiteboard.color = lastChosenColor = '#fafad2';
+                    if (whiteboard.thickness > 5){
+                        whiteboard.color = '#ffffff'
+                    }
                 } 
             })
             window.whiteboard = whiteboard;
