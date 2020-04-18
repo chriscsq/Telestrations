@@ -66,20 +66,20 @@ async function sendImgToFirebase(image){
 
     var storage = firebase.storage();
     var storageRef = storage.ref();
-    var nameIncrement = 1;
     var imagesRef = storageRef.child('images/'+ 'canvas' + new Date().getTime());
     var file = image;
     //string of current user would be passed in as owner here
     var username = Cookies.get('username')
+    var chosenWord = document.getElementById("selectedWord").innerHTML
     var metadata = {
         customMetadata: {
           'owner': username,
-          'activity': 'drawing'
+          'activity': 'drawing',
+          'word': chosenWord
         }
       }
     imagesRef.put(file, metadata).then(function(snapshot) {
         console.log('blob uploaded to firebase.');
-        nameIncrement++;
     })
 }
 
