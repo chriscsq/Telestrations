@@ -12,7 +12,7 @@ window.onload = async() => {
       this.getWordList();
     },
     updated() {
-      this.getPlayerList();
+      // this.getPlayerList();
     },
     methods: {
       async getPlayerList() {

@@ -69,17 +69,48 @@ async function sendImgToFirebase(image){
     var nameIncrement = 1;
     var imagesRef = storageRef.child('images/'+ 'canvas' + new Date().getTime());
     var file = image;
+    let chosenWord = document.getElementById("selectedWord").innerHTML
+
     //string of current user would be passed in as owner here
     var metadata = {
         customMetadata: {
           'owner': 'owner name here',
-          'activity': 'drawing'
+          'activity': 'drawing',
+          'word': chosenWord
         }
       }
-    imagesRef.put(file, metadata).then(function(snapshot) {
-        console.log('blob uploaded to firebase.');
-        nameIncrement++;
-    })
+    // imagesRef.put(file, metadata).then(function(snapshot) {
+    //     console.log('blob uploaded to firebase.');
+    //     nameIncrement++;
+    // })
+
+    await imagesRef.put(file, metadata);
+    console.log('image uploaded to firebase');
+
+    let url = await imagesRef.getDownloadURL();
+    let imageOwner = Cookies.get('username');
+    let bookOwner = Cookies.get('username');
+    let bookOwnerDocID = await getDocID(bookOwner);
+    var playerRef = db.collection("players").doc(bookOwnerDocID);
+    
+
+    try {
+
+        playerRef.update({
+            previousBook1 : firebase.firestore.FieldValue.arrayUnion({imageOwner, imageURL : url, word : chosenWord})
+        })
+
+        // playerRef.update({
+        //     previousBook1 : firebase.firestore.FieldValue.arrayRemove({imageOwner : 'test'})
+        // });
+
+        // console.log("REMOVED");
+           
+    } catch (err) {
+        console.log("Error updating document", err);
+    }
+
+    
 }
 
 async function getUserIcons(playerList) {
@@ -112,16 +143,8 @@ async function getUserIcons(playerList) {
 //              info1 is either username color or avatar depending on pick
 //              info2 is either banner color or avatar color depending on pick
 async function updateUserData (pick, info1, info2) {
-    let docID = '';
 
-    let query = db.collection("players").where("username", "==", Cookies.get('username'));
-    try {
-        var snapShot = await query.get();
-        docID = snapShot.docs[0].id;
-        
-    } catch (err) {
-        console.log("Error getting document ID", err);
-    }
+    let docID = await getDocID(Cookies.get('username'));
 
     var playerRef = db.collection("players").doc(docID);
 
@@ -140,4 +163,32 @@ async function updateUserData (pick, info1, info2) {
     } catch (err) {
         console.log("Error updating document", err);
     }
+}
+
+async function getDocID (username1) {
+
+    let query = db.collection("players").where("username", "==", username1);
+    try {
+        var snapShot = await query.get();
+        let docID = snapShot.docs[0].id;
+        return docID;
+        
+    } catch (err) {
+        console.log("Error getting document ID", err);
+    }
+
+}
+
+async function getSketchbook() {
+    let docID = await getDocID(Cookies.get('username'));
+
+    var playerRef = db.collection("players").doc(docID);
+
+    try {
+        let docData = await playerRef.get();
+        return docData.data();
+    } catch (err) {
+        console.log("Error getting Sketchbook from Database", err);
+    }
+
 }

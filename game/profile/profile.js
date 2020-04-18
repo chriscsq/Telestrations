@@ -43,10 +43,10 @@ let profile = new Vue({
       avatarColor: ''
     },
     prevSketchbook: {
-      vote : [previousBook[0].vote, previousBook[1].vote, previousBook[2].vote],
-      word : [previousBook[0].word, previousBook[1].word, previousBook[2].word],
-      images : [previousBook[0].images, previousBook[1].images, previousBook[2].images],
-      owners : [previousBook[0].owners, previousBook[1].owners, previousBook[2].owners]
+      vote : ['', '', ''],
+      word : ['', '', ''],
+      images : [[], [], []],
+      owners : [[], [], []]
     },
     savedSketchbook: {
       vote : [savedBook[0].vote, savedBook[1].vote, savedBook[2].vote],
@@ -112,8 +112,36 @@ let profile = new Vue({
       }
     }
   },
-  created : function (){
-    // test();
+  created : async function (){
+    let data = await getSketchbook();
+    console.log("Data: ", data);
+    let previousBook1 = data.previousBook1;
+    let previousBook2 = data.previousBook2;
+    let previousBook3 = data.previousBook3;
+
+    this.prevSketchbook.word[0] = previousBook1[0].word;
+    this.prevSketchbook.word[1] = previousBook2[0].word;
+    this.prevSketchbook.word[2] = previousBook3[0].word;
+
+    this.prevSketchbook.vote[0] = '+5';
+    this.prevSketchbook.vote[1] = '+6';
+    this.prevSketchbook.vote[2] = '+7';
+
+    var i;
+    for (i = 0; i < previousBook1.length; i++) {
+      this.prevSketchbook.images[0].push(previousBook1[i].imageURL);
+      this.prevSketchbook.owners[0].push(previousBook1[i].imageOwner);
+    }
+    for (i = 0; i < previousBook2.length; i++) {
+      this.prevSketchbook.images[1].push(previousBook2[i].imageURL);
+      this.prevSketchbook.owners[1].push(previousBook2[i].imageOwner);
+    }
+    for (i = 0; i < previousBook3.length; i++) {
+      this.prevSketchbook.images[2].push(previousBook3[i].imageURL);
+      this.prevSketchbook.owners[2].push(previousBook3[i].imageOwner);
+    }
+        
+
   },
   methods: {
     checkNA : function (whichSide, whichSlot) {
@@ -135,7 +163,8 @@ let profile = new Vue({
       this.displaySketchbook.currentSide = whichSide;
       this.displaySketchbook.currentSlot = whichSlot;
       this.displaySketchbook.counter = 1;
-      this.displaySketchbook.counterSize = this.prevSketchbook.images[0].length;
+      this.displaySketchbook.counterSize = this.prevSketchbook.images[whichSlot].length;
+      console.log("Size: " + this.displaySketchbook.counterSize);
       this.update = '';
 
       if(whichSide === 0) {
