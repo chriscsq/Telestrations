@@ -1,19 +1,19 @@
-
 <!DOCTYPE html>
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="lobby.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+    <link href="../chat/chat.css" rel="stylesheet" />
 </head>
 
 <body>
-
     <div class="container-fluid">
         <div class="row" style="height: 100vh;">
             <div class="col-md-3" id="background-left">
-            <span id="settings">Settings</span>
-                <form id="game-settings" action = "../gamescreen/gamescreen.html">
+                <span id="settings">Settings</span>
+                <form id="game-settings" action="../gamescreen/gamescreen.html">
                     <span id="sub-headers">Room limit</span>
                     <div class="dropdown" id="players">
                         <select class="form-control" id="player-dropdown" @change="changeNumPlayers($event)">
@@ -29,47 +29,34 @@
                             <option v-for="time in times" :value="time.id" :key="time.id">{{  time.id }}</option>
                         </select>
                     </div>
-                    
-                    <div></div>
-                    <center>
-                        <input value="Start Game" id="start-button" class="btn btn-primary" onclick="validateForm();"/>
-                    </center>
 
+                    <div></div>
+                    <div id="game-code">Game Code: </div>
+
+                    <center>
+                        <input value="Start Game" id="start-button" class="btn btn-primary" onclick="validateForm();" />
+                    </center>
                 </form>
             </div>
 
             <div class="col-md-9" id="background-right">
                 <center>
-                <span id="players">Players</span>
+                    <span id="players">Players</span>
                 </center>
+                <div id="room_players"></div>
+                <div id="player_icons"></div>
+                <div id="chat" class="h-20" style="position: fixed; bottom: 0; width: 70%;">
+                    <div class="row">
+                        <div id="messages" class="w-100"></div>
+                    </div>
+                    <div class="row">
+                        <input type="text" id="input" placeholder="Enter your message...">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-    <script>
-        function validateForm() {
-            var numPlayers = $("#player-dropdown :selected").val();
-            var timeLimit = $("#time-dropdown :selected").val();
-            if (numPlayers === "Number of players") {
-                alert("Please select the room limit");
-                if (timeLimit === "Seconds") {
-                    alert("Please select a time limit");
-                }
-            }
-            else if (timeLimit === "Seconds") {
-                alert("Please select a time limit");
-                if (numPlayers === "Number of players") {
-                    alert("Please select the room limit");
-                }
-            }
 
-            else {
-                var selectedValues = [numPlayers, timeLimit];
-                $("#game-settings").submit();
-            }
-            
-        }
-    </script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
@@ -79,8 +66,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    <script src="/socket.io/socket.io.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+    <script src=" https://www.gstatic.com/firebasejs/7.14.0/firebase-storage.js "></script>
+    <script src="../firebase_config.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="lobby.js"></script>
+    <script src="../chat/chat.js"></script>
 </body>

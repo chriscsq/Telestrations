@@ -1,5 +1,18 @@
 let socket = io();
 
+if (Cookies.get('username') === undefined) {
+    let defaultUser = {
+        username: 'Anonymous',
+        usericon: 'fas fa-crow',
+        iconColor: '#5A5ACA',
+        bannerColor: '#5ACA5A',
+        usernameColor: '#CA5A5A',
+    };
+    for (key in defaultUser) {
+        Cookies.set(key, defaultUser[key]);
+    }
+}
+
 socket.on('create-room', data => {
     Cookies.set('roomCode', data.code);
     window.location.href = 'lobby/lobby.html';
@@ -17,9 +30,12 @@ socket.on('join-room', data => {
 let loginButton = new Vue({
     el: '#loginButton',
     data: {
-        isLoggedIn: Cookies.get('user') !== undefined,
-        userIconClasses: 'justify-content-center align-self-center fas fa-3x ' + Cookies.get('user-icon'),
-        username: Cookies.get('user'),
+        isLoggedIn: Cookies.get('username') !== 'Anonymous',
+        userIconClasses: 'justify-content-center align-self-center fas fa-3x ' + Cookies.get('usericon'),
+        username: Cookies.get('username'),
+        userIconStyle: { color: Cookies.get('iconColor') },
+        usernameStyle: { color: Cookies.get('usernameColor') },
+        userBannerStyle: { background: Cookies.get('bannerColor') },
     },
     methods: {
         click: function (event) {
@@ -42,7 +58,7 @@ let playArea = new Vue({
     methods: {
         createRoom: function (event) {
             if (this.altButtonText === 'Create Room') {
-                socket.emit('create-room');
+                socket.emit('create-room', { user: Cookies.get('username') });
             } else {
                 this.altButtonText = 'Create Room';
                 this.roomCode = '';
@@ -54,7 +70,7 @@ let playArea = new Vue({
                 if (this.roomCode.length !== 4) {
                     this.errorMsg = 'Room code must be four characters';
                 } else {
-                    socket.emit('join-room', { code: this.roomCode });
+                    socket.emit('join-room', { code: this.roomCode, user: Cookies.get('username') });
                 }
             } else {
                 this.altButtonText = 'Back';

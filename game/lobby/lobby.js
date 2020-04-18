@@ -36,3 +36,53 @@ let drawTime = new Vue({
     },
   },
 });
+
+var socket_io = io();
+var roomCode = Cookies.get("roomCode");
+document.getElementById("game-code").innerHTML += roomCode;
+
+var playerPromise = getPlayersInRoom(roomCode);
+var playerList = Promise.resolve(playerPromise);
+var playerIconPromise = getUserIcons(playerList)
+var iconList = Promise.resolve(playerIconPromise);
+
+playerList.then(function(players) {
+    for (var i = 0; i < players.length; i++) {
+        $("#room_players").append(`<b>${players[i]}</b> &nbsp &nbsp`);
+    }
+    $("#room_players").append("<br>");
+})
+
+iconList.then(function (icons) {
+  for (var i = 0; i < icons.length; i++) {
+    var iconObject = icons[i];
+    var iconMap = Object.values(iconObject);
+    var icon = iconMap[1];
+    $("#player_icons").append(`<i class='${icon} avatar-size'></i>&nbsp &nbsp`);
+  }
+})
+
+
+function validateForm() {
+    var numPlayers = $("#player-dropdown :selected").val();
+    var timeLimit = $("#time-dropdown :selected").val();
+    if (numPlayers === "Number of players") {
+        alert("Please select the room limit");
+        if (timeLimit === "Seconds") {
+            alert("Please select a time limit");
+        }
+    }
+    else if (timeLimit === "Seconds") {
+        alert("Please select a time limit");
+        if (numPlayers === "Number of players") {
+            alert("Please select the room limit");
+        }
+    }
+
+    else {
+        var selectedValues = {"numPlayers":numPlayers, "timeLimit":timeLimit, "roomCode":roomCode};
+        socket_io.emit("settings", selectedValues);
+        $("#game-settings").submit();
+    }
+    
+}

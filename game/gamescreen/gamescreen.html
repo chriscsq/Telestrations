@@ -22,6 +22,8 @@
       href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"
     />
     <link href="gamescreen.css" rel="stylesheet" />
+    <link href="../chat/chat.css" rel="stylesheet" />
+
   </head>
 
   <body>
@@ -57,6 +59,7 @@
             </ul>
           </div>
         </b-col>
+
 
         <script type="text/x-template" id="player-list">
           <li> {{name}} </li>
@@ -135,10 +138,15 @@
             </b-col>
           </b-row>
           <!-- chat is the entire row -->
-          <b-row class="flex-grow-1" id="chat"> </b-row>
+        <b-col class="flex-grow-1" id="chat">
+          <b-row>
+            <div id="messages" class="w-100"></div>
+          </b-row>
+          <b-row>
+            <input type="text" id="input" placeholder="Enter your message...">
+          </b-row>
         </b-col>
-      </b-row>
-    </b-container>
+      </b-col>    </b-container>
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
     <script src="./whiteboard.js"></script>
@@ -158,6 +166,8 @@
       crossorigin="anonymous"
     ></script>
     <script src="./js/script.js"></script>
+        <script src="../chat/chat.js"></script>
+
     <script>
       function on() {
         document.getElementById("overlay").style.display = "block";

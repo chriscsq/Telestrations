@@ -1,19 +1,25 @@
 let socket = io();
 
+let storeUserdata = data => {
+    for (key in data) {
+        if (key !== 'success') {
+            Cookies.set(key, data[key]);
+        }
+    }
+}
+
 socket.on('register', data => {
     if (data.success) {
-        Cookies.set('user', data.user);
-        Cookies.set('user-icon', data.usericon);
+        storeUserdata(data);
         window.location.href = '/';
     } else {
-        formArea.errorMsg = 'Username or email already taken';
+        formArea.errorMsg = 'A user with that email already exists';
     }
 });
 
 socket.on('login', data => {
     if (data.success) {
-        Cookies.set('user', data.user);
-        Cookies.set('user-icon', data.usericon);
+        storeUserdata(data);
         window.location.href = '/';
     } else {
         formArea.errorMsg = 'Invalid username or password';
