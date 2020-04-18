@@ -61,11 +61,6 @@
             })
             window.whiteboard = whiteboard;
 
-            // const takePic = document.getElementById("takePic");
-            // takePic.addEventListener('click', function() {
-            //     whiteboard.download('image.png')
-            // })
-
             var watchTimer = {watch: null, prev: timer.innerHTML}
 
             function Watch(timerO, e){

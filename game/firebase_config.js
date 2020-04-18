@@ -70,9 +70,10 @@ async function sendImgToFirebase(image){
     var imagesRef = storageRef.child('images/'+ 'canvas' + new Date().getTime());
     var file = image;
     //string of current user would be passed in as owner here
+    var username = Cookies.get('username')
     var metadata = {
         customMetadata: {
-          'owner': 'owner name here',
+          'owner': username,
           'activity': 'drawing'
         }
       }
