@@ -119,17 +119,19 @@ class Whiteboard {
         const lnk = document.createElement('a');
         lnk.download = filename;
         lnk.href = this.canvas.toDataURL();
+        this.canvas.toBlob(function(blob){
+            sendImgToFirebase(blob)
+        })
+        // if (document.createEvent) {
+        //     const e = document.createEvent('MouseEvents');
+        //     e.initMouseEvent('click', true, true, window,
+        //         0, 0, 0, 0, 0, false,
+        //         false, false, false, 0, null);
 
-        if (document.createEvent) {
-            const e = document.createEvent('MouseEvents');
-            e.initMouseEvent('click', true, true, window,
-                0, 0, 0, 0, 0, false,
-                false, false, false, 0, null);
-
-            lnk.dispatchEvent(e);
-        } else if (lnk.fireEvent) {
-            lnk.fireEvent('onclick');
-        }
+        //     lnk.dispatchEvent(e);
+        // } else if (lnk.fireEvent) {
+        //     lnk.fireEvent('onclick');
+        // }
     }
 
     /**

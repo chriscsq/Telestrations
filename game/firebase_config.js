@@ -11,8 +11,27 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
 firebase.analytics();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+
+async function getTimeLimit(roomCode) {
+    var timeLimit;
+    let query = db.collection("game-rooms");
+    try {
+        var allRoomsSnapShot = await query.get();
+        allRoomsSnapShot.forEach(doc => {
+            if (doc.data().roomCode == roomCode) {
+                timeLimit = doc.data().timeLimit;
+                console.log(doc.data().timeLimit);
+            }
+        })
+    } catch (err) {
+        console.log("Error getting document", err);
+    }
+    return timeLimit;
+}
 
 async function getPlayersInRoom(roomCode) {
     var playerList;
@@ -28,6 +47,39 @@ async function getPlayersInRoom(roomCode) {
         console.log("Error getting document", err);
     }
     return playerList;
+}
+//module.exports = getRoomTimer;
+
+async function getWordList() {
+    var list = db.collection("dictionary").doc("phrases")
+    const snapshot = await list.get();
+    var wordList = snapshot.data().phrase;
+    var threeRandom = [];
+
+    const shuffled = wordList.sort(()=> 0.5 - Math.random());
+    threeRandom = shuffled.slice(0, 3);
+    console.log(threeRandom)
+    return threeRandom;
+}
+
+async function sendImgToFirebase(image){
+
+    var storage = firebase.storage();
+    var storageRef = storage.ref();
+    var nameIncrement = 1;
+    var imagesRef = storageRef.child('images/'+ 'canvas' + new Date().getTime());
+    var file = image;
+    //string of current user would be passed in as owner here
+    var metadata = {
+        customMetadata: {
+          'owner': 'owner name here',
+          'activity': 'drawing'
+        }
+      }
+    imagesRef.put(file, metadata).then(function(snapshot) {
+        console.log('blob uploaded to firebase.');
+        nameIncrement++;
+    })
 }
 
 async function getUserIcons(playerList) {
@@ -88,5 +140,4 @@ async function updateUserData (pick, info1, info2) {
     } catch (err) {
         console.log("Error updating document", err);
     }
-
 }

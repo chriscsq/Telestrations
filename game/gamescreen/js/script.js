@@ -1,54 +1,19 @@
 ((io, Whiteboard) => {
-    const printDemoMessage = () => {
-        // console.log(
-        //     '%c👋 Hello there!',
-        //     'font-weight: bold; font-size: 2rem;',
-        // );
-
-        // console.log(
-        //     'Make the line %cgreen',
-        //     'color: #00ff00;',
-        // );
-
-        // console.log(
-        //     '%cwhiteboard.color = \'#00ff00\';',
-        //     'color: #f3900c;',
-        // );
-
-        // console.log(
-        //     'Make the line %cthicker',
-        //     'font-weight: bold;',
-        // );
-
-        // console.log(
-        //     '%cwhiteboard.increaseThickness(20);',
-        //     'color: #f3900c;',
-        // );
-
-        console.log(
-            '🎉 Or you can %cdownload the image!',
-            'font-weight: bold;',
-        );
-
-        console.log(
-            '%cwhiteboard.download();',
-            'color: #f3900c;',
-        );
-    };
 
     window.addEventListener('load', () => {
-        console.log('🌍 Connecting to server…');
+        console.log('Connecting to server…');
 
         const socket = io();
         const canvas = document.querySelector('#myCanvas');
         var eraser = document.getElementById("eraser");
         var colorSelect = document.querySelector('.colorSelect');
+        var timer = document.getElementById("timer");
         var isEraser = false;
         var lastChosenColor;
 
         socket.on('connect', () => {
             // At this point we have connected to the server
-            console.log('🌍 Connected to server');
+            console.log('Connected to server');
 
             // Create a Whiteboard instance
             const whiteboard = new Whiteboard(canvas, socket);
@@ -59,12 +24,11 @@
                     isEraser = true;
                     console.log('eraser is now true')
                     whiteboard.color = '#FFFFFF';
-                    whiteboard.thickness = 12;
+                    whiteboard.thickness = 15;
                     eraser.innerHTML = 'Pencil';
                 }
                 else{
                     isEraser = false;
-                    //whiteboard.color = '#000000';
                     whiteboard.color = lastChosenColor;
                     whiteboard.thickness = 4;
                     eraser.innerHTML = 'Eraser';
@@ -75,8 +39,7 @@
                 if(event.target.value == "red"){
                     console.log('red chosen')
                     whiteboard.color = lastChosenColor = '#f08080';
-                }
-                else if (event.target.value == "black"){
+                } else if (event.target.value == "black"){
                     console.log('black chosen')
                     whiteboard.color = lastChosenColor = '#000000';
                 } else if (event.target.value == "blue"){
@@ -95,11 +58,29 @@
                     console.log('yellow chosen')
                     whiteboard.color = lastChosenColor = '#fafad2';
                 } 
-
             })
-            // Expose the whiteboard instance
             window.whiteboard = whiteboard;
-            printDemoMessage();
+
+            // const takePic = document.getElementById("takePic");
+            // takePic.addEventListener('click', function() {
+            //     whiteboard.download('image.png')
+            // })
+
+            var watchTimer = {watch: null, prev: timer.innerHTML}
+
+            function Watch(timerO, e){
+                timerO.watch = setInterval(function() {
+                    if (e.innerHTML != timerO.prev){
+                        timerO.prev = e.innerHTML;
+                        if (timerO.prev === "Time's up" || e.innerHTML === "Time's up"){
+                            console.log('timer ran out you can trigger download now')
+                            whiteboard.download('image.png')
+                        }
+                    }
+                }, 1000);
+            }
+            Watch(watchTimer, timer)
+
         });
     });
 })(io, Whiteboard);

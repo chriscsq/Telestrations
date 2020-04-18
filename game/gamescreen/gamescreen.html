@@ -1,70 +1,143 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Game Screen</title>
 
-<head>
-  <title>Game Screen</title>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"
+    />
+    <link href="gamescreen.css" rel="stylesheet" />
+    <link href="../chat/chat.css" rel="stylesheet" />
 
-  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
-  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css" />
-  <link href="gamescreen.css" rel="stylesheet" />
-  <link href="../chat/chat.css" rel="stylesheet" />
-</head>
+  </head>
 
-<body>
-  <b-container id="app" class="cont">
-    <!-- Outside row -->
-    <b-row class="main-row">
-      <!-- user list -->
-      <b-col cols="2" id="userlist-container">
-        <p id="players-title">
-          PLAYERS
-        </p>
-        <ul id="userlist">
-          <li v-for="item in items" :key="item.name">
-            {{item.name}} </li>
-        </ul>
-      </b-col>
+  <body>
+    <script src="/socket.io/socket.io.js"></script>
+    <b-container id="app" class="cont">
+      <!-- Outside row -->
+      <b-row class="main-row">
+        <div id="overlay" onclick="off()">
+          <div id="overlayText">
+            Choose your Word:
+            <ul id="wordList">
+              <li
+                v-for="word in wordList"
+                :key="word"
+                onclick="wordChosen(this.innerText.trim())"
+              >
+                {{word}}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- user list -->
+        <b-col cols="2" id="userlist-container">
+          <p id="players-title">
+            PLAYERS
+          </p>
+          <div class="userlist">
+            <ul id="userlist">
+              <playerlist
+                v-for="player in playerList"
+                :name="player"
+              ></playerlist>
+            </ul>
+          </div>
+        </b-col>
 
-      <!-- rightside screen, divides into 2 more rows-->
-      <b-col cols="10" class="d-flex flex-column h-100" id="gamescreen-container">
 
-        <!-- gamescreen, splits into whiteboard and palette -->
-        <b-row id="whiteboard-container">
+        <script type="text/x-template" id="player-list">
+          <li> {{name}} </li>
+        </script>
 
-          <b-col cols="9" id="whiteboard">
-            <p id="timer">
-              {{time}}
-            </p>
-            <p id="telestrations">
-              TELESTRATIONS
-            </p>
-
-            <canvas id="myCanvas"></canvas>
-          </b-col>
-          <b-col cols="3" id="palette">
-            <div>
-              <!-- <section class="colorpicker"> -->
-              <!-- <div class="pickr"></div> -->
-              <label>Choose your color:
-                <select class="colorSelect" name="colorSelect">
-                  <option value="">Select one..</option>
-                  <option value="black" selected style="background-color: black;color:white">Black</option>
-                  <option value="red" style="background-color: lightcoral">Red</option>
-                  <option value="blue" style="background-color: lightskyblue; ">Blue</option>
-                  <option value="green" style="background-color: rgb(176, 204, 176);">Green</option>
-                  <option value="pink" style="background-color: pink;">Pink</option>
-                  <option value="yellow" style="background-color: lightgoldenrodyellow;">Yellow</option>
-                  <option value="orange" style="background-color: lightsalmon;">Orange</option>
-                </select>
+        <!-- rightside screen, divides into 2 more rows-->
+        <b-col
+          cols="10"
+          class="d-flex flex-column h-100"
+          id="gamescreen-container"
+        >
+          <!-- gamescreen, splits into whiteboard and palette -->
+          <b-row id="whiteboard-container">
+            <b-col cols="9" id="whiteboard">
+              <timercomponent v-for="timer in timers" :value="timer"></timercomponent>
+              <p id="telestrations">
+                TELESTRATIONS
+              </p>
+              <button id="startgame" v-on:click="startGame">Start</button><button id="chooseWord" onclick="on()">DRAW</button>
+              <label
+                >Your Word is:
+                <p id="selectedWord"></p>
               </label>
-              <!-- </section> -->
-              <button type="button" id="eraser">Eraser</button>
-            </div>
-          </b-col>
-        </b-row>
-        <!-- chat is the entire row -->
+              <button id="takePic">take picture</button>
+              <canvas id="myCanvas"></canvas>
+            </b-col>
+
+            <script type="text/x-template" id="timer-component">
+              <p id="timer">
+              {{value}}
+              </p>
+            </script>
+            <b-col cols="3" id="palette">
+              <div>
+                <!-- <section class="colorpicker"> -->
+                <!-- <div class="pickr"></div> -->
+                <label
+                  >Choose your color:
+                  <select class="colorSelect" name="colorSelect">
+                    <option value="">Select one..</option>
+                    <option
+                      value="black"
+                      selected
+                      style="background-color: black; color: white;"
+                      >Black</option
+                    >
+                    <option value="red" style="background-color: lightcoral;"
+                      >Red</option
+                    >
+                    <option value="blue" style="background-color: lightskyblue;"
+                      >Blue</option
+                    >
+                    <option
+                      value="green"
+                      style="background-color: rgb(176, 204, 176);"
+                      >Green</option
+                    >
+                    <option value="pink" style="background-color: pink;"
+                      >Pink</option
+                    >
+                    <option
+                      value="yellow"
+                      style="background-color: lightgoldenrodyellow;"
+                      >Yellow</option
+                    >
+                    <option
+                      value="orange"
+                      style="background-color: lightsalmon;"
+                      >Orange</option
+                    >
+                  </select>
+                </label>
+                <!-- </section> -->
+                <button type="button" id="eraser">Eraser</button>
+              </div>
+            </b-col>
+          </b-row>
+          <!-- chat is the entire row -->
         <b-col class="flex-grow-1" id="chat">
           <b-row>
             <div id="messages" class="w-100"></div>
@@ -73,24 +146,39 @@
             <input type="text" id="input" placeholder="Enter your message...">
           </b-row>
         </b-col>
-      </b-col>
-    </b-row>
+      </b-col>    </b-container>
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
+    <script src="./whiteboard.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+    <script src=" https://www.gstatic.com/firebasejs/7.14.0/firebase-storage.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="../firebase_config.js"></script>
+    <script src="./gamescreen.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-1.11.2.min.js"
+      integrity="sha256-Ls0pXSlb7AYs7evhd+VLnWsZ/AqEHcXBeMZUycz/CcA="
+      crossorigin="anonymous"
+    ></script>
+    <script src="./js/script.js"></script>
+        <script src="../chat/chat.js"></script>
 
-  </b-container>
-  <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
-  <script src="js/colorpicker.js"></script>
-  <script src="./whiteboard.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
-  <script src="./gamescreen.js"></script>
-  <script src="https://code.jquery.com/jquery-1.11.2.min.js"
-    integrity="sha256-Ls0pXSlb7AYs7evhd+VLnWsZ/AqEHcXBeMZUycz/CcA=" crossorigin="anonymous"></script>
-  <script src="./js/script.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-  <script src="../chat/chat.js"></script>
-</body>
-
+    <script>
+      function on() {
+        document.getElementById("overlay").style.display = "block";
+      }
+      function off() {
+        document.getElementById("overlay").style.display = "none";
+      }
+      function wordChosen(word) {
+        console.log(word);
+        document.getElementById("selectedWord").innerHTML = word;
+      }
+    </script>
+  </body>
 </html>
