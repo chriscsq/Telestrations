@@ -72,10 +72,14 @@ let generateRandomCode = (socket, user) => {
 }
 
 io.on('connect', socket => {
-    console.log('Client connected');
+    console.log('Connected');
 
     socket.on('create-room', data => {
         generateRandomCode(socket, data.user);
+    });
+
+    socket.on("joined-game", data => {
+        console.log(data.name);
     });
 
     socket.on('join-room', data => {
@@ -207,4 +211,41 @@ io.on('connect', socket => {
     socket.on('disconnect', () => {
         console.log('Client disconnected');
     });
+    
+
+    /* Gamescreen */
+    
+    let gameOver = false;
+    let currentRound = 0;
+    socket.on("loadGame", function(data) {
+        let maxRounds = data;
+
+
+        let pickWordTimer = 18; // in seconds
+        io.emit("pickaword");
+
+        /* Function to set the time */
+        let pickTimerID = setInterval(function() {
+          if (pickWordTimer == 0) {
+            clearInterval(pickWordTimer);
+            io.emit("wordTimer", "DRAW!");
+          } else {
+            console.log("your timer: " + pickWordTimer);
+            io.emit('updateTimer', pickWordTimer);
+          }
+          pickWordTimer -= 1;
+        }, 1000);
+
+        setTimeout(() => {
+            clearInterval(pickTimerID);
+        }, (pickWordTimer+2)*1000);
+
+        let gameTimerID = setInterval(function() {
+            console.log("test");
+        }, 50000);
+    
+    });
+
+
 });
+

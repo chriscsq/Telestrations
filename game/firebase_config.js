@@ -58,8 +58,23 @@ async function getWordList() {
 
     const shuffled = wordList.sort(()=> 0.5 - Math.random());
     threeRandom = shuffled.slice(0, 3);
-    console.log(threeRandom)
     return threeRandom;
+}
+
+async function getRoomLimit(roomCode) {
+    var roomLimit;
+    let query = db.collection("game-rooms");
+    try {
+        var allRoomsSnapShot = await query.get();
+        allRoomsSnapShot.forEach(doc => {
+            if (doc.data().roomCode == roomCode) {
+                roomLimit = doc.data().roomLimit;
+            }
+        })
+    } catch (err) {
+        console.log("Error getting document", err);
+    }
+    return roomLimit;
 }
 
 async function sendImgToFirebase(image){
