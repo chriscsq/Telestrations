@@ -56,8 +56,8 @@ let generateRandomCode = (socket, user) => {
                     roomLimit: 5,
                     timeLimit: 60,
                 };
-                db.collection('game-rooms').add(toAdd).then(docRef => {
-                    console.log(`Room created as ${docRef.id}`);
+                db.collection('game-rooms').doc(randomCode).set(toAdd).then(() => {
+                    console.log(`Room created as ${randomCode}`);
                     socket.emit('create-room', { code: randomCode });
                 }).catch(err => {
                     console.log(`Error: DB room can't be created, ${err}`);
