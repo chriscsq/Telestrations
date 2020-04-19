@@ -257,5 +257,10 @@ io.on('connect', socket => {
             time -= 1;
         }, 1000);
     }
+
+    socket.on("wordChosen", data => {
+        let user = data.user;
+        console.log(`${user} chose a word`);
+    })
 });
 

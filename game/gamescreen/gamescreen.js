@@ -32,15 +32,21 @@ window.onload = async () => {
 
 Vue.component("timercomponent", {
   template: "#timer-component",
-  props: ['value']
-
-})
+  props: ['value'],
+});
 
 Vue.component("playerlist", {
   template: "#player-list",
-  props: ['name']
+  props: ['name'],
+});
 
-})
+let pickedWord = false;
+
+let assignWord = (word = vueMain.wordList[0].trim()) => {
+  document.getElementById("selectedWord").innerHTML = word;
+  socket.emit('wordChosen', { user: Cookies.get('username') });
+  pickedWord = true;
+}
 
 let socket = io();
 
@@ -55,6 +61,9 @@ socket.on("pickaword", function () {
 
 socket.on("updateTimer", function (data) {
   if (data === "DRAW!") {
+    if (!pickedWord) {
+      assignWord();
+    }
     console.log('Start drawing');
     document.getElementById("waitOverlay").style.display = "none";
   }
@@ -94,10 +103,6 @@ async function startGame() {
 
 async function getAsyncRoomLimit(roomCode) {
   return await getRoomLimit();
-}
-
-let assignWord = () => {
-  document.getElementById("selectedWord").innerHTML = vueMain.wordList[0].trim();
 }
 
   //pickTimer();
