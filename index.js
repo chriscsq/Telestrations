@@ -56,8 +56,8 @@ let generateRandomCode = (socket, user) => {
                     roomLimit: 5,
                     timeLimit: 60,
                 };
-                db.collection('game-rooms').add(toAdd).then(docRef => {
-                    console.log(`Room created as ${docRef.id}`);
+                db.collection('game-rooms').doc(randomCode).set(toAdd).then(() => {
+                    console.log(`Room created as ${randomCode}`);
                     socket.emit('create-room', { code: randomCode });
                 }).catch(err => {
                     console.log(`Error: DB room can't be created, ${err}`);
@@ -149,6 +149,12 @@ io.on('connect', socket => {
                                 iconColor: '#5A5ACA',
                                 bannerColor: '#5ACA5A',
                                 usernameColor: '#CA5A5A',
+                                previousBook1: [{ imageOwner: "owner", imageURL: "url", word: "N/A" }],
+                                previousBook2: [{ imageOwner: "owner", imageURL: "url", word: "N/A" }],
+                                previousBook3: [{ imageOwner: "owner", imageURL: "url", word: "N/A" }],
+                                savedBook1: [{ imageOwner: "owner", imageURL: "url", word: "N/A" }],
+                                savedBook2: [{ imageOwner: "owner", imageURL: "url", word: "N/A" }],
+                                savedBook3: [{ imageOwner: "owner", imageURL: "url", word: "N/A" }],
                             };
                             if (nameQuery.size === 1) {
                                 let doc = nameQuery.docs[0].data();
