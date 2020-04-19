@@ -34,6 +34,7 @@ let roomCode = Cookies.get("roomCode");
 
 getRoomOwner(roomCode).then(roomOwner => {
   gameSettings.isRoomOwner = Cookies.get('username') === roomOwner;
+  Cookies.set('isLeader', gameSettings.isRoomOwner);
 })
 
 var socket_io = io();
