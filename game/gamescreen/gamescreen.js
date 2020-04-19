@@ -66,11 +66,14 @@ socket.on("changedRound", data => {
   document.getElementById('chosenImage').src = myImage;
   document.getElementById('myCanvas').style.display = 'none'
   document.getElementById('chosenImage').style.display = 'block'
+  document.getElementById('selectedWordWrapper').innerHTML = 'Study the image! you will only get a few seconds to view it!'
 });
 
 
 socket.on("hidepicture", () => {
   document.getElementById('myCanvas').style.display = 'block'
+  document.getElementById('chosenImage').style.display = 'none'
+  document.getElementById('selectedWordWrapper').innerHTML = 'Now, please guess the image you saw!'
 })
 
 socket.on("connect", () => {

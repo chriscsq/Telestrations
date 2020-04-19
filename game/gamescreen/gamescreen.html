@@ -56,9 +56,11 @@
               TELESTRATIONS
             </p>
             <button id="startgame" onclick="startGame()" v-if="isLeader">Start</button>
-            <label>Your Word is:
-              <p id="selectedWord"></p>
-            </label>
+            <div id="selectedWordWrapper">
+              <label>Your Word is:
+                <p id="selectedWord"></p>
+              </label>
+            </div>
             <canvas id="myCanvas"></canvas>
             <div>
               <img id="chosenImage" height="400px" width="600px">
