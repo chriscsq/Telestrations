@@ -1,4 +1,4 @@
-let user = Cookies.get('username');
+let chatUser = Cookies.get('username');
 let code = Cookies.get('roomCode');
 let chatSocket = io();
 
@@ -26,7 +26,7 @@ chatSocket.on('chat-messages', data => {
         let messageSpan = `<span class="message-data">: ${info.message}</span>`;
         let messageClass = 'message';
 
-        if (info.user == user) {
+        if (info.user === chatUser) {
             messageClass += ' message-current-user';
         }
 
@@ -41,7 +41,7 @@ $(document).on('keypress', '#input', event => {
         let message = $('#input').val().toString();
 
         if (message.length > 0) {
-            chatSocket.emit('chat-message', { user: user, message: message, code: code });
+            chatSocket.emit('chat-message', { user: chatUser, message, code });
             $('#input').val('')
         }
     }

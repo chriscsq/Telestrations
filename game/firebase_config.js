@@ -125,6 +125,10 @@ async function getUserIcons(playerList) {
     return iconList;
 }
 
+async function getRoomOwner(roomCode) {
+    let snap = await db.collection('game-rooms').doc(roomCode).get()
+    return snap.data().roomOwner;
+}
 
 // Parameters : pick is either 0 or 1 (user customization or avatar customization)
 //              info1 is either username color or avatar depending on pick

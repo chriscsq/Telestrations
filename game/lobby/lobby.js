@@ -1,6 +1,7 @@
-let players = new Vue({
-  el: '#players',
+let gameSettings = new Vue({
+  el: "#game-settings",
   data: {
+    isRoomOwner: false,
     players: [
       { id: 4 },
       { id: 5 },
@@ -8,17 +9,6 @@ let players = new Vue({
       { id: 7 },
       { id: 8 },
     ],
-  },
-  methods: {
-    changeNumPlayers: function (event) {
-      this.selectedPlayers = event.target.options[event.target.options.selectedIndex].text
-    },
-  },
-});
-
-let drawTime = new Vue({
-  el: "#draw-time",
-  data: {
     times: [
       { id: 30 },
       { id: 40 },
@@ -31,14 +21,22 @@ let drawTime = new Vue({
     ],
   },
   methods: {
+    changeNumPlayers: function (event) {
+      this.selectedPlayers = event.target.options[event.target.options.selectedIndex].text
+    },
     changeTime: function (event) {
       this.selectedTime = event.target.options[event.target.options.selectedIndex].text
     },
   },
 });
 
+let roomCode = Cookies.get("roomCode");
+
+getRoomOwner(roomCode).then(roomOwner => {
+  gameSettings.isRoomOwner = Cookies.get('username') === roomOwner;
+})
+
 var socket_io = io();
-var roomCode = Cookies.get("roomCode");
 document.getElementById("game-code").innerHTML += roomCode;
 
 let updatePlayers = players => {

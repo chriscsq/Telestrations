@@ -12,30 +12,34 @@
     <div class="container-fluid">
         <div class="row" style="height: 100vh;">
             <div class="col-md-3" id="background-left">
-                <span id="settings">Settings</span>
                 <form id="game-settings" action="../gamescreen/gamescreen.html">
-                    <span id="sub-headers">Room limit</span>
-                    <div class="dropdown" id="players">
-                        <select class="form-control" id="player-dropdown" @change="changeNumPlayers($event)">
-                            <option selected disabled>Number of players</option>
-                            <option v-for="player in players" :value="player.id" :key="player.id">{{  player.id    }}
-                            </option>
-                        </select>
-                    </div>
-                    <span id="sub-headers">Time per round</span>
-                    <div class="dropdown" id="draw-time">
-                        <select class="form-control" id="time-dropdown" @change="changeTime($event)">
-                            <option selected disabled>Seconds</option>
-                            <option v-for="time in times" :value="time.id" :key="time.id">{{  time.id }}</option>
-                        </select>
-                    </div>
-
-                    <div></div>
-                    <div id="game-code">Game Code: </div>
-
-                    <center>
-                        <input value="Start Game" id="start-button" class="btn btn-primary" onclick="validateForm();" />
-                    </center>
+                    <template v-if="isRoomOwner">
+                        <span id="settings">Settings</span>
+                        <div id="game-code">Game Code: </div>
+                        <span id="sub-headers">Room limit</span>
+                        <div class="dropdown" id="players">
+                            <select class="form-control" id="player-dropdown" @change="changeNumPlayers($event)">
+                                <option selected disabled>Number of players</option>
+                                <option v-for="player in players" :value="player.id" :key="player.id">
+                                    {{ player.id }}
+                                </option>
+                            </select>
+                        </div>
+                        <span id="sub-headers">Time per round</span>
+                        <div class="dropdown" id="draw-time">
+                            <select class="form-control" id="time-dropdown" @change="changeTime($event)">
+                                <option selected disabled>Seconds</option>
+                                <option v-for="time in times" :value="time.id" :key="time.id">{{  time.id }}</option>
+                            </select>
+                        </div>
+                        <center>
+                            <input value="Start Game" id="start-button" class="btn btn-primary"
+                                onclick="validateForm();" />
+                        </center>
+                    </template>
+                    <template v-else>
+                        <div id="game-code">Game Code: </div>
+                    </template>
                 </form>
             </div>
 
