@@ -264,3 +264,32 @@ io.on('connect', socket => {
     })
 });
 
+// Given a book owner, this function will return a url of the latest image uploaded to that book
+async function getLatestImage (bookOwner) {
+    // let docID = await getDocID(bookOwner);
+    let docID = await getDocID('username');
+    var playerRef = db.collection("players").doc(docID);
+
+    try {
+        let docData = await playerRef.get();
+        let data = docData.data();
+        let latestURL = data.previousBook1[previousBook1.length-1].imageURL;
+        console.log(latestURL);
+        return latestURL;
+    } catch (err) {
+        console.log("Error getting Sketchbook from Database", err);
+    }
+}
+
+async function getDocID(username1) {
+    let query = db.collection("players").where("username", "==", username1);
+    try {
+        var snapShot = await query.get();
+        let docID = snapShot.docs[0].id;
+        return docID;
+    } catch (err) {
+        console.log("Error getting document ID", err);
+    }
+}
+
+
