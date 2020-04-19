@@ -17,7 +17,6 @@ chatSocket.on('connect', () => {
 });
 
 chatSocket.on('chat-messages', data => {
-    console.log(data);
     $('#messages').empty();
     $('#messages').append('<div style="height: 210px;"></div>');
     for (let info of data.messages) {
