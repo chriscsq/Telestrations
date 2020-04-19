@@ -49,8 +49,7 @@ async function startGame() {
   console.log('start game pressed');
 
 
-  ///var rounds = document.getElementById("userList").getElementsByTagName("li").length
-  var rounds = await getRoomLimit("GCWD");
+  var rounds = await console.log(Promise.resolve(getRoomLimit("GCWD")));
   var drawLimit = await getTimeLimit("GCWD");
 
   let roomInfo = {};
@@ -59,9 +58,8 @@ async function startGame() {
     roomInfo.drawTime = drawTime;
   }
 
-  console.log("roomInfo: " + roomInfo);
 
-  await setObj(rounds, drawLimit);
+
   socket.on("connect", () => {
     console.log("connected here");
     socket.emit('loadGame', roomInfo);
@@ -75,6 +73,10 @@ async function startGame() {
     document.getElementById("timer").innerHTML = data;
   })
 
+}
+
+async function getAsyncRoomLimit(roomCode) {
+  return await getRoomLimit();
 }
 
   //pickTimer();

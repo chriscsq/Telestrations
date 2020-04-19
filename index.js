@@ -220,31 +220,37 @@ io.on('connect', socket => {
     socket.on("loadGame", function(data) {
         let maxRounds = data;
 
+        /* needs to get async values, right now they are hardcoded */
+        let pickWordTimer = 5; // in seconds
+        var drawTime = 10;
 
-        let pickWordTimer = 18; // in seconds
         io.emit("pickaword");
-
         /* Function to set the time */
-        let pickTimerID = setInterval(function() {
-          if (pickWordTimer == 0) {
-            clearInterval(pickWordTimer);
-            io.emit("wordTimer", "DRAW!");
-          } else {
-            console.log("your timer: " + pickWordTimer);
-            io.emit('updateTimer', pickWordTimer);
-          }
-          pickWordTimer -= 1;
-        }, 1000);
-
+        setTimer(pickWordTimer, "pick");
+        
+        /* Here is where we get the round time */
         setTimeout(() => {
-            clearInterval(pickTimerID);
-        }, (pickWordTimer+2)*1000);
-
-        let gameTimerID = setInterval(function() {
-            console.log("test");
-        }, 50000);
-    
+            setTimer(drawTime, "draw");
+        }, (pickWordTimer+1)*1000);
     });
+
+    function setTimer(time, timertype) {
+        var refresh = setInterval(function() {
+            if (time == 0) {
+              if (timertype == "pick") {
+                io.emit("updateTimer", "DRAW!");
+              } else {
+                io.emit("updateTimer", "Time's up");
+              }
+              clearInterval(refresh);
+
+            } else {
+              console.log("your timer: " + time);
+              io.emit('updateTimer', time);
+            }
+            time -= 1;
+          }, 1000);
+    }
 
 
 });

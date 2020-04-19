@@ -67,7 +67,7 @@ async function getRoomLimit(roomCode) {
     try {
         var allRoomsSnapShot = await query.get();
         allRoomsSnapShot.forEach(doc => {
-            if (doc.data().roomCode == roomCode) {
+            if (doc.data().roomCode === roomCode) {
                 roomLimit = doc.data().roomLimit;
             }
         })
