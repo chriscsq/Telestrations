@@ -62,13 +62,14 @@ let assignWord = (word = vueMain.wordList[0].trim()) => {
 
 socket.on("changedRound", data => {
   console.log('Changed round', data);
-  document.getElementById('chosenImage').src = data;
+  let myImage = data[Cookies.get('username')];
+  document.getElementById('chosenImage').src = myImage;
   document.getElementById('myCanvas').style.display = 'none'
   document.getElementById('chosenImage').style.display = 'block'
 
-  setTimeout(function() {
-   // $(document.getElementById("chosenImage")).fadeOut('fast');
-   document.getElementById('myCanvas').style.display = 'block'
+  setTimeout(function () {
+    // $(document.getElementById("chosenImage")).fadeOut('fast');
+    document.getElementById('myCanvas').style.display = 'block'
   }, 15000);
 });
 
@@ -79,11 +80,8 @@ socket.on("connect", () => {
 
 async function changeRound() {
   console.log('Round done');
-  if (isLeader) {
-    console.log('Changing round');
-    let bookOwners = await getPlayersInRoom(gameRoomCode);
-    socket.emit("roundChange", { gameRoomCode, bookOwners });
-  }
+  let bookOwners = await getPlayersInRoom(gameRoomCode);
+  socket.emit("roundChange", { gameRoomCode, bookOwners });
 };
 
 socket.on("pickaword", function () {
