@@ -1,4 +1,5 @@
 let vueMain;
+let gameRoomCode = Cookies.get('roomCode');
 
 window.onload = async () => {
   vueMain = new Vue({
@@ -16,10 +17,10 @@ window.onload = async () => {
     methods: {
 
       async getPlayerList() {
-        return this.playerList = await getPlayersInRoom("GCWD");
+        return this.playerList = await getPlayersInRoom(gameRoomCode);
       },
       async getTimeLimit() {
-        return this.timers = await getTimeLimit("GCWD");
+        return this.timers = await getTimeLimit(gameRoomCode);
       },
       async getWordList() {
         return this.wordList = await getWordList();
@@ -49,7 +50,6 @@ let assignWord = (word = vueMain.wordList[0].trim()) => {
 }
 
 let socket = io();
-let gameRoomCode = Cookies.get('roomCode');
 
 socket.on("connect", () => {
   socket.emit('gameConnect', { roomCode: gameRoomCode });
@@ -79,8 +79,8 @@ async function startGame() {
   //let socket = io('/'+ roomCode);
   console.log('start game pressed');
 
-  let rounds = await getRoomLimit("GCWD");
-  let drawLimit = await getTimeLimit("GCWD");
+  let rounds = await getRoomLimit(gameRoomCode);
+  let drawLimit = await getTimeLimit(gameRoomCode);
 
   Promise.all([rounds, drawLimit]).then(() => {
     let roomInfo = {

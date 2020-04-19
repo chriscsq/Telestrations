@@ -47,6 +47,10 @@ async function getPlayersInRoom(roomCode) {
     }
     return playerList;
 }
+
+function setPlayerSnapshot(roomCode, callback) {
+    db.collection("game-rooms").doc(roomCode).onSnapshot(doc => callback(doc));
+}
 //module.exports = getRoomTimer;
 
 async function getWordList() {
@@ -76,7 +80,7 @@ async function getRoomLimit(roomCode) {
     return roomLimit;
 }
 
-async function sendImgToFirebase(image){
+async function sendImgToFirebase(image) {
     var storage = firebase.storage();
     var storageRef = storage.ref();
     var imagesRef = storageRef.child('images/' + 'canvas' + new Date().getTime());
@@ -111,26 +115,12 @@ async function sendImgToFirebase(image){
 }
 
 async function getUserIcons(playerList) {
-    var iconList = Array();
-    var iconMap;
-    let query = db.collection("players");
-    try {
-        var allPlayerSnapShot = await query.get();
-        playerList.then(function (players) {
-            for (var i = 0; i < players.length; i++) {
-                allPlayerSnapShot.forEach(doc => {
-                    if (doc.data().username == players[i]) {
-                        iconMap = Object();
-                        var icon = doc.data().usericon;
-                        iconMap.name = players[i];
-                        iconMap.icon = icon;
-                        iconList.push(iconMap);
-                    }
-                });
-            }
-        })
-    } catch (err) {
-        console.log("Error getting user icon", err)
+    let iconList = [];
+    let playerDB = db.collection("players");
+    for (let i = 0; i < playerList.length; i++) {
+        let playerData = await playerDB.where('username', '==', playerList[i]).get();
+        let icon = playerData.docs[0].data();
+        iconList.push(icon.usericon);
     }
     return iconList;
 }

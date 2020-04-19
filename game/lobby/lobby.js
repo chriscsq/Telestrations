@@ -41,30 +41,31 @@ var socket_io = io();
 var roomCode = Cookies.get("roomCode");
 document.getElementById("game-code").innerHTML += roomCode;
 
-var playerPromise = getPlayersInRoom(roomCode);
-var playerList = Promise.resolve(playerPromise);
-var playerIconPromise = getUserIcons(playerList)
-var iconList = Promise.resolve(playerIconPromise);
-
-playerList.then(function (players) {
+let updatePlayers = players => {
+  $("#room_players").empty();
   for (var i = 0; i < players.length; i++) {
     $("#room_players").append(`<b>${players[i]}</b> &nbsp &nbsp`);
   }
   $("#room_players").append("<br>");
-})
+};
 
-iconList.then(function (icons) {
-  for (var i = 0; i < icons.length; i++) {
-    var iconObject = icons[i];
-    var iconMap = Object.values(iconObject);
-    var icon = iconMap[1];
-    $("#player_icons").append(`<i class='${icon} avatar-size'></i>&nbsp &nbsp`);
+let updateIcons = async players => {
+  $("#player_icons").empty();
+  let icons = await getUserIcons(players);
+  for (let i = 0; i < icons.length; i++) {
+    $("#player_icons").append(`<i class='${icons[i]} avatar-size'></i>&nbsp &nbsp`);
   }
-})
+};
+
+setPlayerSnapshot(roomCode, async doc => {
+  let data = doc.data();
+  updatePlayers(data.players);
+  await updateIcons(data.players);
+});
 
 function validateForm() {
-  var numPlayers = $("#player-dropdown :selected").val();
-  var timeLimit = $("#time-dropdown :selected").val();
+  var numPlayers = parseInt($("#player-dropdown :selected").val());
+  var timeLimit = parseInt($("#time-dropdown :selected").val());
   if (numPlayers === "Number of players") {
     alert("Please select the room limit");
     if (timeLimit === "Seconds") {

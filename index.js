@@ -55,6 +55,7 @@ let generateRandomCode = (socket, user) => {
                     roomCode: randomCode,
                     roomLimit: 5,
                     timeLimit: 60,
+                    roomOwner: user,
                 };
                 db.collection('game-rooms').doc(randomCode).set(toAdd).then(() => {
                     console.log(`Room created as ${randomCode}`);
