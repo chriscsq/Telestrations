@@ -66,12 +66,12 @@ socket.on("changedRound", data => {
   document.getElementById('chosenImage').src = myImage;
   document.getElementById('myCanvas').style.display = 'none'
   document.getElementById('chosenImage').style.display = 'block'
-
-  setTimeout(function () {
-    // $(document.getElementById("chosenImage")).fadeOut('fast');
-    document.getElementById('myCanvas').style.display = 'block'
-  }, 15000);
 });
+
+
+socket.on("hidepicture", () => {
+  document.getElementById('myCanvas').style.display = 'block'
+})
 
 socket.on("connect", () => {
   // setPreviousBooks();
