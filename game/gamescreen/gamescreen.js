@@ -1,5 +1,6 @@
-window.onload = async() => {
-  var vueMain = new Vue({ el: '#app', 
+window.onload = async () => {
+  var vueMain = new Vue({
+    el: '#app',
     data: {
       playerList: [''],
       timers: [''],
@@ -11,26 +12,26 @@ window.onload = async() => {
       this.getWordList();
     },
     methods: {
-      
+
       async getPlayerList() {
-        return  this.playerList = await getPlayersInRoom("GCWD");
+        return this.playerList = await getPlayersInRoom("GCWD");
       },
       async getTimeLimit() {
         return this.timers = await getTimeLimit("GCWD");
       },
-      async getWordList(){
+      async getWordList() {
         return this.wordList = await getWordList();
       },
     }
   })
 
   //startGame();
-} 
+}
 
 Vue.component("timercomponent", {
   template: "#timer-component",
   props: ['value']
-  
+
 })
 
 Vue.component("playerlist", {
@@ -39,40 +40,49 @@ Vue.component("playerlist", {
 
 })
 
+let socket = io();
+
+socket.on("connect", () => {
+  console.log("connected here");
+});
+
+socket.on("pickaword", function () {
+  document.getElementById("overlay").style.display = "block";
+});
+
+socket.on("updateTimer", function (data) {
+  document.getElementById("timer").innerHTML = data;
+});
+
 // start game called on click
 async function startGame() {
   //Socket connects to the namespace of the gameroom
   document.getElementById("startgame").style.display = 'none';
   var roomCode = Cookies.get(roomCode);
   //let socket = io('/'+ roomCode);
-  let socket = io();
   console.log('start game pressed');
 
+  let rounds = await getRoomLimit("GCWD");
+  let drawLimit = await getTimeLimit("GCWD");
 
-  var rounds = await console.log(Promise.resolve(getRoomLimit("GCWD")));
-  var drawLimit = await getTimeLimit("GCWD");
-
-  let roomInfo = {};
-  let setObj = async function(maxRounds, drawTime) {
-    roomInfo.maxRounds = maxRounds;
-    roomInfo.drawTime = drawTime;
-  }
-
-
-
-  socket.on("connect", () => {
-    console.log("connected here");
+  Promise.all([rounds, drawLimit]).then(() => {
+    let roomInfo = {
+      rounds,
+      drawLimit,
+    };
     socket.emit('loadGame', roomInfo);
-  })
-
-  socket.on("pickaword", function() {
-    document.getElementById("overlay").style.display = "block";
   });
 
-  socket.on("updateTimer", function(data) {
-    document.getElementById("timer").innerHTML = data;
-  })
+  // var rounds = await getRoomLimit("GCWD");
+  // console.log('Rounds after promise', rounds);
+  // var drawLimit = await getTimeLimit("GCWD");
+  // console.log('Draw limit after promise', drawLimit[0]);
 
+  // let roomInfo = {};
+  // let setObj = async function (maxRounds, drawTime) {
+  //   roomInfo.maxRounds = maxRounds;
+  //   roomInfo.drawTime = drawTime;
+  // }
 }
 
 async function getAsyncRoomLimit(roomCode) {
@@ -80,20 +90,20 @@ async function getAsyncRoomLimit(roomCode) {
 }
 
   //pickTimer();
-  /*
-  while (game_over != true) {
+/*
+while (game_over != true) {
 
-    if (round == roundLimit) {
-        game_over = true;
-    }
-    pickWord(round);
+  if (round == roundLimit) {
+      game_over = true;
+  }
+  pickWord(round);
 
-    console.log(round);
-      //pickWord();
+  console.log(round);
+    //pickWord();
 
-    /* have people pick a word for 15 seconds */
-  
-    /* draw for 50 seconds */
-  
-    /* guess for 30 seconds */
-  
+  /* have people pick a word for 15 seconds */
+
+/* draw for 50 seconds */
+
+/* guess for 30 seconds */
+

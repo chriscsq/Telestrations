@@ -22,12 +22,12 @@
             <div class="col text-right my-auto">
                 <div id="loginButton" class="d-inline-flex flex-row">
                     <template v-if="isLoggedIn">
-                      <span id="user-banner" v-bind:style="userBannerStyle">
-                        <i id="user-icon" v-bind:class="userIconClasses" v-bind:style="userIconStyle"></i>
-                        <span id="username" v-bind:style="usernameStyle">
-                            {{ username }}
+                        <span id="user-banner" v-bind:style="userBannerStyle">
+                            <i id="user-icon" v-bind:class="userIconClasses" v-bind:style="userIconStyle"></i>
+                            <span id="username" v-bind:style="usernameStyle">
+                                {{ username }}
+                            </span>
                         </span>
-                      </span>
                         <span class="justify-content-center align-self-center btn btn-primary btn-lg"
                             v-on:click="click">
                             View Profile
@@ -94,6 +94,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-storage.js"></script>
     <script src="firebase_config.js"></script>
 
     <script src="index.js"></script>

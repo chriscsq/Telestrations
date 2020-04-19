@@ -211,47 +211,45 @@ io.on('connect', socket => {
     socket.on('disconnect', () => {
         console.log('Client disconnected');
     });
-    
+
 
     /* Gamescreen */
-    
+
     let gameOver = false;
     let currentRound = 0;
-    socket.on("loadGame", function(data) {
+    socket.on("loadGame", function (data) {
         let maxRounds = data;
 
         /* needs to get async values, right now they are hardcoded */
-        let pickWordTimer = 5; // in seconds
-        var drawTime = 10;
+        let pickWordTimer = 15; // in seconds
+        let drawTime = data.drawLimit[0];
+        console.log('Loaded stats: ', data);
 
         io.emit("pickaword");
         /* Function to set the time */
         setTimer(pickWordTimer, "pick");
-        
+
         /* Here is where we get the round time */
         setTimeout(() => {
             setTimer(drawTime, "draw");
-        }, (pickWordTimer+1)*1000);
+        }, (pickWordTimer + 1) * 1000);
     });
 
     function setTimer(time, timertype) {
-        var refresh = setInterval(function() {
+        var refresh = setInterval(function () {
             if (time == 0) {
-              if (timertype == "pick") {
-                io.emit("updateTimer", "DRAW!");
-              } else {
-                io.emit("updateTimer", "Time's up");
-              }
-              clearInterval(refresh);
-
+                if (timertype === "pick") {
+                    io.emit("updateTimer", "DRAW!");
+                } else {
+                    io.emit("updateTimer", "Time's up");
+                }
+                clearInterval(refresh);
             } else {
-              console.log("your timer: " + time);
-              io.emit('updateTimer', time);
+                console.log("your timer: " + time);
+                io.emit('updateTimer', time);
             }
             time -= 1;
-          }, 1000);
+        }, 1000);
     }
-
-
 });
 
