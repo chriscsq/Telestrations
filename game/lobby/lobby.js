@@ -46,11 +46,11 @@ var playerList = Promise.resolve(playerPromise);
 var playerIconPromise = getUserIcons(playerList)
 var iconList = Promise.resolve(playerIconPromise);
 
-playerList.then(function(players) {
-    for (var i = 0; i < players.length; i++) {
-        $("#room_players").append(`<b>${players[i]}</b> &nbsp &nbsp`);
-    }
-    $("#room_players").append("<br>");
+playerList.then(function (players) {
+  for (var i = 0; i < players.length; i++) {
+    $("#room_players").append(`<b>${players[i]}</b> &nbsp &nbsp`);
+  }
+  $("#room_players").append("<br>");
 })
 
 iconList.then(function (icons) {
@@ -62,27 +62,25 @@ iconList.then(function (icons) {
   }
 })
 
-
 function validateForm() {
-    var numPlayers = $("#player-dropdown :selected").val();
-    var timeLimit = $("#time-dropdown :selected").val();
+  var numPlayers = $("#player-dropdown :selected").val();
+  var timeLimit = $("#time-dropdown :selected").val();
+  if (numPlayers === "Number of players") {
+    alert("Please select the room limit");
+    if (timeLimit === "Seconds") {
+      alert("Please select a time limit");
+    }
+  } else if (timeLimit === "Seconds") {
+    alert("Please select a time limit");
     if (numPlayers === "Number of players") {
-        alert("Please select the room limit");
-        if (timeLimit === "Seconds") {
-            alert("Please select a time limit");
-        }
+      alert("Please select the room limit");
     }
-    else if (timeLimit === "Seconds") {
-        alert("Please select a time limit");
-        if (numPlayers === "Number of players") {
-            alert("Please select the room limit");
-        }
-    }
-
-    else {
-        updateTimeLimit(roomCode, timeLimit);
-        updateRoomLimit(roomCode, numPlayers);
-        $("#game-settings").submit();
-    }
-    
+  } else {
+    Promise.all([
+      updateTimeLimit(roomCode, timeLimit),
+      updateRoomLimit(roomCode, numPlayers),
+    ]).then(() => {
+      $("#game-settings").submit();
+    });
+  }
 }
