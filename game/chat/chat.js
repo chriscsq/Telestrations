@@ -13,7 +13,7 @@ let scrollToBottom = (container = '.message') => {
 }
 
 chatSocket.on('connect', () => {
-    chatSocket.emit('chat-connect', { code: code });
+    chatSocket.emit('chat-connect', { code });
 });
 
 chatSocket.on('chat-messages', data => {
