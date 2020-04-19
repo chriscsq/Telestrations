@@ -114,6 +114,11 @@
   height: 460px;
   border-radius: 5px;
   border-color: black;
+  display: block;
+}
+
+#chosenImage{
+  display: none;
 }
 
 .colorpicker {

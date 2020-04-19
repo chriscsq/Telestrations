@@ -16,7 +16,7 @@
             console.log('Connected to server');
 
             // Create a Whiteboard instance
-            const whiteboard = new Whiteboard(canvas, socket);
+            var whiteboard = new Whiteboard(canvas, socket);
 
             eraser.addEventListener("click", function () {
                 if (isEraser === false) {
@@ -91,6 +91,8 @@
                             console.log('timer ran out you can trigger download now')
                             whiteboard.download('image.png').then(() => {
                                 changeRound();
+                                whiteboard = new Whiteboard(canvas, socket);
+                                window.whiteboard = whiteboard;
                             });
                         }
                     }
