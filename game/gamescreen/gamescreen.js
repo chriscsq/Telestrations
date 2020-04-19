@@ -1,5 +1,7 @@
 let vueMain;
 let gameRoomCode = Cookies.get('roomCode');
+let isLeader = Cookies.get('isLeader') === "true";
+let socket = io();
 
 window.onload = async () => {
   vueMain = new Vue({
@@ -41,22 +43,42 @@ Vue.component("playerlist", {
   props: ['name'],
 });
 
+let startButton = new Vue({
+  el: "#startgame",
+  data: {
+    isLeader: false,
+  },
+});
+startButton.isLeader = isLeader;
+
 let pickedWord = false;
 
 let assignWord = (word = vueMain.wordList[0].trim()) => {
   document.getElementById("selectedWord").innerHTML = word;
   socket.emit('wordChosen', { user: Cookies.get('username') });
   pickedWord = true;
+  document.getElementById("overlay").style.display = "none";
 }
 
-let socket = io();
+socket.on("changedRound", data => {
+  console.log('Changed round', data);
+});
 
 socket.on("connect", () => {
+  setPreviousBooks();
   socket.emit('gameConnect', { roomCode: gameRoomCode });
 });
 
+let changeRound = async () => {
+  console.log('Round done');
+  if (isLeader) {
+    console.log('Changing round');
+    let bookOwners = await getPlayersInRoom(gameRoomCode);
+    socket.emit("roundChange", { gameRoomCode, bookOwners });
+  }
+};
+
 socket.on("pickaword", function () {
-  document.getElementById("startgame").style.display = 'none';
   document.getElementById("overlay").style.display = "block";
 });
 
@@ -67,6 +89,8 @@ socket.on("updateTimer", function (data) {
     }
     console.log('Start drawing');
     document.getElementById("waitOverlay").style.display = "none";
+  } else if (data === "Time's up") {
+    changeRound();
   }
   document.getElementById("timer").innerHTML = data;
 });
@@ -75,8 +99,6 @@ socket.on("updateTimer", function (data) {
 async function startGame() {
   //Socket connects to the namespace of the gameroom
   document.getElementById("startgame").style.display = 'none';
-  var roomCode = Cookies.get(roomCode);
-  //let socket = io('/'+ roomCode);
   console.log('start game pressed');
 
   let rounds = await getRoomLimit(gameRoomCode);
@@ -103,9 +125,9 @@ async function startGame() {
   // }
 }
 
-async function getAsyncRoomLimit(roomCode) {
-  return await getRoomLimit();
-}
+// async function getAsyncRoomLimit(roomCode) {
+//   return await getRoomLimit();
+// }
 
   //pickTimer();
 /*

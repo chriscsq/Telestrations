@@ -14,6 +14,7 @@ const db = admin.firestore();
 app.use(express.static('game/', { extensions: ['html'] }));
 
 let messages = {}
+let roundCounter = {}
 
 server.listen(80, () => {
     console.log('Game server started on port 80');
@@ -229,20 +230,19 @@ io.on('connect', socket => {
     });
 
     /* Gamescreen */
-
-    let gameOver = false;
-    let currentRound = 0;
-
     socket.on("gameConnect", data => {
         socket.join(data.roomCode);
+        if (!(data.roomCode in roundCounter)) {
+            roundCounter[data.roomCode] = 0;
+        }
     });
 
     socket.on("loadGame", function (data) {
         let maxRounds = data;
 
         /* needs to get async values, right now they are hardcoded */
-        let pickWordTimer = 15; // in seconds
-        let drawTime = data.drawLimit[0];
+        let pickWordTimer = 1; // in seconds
+        let drawTime = data.drawLimit;
         console.log('Loaded stats: ', data);
 
         io.to(data.roomCode).emit("pickaword");
@@ -255,9 +255,21 @@ io.on('connect', socket => {
         }, (pickWordTimer + 1) * 1000);
     });
 
+    socket.on("roundChange", async data => {
+        let urls = {};
+        for (let i = 0; i < data.bookOwners.length; i++) {
+            let idx = (i + roundCounter[data.roomCode]) % data.bookOwners.length;
+            let owner = data.bookOwners[idx];
+            let url = await getLatestImage(owner);
+            urls[owner] = url;
+        }
+        io.to(roomCode).emit("changedRound", urls);
+        roundCounter[data.roomCode]++;
+    });
+
     function setTimer(time, timertype, roomCode) {
         var refresh = setInterval(function () {
-            if (time == 0) {
+            if (time === 0) {
                 if (timertype === "pick") {
                     io.to(roomCode).emit("updateTimer", "DRAW!");
                 } else {
