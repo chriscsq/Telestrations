@@ -272,16 +272,16 @@ io.on('connect', socket => {
                 let url = await getLatestImage(owner);
                 urls[data.bookOwners[i]] = url;
             }
-          let timeToWait = 15;
-        setTimer(timeToWait, "viewPicture", data.gameRoomCode);
-          
-io.to(data.gameRoomCode).emit("changedRound", urls);
-          
-        let timeToGuess = 15;
-        setTimeout(() => {
-            setTimer(timeToGuess, "guess", data.gameRoomCode);
-            io.to(data.gameRoomCode).emit("hidepicture");
-        }, (timeToWait+1) * 1000);
+            let timeToWait = 15;
+            setTimer(timeToWait, "viewPicture", data.gameRoomCode);
+
+            io.to(data.gameRoomCode).emit("changedRound", urls);
+
+            let timeToGuess = 15;
+            setTimeout(() => {
+                setTimer(timeToGuess, "guess", data.gameRoomCode);
+                io.to(data.gameRoomCode).emit("hidepicture");
+            }, (timeToWait + 1) * 1000);
         }
     });
 
@@ -303,7 +303,7 @@ io.to(data.gameRoomCode).emit("changedRound", urls);
                     io.to(roomCode).emit('updateTimer', time);
                 } else {
                     io.to(roomCode).emit('updateTimer', time);
-                }                
+                }
             }
             time -= 1;
         }, 1000);
