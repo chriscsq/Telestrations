@@ -15,7 +15,6 @@ firebase.analytics();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-
 async function getTimeLimit(roomCode) {
     var timeLimit;
     let query = db.collection("game-rooms");
@@ -67,17 +66,18 @@ async function sendImgToFirebase(image) {
     var storageRef = storage.ref();
     var imagesRef = storageRef.child('images/' + 'canvas' + new Date().getTime());
     var file = image;
- 
     //string of current user would be passed in as owner here
     var username = Cookies.get('username')
     var chosenWord = document.getElementById("selectedWord").innerHTML
     var metadata = {
         customMetadata: {
-          'owner': username,
-          'activity': 'drawing',
-          'word': chosenWord
+            'owner': username,
+            'activity': 'drawing',
+            'word': chosenWord
         }
       }
+    }
+
     await imagesRef.put(file, metadata);
     console.log('image uploaded to firebase');
 
@@ -86,14 +86,11 @@ async function sendImgToFirebase(image) {
     let bookOwner = Cookies.get('username');
     let bookOwnerDocID = await getDocID(bookOwner);
     var playerRef = db.collection("players").doc(bookOwnerDocID);
-       
 
     try {
-
         playerRef.update({
-            previousBook1 : firebase.firestore.FieldValue.arrayUnion({imageOwner, imageURL : url, word : chosenWord})
+            previousBook1: firebase.firestore.FieldValue.arrayUnion({ imageOwner, imageURL: url, word: chosenWord })
         })
-
     } catch (err) {
         console.log("Error updating document", err);
     }
@@ -128,28 +125,26 @@ async function getUserIcons(playerList) {
 // Parameters : pick is either 0 or 1 (user customization or avatar customization)
 //              info1 is either username color or avatar depending on pick
 //              info2 is either banner color or avatar color depending on pick
-
 async function updateUserData (pick, info1, info2) {
     let docID = await getDocID(Cookies.get('username'));
     var playerRef = db.collection("players").doc(docID);
 
     try {
         if (pick === 0) {
-            await playerRef.update({
+            playerRef.update({
                 usernameColor: info1,
                 bannerColor: info2
-            });
+            })
         } else {
-            await playerRef.update({
+            playerRef.update({
                 usericon: info1,
                 iconColor: info2
-            });
+            })
         }
     } catch (err) {
         console.log("Error updating document", err);
     }
 }
-
 
 async function updateTimeLimit(roomCode, timeLimit) {
     let docID = '';
@@ -169,23 +164,21 @@ async function updateTimeLimit(roomCode, timeLimit) {
     } catch (err) {
         console.log("Error getting room document: ", err);
 
-async function getDocID (username1) {
 
+
+async function getDocID(username1) {
     let query = db.collection("players").where("username", "==", username1);
     try {
         var snapShot = await query.get();
         let docID = snapShot.docs[0].id;
         return docID;
-        
     } catch (err) {
         console.log("Error getting document ID", err);
     }
-
 }
 
 async function getSketchbook() {
     let docID = await getDocID(Cookies.get('username'));
-
     var playerRef = db.collection("players").doc(docID);
 
     try {
@@ -194,7 +187,6 @@ async function getSketchbook() {
     } catch (err) {
         console.log("Error getting Sketchbook from Database", err);
     }
-
 }
 
 async function updateRoomLimit(roomCode, roomLimit) {
@@ -219,11 +211,9 @@ async function updateRoomLimit(roomCode, roomLimit) {
 
 async function updateSavedBook(saveSlot, word, images, owners){
     let docID = await getDocID(Cookies.get('username'));
-    
-
     var playerRef = db.collection("players").doc(docID);
     let bookNum;
-    if(saveSlot === '1') {
+    if (saveSlot === '1') {
         bookNum = 'savedBook1';
     } else if (saveSlot === '2') {
         bookNum = 'savedBook2';
@@ -233,7 +223,7 @@ async function updateSavedBook(saveSlot, word, images, owners){
 
     var Book = {};
     Book[`${bookNum}`] = firebase.firestore.FieldValue.delete();
-    
+
     // Delete the saved slot from database
     try {
         playerRef.update(Book);
@@ -245,18 +235,16 @@ async function updateSavedBook(saveSlot, word, images, owners){
     Book = {};
     try {
         var i;
-        for(i = 0; i < owners.length; i++) {
-            Book[`${bookNum}`] = firebase.firestore.FieldValue.arrayUnion({imageOwner : owners[i], imageURL : images[i], word})
-            playerRef.update(Book); 
+        for (i = 0; i < owners.length; i++) {
+            Book[`${bookNum}`] = firebase.firestore.FieldValue.arrayUnion({ imageOwner: owners[i], imageURL: images[i], word })
+            playerRef.update(Book);
         }
-        
     } catch (err) {
         console.log("Error saving new sketchbook", err);
     }
-
 }
 
-async function setPreviousBooks () {
+async function setPreviousBooks() {
     let docID = await getDocID(Cookies.get('username'));
     var playerRef = db.collection("players").doc(docID);
 
@@ -268,18 +256,17 @@ async function setPreviousBooks () {
         data = docData.data();
         prev1 = data.previousBook1;
         prev2 = data.previousBook2;
-   
+
         try {
-            if(prev1 !== undefined) {
+            if (prev1 !== undefined) {
                 playerRef.update({
-                    previousBook1 : firebase.firestore.FieldValue.delete(),
-                    previousBook2 : firebase.firestore.FieldValue.delete(),
-                    previousBook3 : firebase.firestore.FieldValue.delete(),
-                    previousBook2 : prev1,
-                    previousBook3 : prev2
+                    previousBook1: firebase.firestore.FieldValue.delete(),
+                    previousBook2: firebase.firestore.FieldValue.delete(),
+                    previousBook3: firebase.firestore.FieldValue.delete(),
+                    previousBook2: prev1,
+                    previousBook3: prev2
                 });
             }
-
         } catch (err) {
             console.log("Error setting previous books", err);
         }
