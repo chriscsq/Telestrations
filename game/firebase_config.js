@@ -65,20 +65,38 @@ async function getWordList() {
 async function sendImgToFirebase(image) {
     var storage = firebase.storage();
     var storageRef = storage.ref();
-    var nameIncrement = 1;
     var imagesRef = storageRef.child('images/' + 'canvas' + new Date().getTime());
     var file = image;
+ 
     //string of current user would be passed in as owner here
+    var username = Cookies.get('username')
+    var chosenWord = document.getElementById("selectedWord").innerHTML
     var metadata = {
         customMetadata: {
-            'owner': 'owner name here',
-            'activity': 'drawing'
+          'owner': username,
+          'activity': 'drawing',
+          'word': chosenWord
         }
+      }
+    await imagesRef.put(file, metadata);
+    console.log('image uploaded to firebase');
+
+    let url = await imagesRef.getDownloadURL();
+    let imageOwner = Cookies.get('username');
+    let bookOwner = Cookies.get('username');
+    let bookOwnerDocID = await getDocID(bookOwner);
+    var playerRef = db.collection("players").doc(bookOwnerDocID);
+       
+
+    try {
+
+        playerRef.update({
+            previousBook1 : firebase.firestore.FieldValue.arrayUnion({imageOwner, imageURL : url, word : chosenWord})
+        })
+
+    } catch (err) {
+        console.log("Error updating document", err);
     }
-    await imagesRef.put(file, metadata).then(function (snapshot) {
-        console.log('blob uploaded to firebase.');
-        nameIncrement++;
-    });
 }
 
 async function getUserIcons(playerList) {
@@ -110,17 +128,9 @@ async function getUserIcons(playerList) {
 // Parameters : pick is either 0 or 1 (user customization or avatar customization)
 //              info1 is either username color or avatar depending on pick
 //              info2 is either banner color or avatar color depending on pick
-async function updateUserData(pick, info1, info2) {
-    let docID = '';
 
-    let query = db.collection("players").where("username", "==", Cookies.get('username'));
-    try {
-        var snapShot = await query.get();
-        docID = snapShot.docs[0].id;
-    } catch (err) {
-        console.log("Error getting document ID", err);
-    }
-
+async function updateUserData (pick, info1, info2) {
+    let docID = await getDocID(Cookies.get('username'));
     var playerRef = db.collection("players").doc(docID);
 
     try {
@@ -140,6 +150,7 @@ async function updateUserData(pick, info1, info2) {
     }
 }
 
+
 async function updateTimeLimit(roomCode, timeLimit) {
     let docID = '';
     let query = db.collection("game-rooms").where("roomCode", "==", roomCode);
@@ -157,6 +168,31 @@ async function updateTimeLimit(roomCode, timeLimit) {
         console.log("SUCCESSFUL UPDATE OF TIME LIMIT TO -- ", timeLimit);
     } catch (err) {
         console.log("Error getting room document: ", err);
+
+async function getDocID (username1) {
+
+    let query = db.collection("players").where("username", "==", username1);
+    try {
+        var snapShot = await query.get();
+        let docID = snapShot.docs[0].id;
+        return docID;
+        
+    } catch (err) {
+        console.log("Error getting document ID", err);
+    }
+
+}
+
+async function getSketchbook() {
+    let docID = await getDocID(Cookies.get('username'));
+
+    var playerRef = db.collection("players").doc(docID);
+
+    try {
+        let docData = await playerRef.get();
+        return docData.data();
+    } catch (err) {
+        console.log("Error getting Sketchbook from Database", err);
     }
 
 }
@@ -180,4 +216,74 @@ async function updateRoomLimit(roomCode, roomLimit) {
         console.log("Error getting room document: ", err);
     }
 
+
+async function updateSavedBook(saveSlot, word, images, owners){
+    let docID = await getDocID(Cookies.get('username'));
+    
+
+    var playerRef = db.collection("players").doc(docID);
+    let bookNum;
+    if(saveSlot === '1') {
+        bookNum = 'savedBook1';
+    } else if (saveSlot === '2') {
+        bookNum = 'savedBook2';
+    } else {
+        bookNum = 'savedBook3';
+    }
+
+    var Book = {};
+    Book[`${bookNum}`] = firebase.firestore.FieldValue.delete();
+    
+    // Delete the saved slot from database
+    try {
+        playerRef.update(Book);
+    } catch (err) {
+        console.log("Error deleting book", err);
+    }
+
+    // Update saved slot with new sketchbook chosen
+    Book = {};
+    try {
+        var i;
+        for(i = 0; i < owners.length; i++) {
+            Book[`${bookNum}`] = firebase.firestore.FieldValue.arrayUnion({imageOwner : owners[i], imageURL : images[i], word})
+            playerRef.update(Book); 
+        }
+        
+    } catch (err) {
+        console.log("Error saving new sketchbook", err);
+    }
+
+}
+
+async function setPreviousBooks () {
+    let docID = await getDocID(Cookies.get('username'));
+    var playerRef = db.collection("players").doc(docID);
+
+    let prev1;
+    let prev2;
+
+    try {
+        let docData = await playerRef.get();
+        data = docData.data();
+        prev1 = data.previousBook1;
+        prev2 = data.previousBook2;
+   
+        try {
+            if(prev1 !== undefined) {
+                playerRef.update({
+                    previousBook1 : firebase.firestore.FieldValue.delete(),
+                    previousBook2 : firebase.firestore.FieldValue.delete(),
+                    previousBook3 : firebase.firestore.FieldValue.delete(),
+                    previousBook2 : prev1,
+                    previousBook3 : prev2
+                });
+            }
+
+        } catch (err) {
+            console.log("Error setting previous books", err);
+        }
+    } catch (err) {
+        console.log("Error getting Sketchbook from Database", err);
+    }
 }
