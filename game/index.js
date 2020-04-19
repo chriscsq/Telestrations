@@ -45,6 +45,15 @@ let loginButton = new Vue({
                 window.location.href = 'login/login.html';
             }
         },
+        logout: function (event) {
+            for (let c of document.cookie.split(';')) {
+                let name = c.split('=')[0].trim();
+                if (name.length > 0) {
+                    Cookies.remove(name);
+                }
+            }
+            window.location.reload();
+        }
     },
 });
 
