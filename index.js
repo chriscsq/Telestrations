@@ -13,8 +13,9 @@ const db = admin.firestore();
 
 app.use(express.static('game/', { extensions: ['html'] }));
 
-let messages = {}
-let roundCounter = {}
+let messages = {};
+let roundCounter = {};
+let finishCounter = {};
 
 server.listen(80, () => {
     console.log('Game server started on port 80');
@@ -234,6 +235,7 @@ io.on('connect', socket => {
         socket.join(data.roomCode);
         if (!(data.roomCode in roundCounter)) {
             roundCounter[data.roomCode] = 0;
+            finishCounter[data.roomCode] = 0;
         }
     });
 
@@ -257,34 +259,30 @@ io.on('connect', socket => {
     });
 
     socket.on("roundChange", async data => {
-        let urls = {};
-        
-        for (let i = 0; i < data.bookOwners.length; i++) {
-            let idx = (i + roundCounter[data.roomCode]) % data.bookOwners.length;
-            let owner = data.bookOwners[idx];
-            try {
-            let url = await getLatestImage(owner);
-            urls[owner] = url;
-            } catch (err) {
-                console.log("ERROR IN FOR LOOP");
+        finishCounter[data.gameRoomCode]++;
+        if (finishCounter[data.gameRoomCode] === data.bookOwners.length) {
+            finishCounter[data.gameRoomCode] = 0;
+            roundCounter[data.gameRoomCode]++;
+            console.log(data.bookOwners);
+            let urls = {};
+            for (let i = 0; i < data.bookOwners.length; i++) {
+                let idx = (i + roundCounter[data.gameRoomCode]) % data.bookOwners.length;
+                let owner = data.bookOwners[idx];
+                console.log('Looking for', owner, idx);
+                let url = await getLatestImage(owner);
+                urls[data.bookOwners[i]] = url;
             }
-
-        }
-        let url = await getLatestImage('username');
-        console.log("URL: " + url);
-    
-        var timeToWait = 15;
-
+          let timeToWait = 15;
         setTimer(timeToWait, "viewPicture", data.gameRoomCode);
-        io.to(data.gameRoomCode).emit("changedRound", url);
-
-        var timeToGuess = 15;
+          
+io.to(data.gameRoomCode).emit("changedRound", urls);
+          
+        let timeToGuess = 15;
         setTimeout(() => {
             setTimer(timeToGuess, "guess", data.gameRoomCode);
             io.to(data.gameRoomCode).emit("hidepicture");
         }, (timeToWait+1) * 1000);
-
-        roundCounter[data.gameRoomCode]++;
+        }
     });
 
     function setTimer(time, timertype, roomCode) {
@@ -314,72 +312,22 @@ io.on('connect', socket => {
     socket.on("wordChosen", data => {
         let user = data.user;
         console.log(`${user} chose a word`);
-    })
+    });
 
     // Given a book owner, this function will return a url of the latest image uploaded to that book
     async function getLatestImage(bookOwner) {
-        // console.log("INSIDE METHOD");
-        // console.log("Book Owner: " + bookOwner);
         let docID = await getDocID(bookOwner);
-        // console.log("docID : " + docID);
-        // let docID = await getDocID('username');
-        var playerRef = db.collection("players").doc(docID);
-
-        try {
-            let docData = await playerRef.get();
-            let data = docData.data();
-            // console.log("DATA: ", data.previousBook1);
-            // let latestURL = data.previousBook1[previousBook1.length - 1].imageURL;
-            let latestURL = data.previousBook1[data.previousBook1.length - 1].imageURL;
-            console.log('LATEST GET', latestURL);
-            return latestURL;
-        } catch (err) {
-            console.log("Error getting Sketchbook from Database", err);
-        }
+        let playerRef = db.collection("players").doc(docID);
+        let docData = await playerRef.get();
+        let data = docData.data();
+        let latestURL = data.previousBook1[data.previousBook1.length - 1].imageURL;
+        return latestURL;
     }
 
     async function getDocID(username1) {
         let query = db.collection("players").where("username", "==", username1);
-        try {
-            var snapShot = await query.get();
-            let docID = snapShot.docs[0].id;
-            return docID;
-        } catch (err) {
-            console.log("Error getting document ID", err);
-        }
+        let snapShot = await query.get();
+        let docID = snapShot.docs[0].id;
+        return docID;
     }
-
 });
-
-// // Given a book owner, this function will return a url of the latest image uploaded to that book
-// async function getLatestImage(bookOwner) {
-//     console("INSIDE METHOD");
-//     console.log("Book Owner: " + bookOwner);
-//     let docID = await getDocID(bookOwner);
-//     console.log("docID : " + docID);
-//     // let docID = await getDocID('username');
-//     var playerRef = db.collection("players").doc(docID);
-
-//     try {
-//         let docData = await playerRef.get();
-//         let data = docData.data();
-//         let latestURL = data.previousBook1[previousBook1.length - 1].imageURL;
-//         console.log(latestURL);
-//         return latestURL;
-//     } catch (err) {
-//         console.log("Error getting Sketchbook from Database", err);
-//     }
-// }
-
-// async function getDocID(username1) {
-//     let query = db.collection("players").where("username", "==", username1);
-//     try {
-//         var snapShot = await query.get();
-//         let docID = snapShot.docs[0].id;
-//         return docID;
-//     } catch (err) {
-//         console.log("Error getting document ID", err);
-//     }
-// }
-
-
