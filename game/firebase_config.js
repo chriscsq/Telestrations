@@ -26,7 +26,7 @@ async function getTimeLimit(roomCode) {
                 timeLimit = doc.data().timeLimit;
                 console.log(doc.data().timeLimit);
             }
-        })
+        });
     } catch (err) {
         console.log("Error getting document", err);
     }
@@ -42,7 +42,7 @@ async function getPlayersInRoom(roomCode) {
             if (doc.data().roomCode == roomCode) {
                 playerList = doc.data().players;
             }
-        })
+        });
     } catch (err) {
         console.log("Error getting document", err);
     }
@@ -56,30 +56,29 @@ async function getWordList() {
     var wordList = snapshot.data().phrase;
     var threeRandom = [];
 
-    const shuffled = wordList.sort(()=> 0.5 - Math.random());
+    const shuffled = wordList.sort(() => 0.5 - Math.random());
     threeRandom = shuffled.slice(0, 3);
     console.log(threeRandom)
     return threeRandom;
 }
 
-async function sendImgToFirebase(image){
-
+async function sendImgToFirebase(image) {
     var storage = firebase.storage();
     var storageRef = storage.ref();
     var nameIncrement = 1;
-    var imagesRef = storageRef.child('images/'+ 'canvas' + new Date().getTime());
+    var imagesRef = storageRef.child('images/' + 'canvas' + new Date().getTime());
     var file = image;
     //string of current user would be passed in as owner here
     var metadata = {
         customMetadata: {
-          'owner': 'owner name here',
-          'activity': 'drawing'
+            'owner': 'owner name here',
+            'activity': 'drawing'
         }
-      }
-    imagesRef.put(file, metadata).then(function(snapshot) {
+    }
+    await imagesRef.put(file, metadata).then(function (snapshot) {
         console.log('blob uploaded to firebase.');
         nameIncrement++;
-    })
+    });
 }
 
 async function getUserIcons(playerList) {
@@ -89,7 +88,7 @@ async function getUserIcons(playerList) {
     try {
         var allPlayerSnapShot = await query.get();
         playerList.then(function (players) {
-            for(var i = 0; i < players.length; i++) {
+            for (var i = 0; i < players.length; i++) {
                 allPlayerSnapShot.forEach(doc => {
                     if (doc.data().username == players[i]) {
                         iconMap = Object();
@@ -98,9 +97,9 @@ async function getUserIcons(playerList) {
                         iconMap.icon = icon;
                         iconList.push(iconMap);
                     }
-                })
+                });
             }
-        }) 
+        })
     } catch (err) {
         console.log("Error getting user icon", err)
     }
@@ -111,14 +110,13 @@ async function getUserIcons(playerList) {
 // Parameters : pick is either 0 or 1 (user customization or avatar customization)
 //              info1 is either username color or avatar depending on pick
 //              info2 is either banner color or avatar color depending on pick
-async function updateUserData (pick, info1, info2) {
+async function updateUserData(pick, info1, info2) {
     let docID = '';
 
     let query = db.collection("players").where("username", "==", Cookies.get('username'));
     try {
         var snapShot = await query.get();
         docID = snapShot.docs[0].id;
-        
     } catch (err) {
         console.log("Error getting document ID", err);
     }
@@ -126,17 +124,17 @@ async function updateUserData (pick, info1, info2) {
     var playerRef = db.collection("players").doc(docID);
 
     try {
-        if(pick === 0) {
-            playerRef.update({
-                usernameColor : info1,
-                bannerColor : info2
-            })
+        if (pick === 0) {
+            await playerRef.update({
+                usernameColor: info1,
+                bannerColor: info2
+            });
         } else {
-            playerRef.update({
-                usericon : info1,
-                iconColor : info2
-            })
-        }     
+            await playerRef.update({
+                usericon: info1,
+                iconColor: info2
+            });
+        }
     } catch (err) {
         console.log("Error updating document", err);
     }
@@ -148,15 +146,14 @@ async function updateTimeLimit(roomCode, timeLimit) {
     try {
         var snapShot = await query.get();
         docID = snapShot.docs[0].id;
-        
     } catch (err) {
         console.log("Error getting document ID", err);
     }
     var roomRef = db.collection("game-rooms").doc(docID);
     try {
-        roomRef.update({
-            timeLimit : timeLimit
-        })
+        await roomRef.update({
+            timeLimit: timeLimit
+        });
         console.log("SUCCESSFUL UPDATE OF TIME LIMIT TO -- ", timeLimit);
     } catch (err) {
         console.log("Error getting room document: ", err);
@@ -170,15 +167,14 @@ async function updateRoomLimit(roomCode, roomLimit) {
     try {
         var snapShot = await query.get();
         docID = snapShot.docs[0].id;
-        
     } catch (err) {
         console.log("Error getting document ID", err);
     }
     var roomRef = db.collection("game-rooms").doc(docID);
     try {
-        roomRef.update({
-            roomLimit : roomLimit
-        })
+        await roomRef.update({
+            roomLimit: roomLimit
+        });
         console.log("SUCCESSFUL UPDATE OF ROOM LIMIT TO -- ", roomLimit);
     } catch (err) {
         console.log("Error getting room document: ", err);
