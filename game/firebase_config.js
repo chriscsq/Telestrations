@@ -106,7 +106,7 @@ async function sendImgToFirebase(image) {
     var playerRef = db.collection("players").doc(bookOwnerDocID);
 
     try {
-        playerRef.update({
+        await playerRef.update({
             previousBook1: firebase.firestore.FieldValue.arrayUnion({ imageOwner, imageURL: url, word: chosenWord })
         })
     } catch (err) {
