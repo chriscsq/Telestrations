@@ -1,6 +1,6 @@
 let user = Cookies.get('username');
 let code = Cookies.get('roomCode');
-let socket = io();
+let chatSocket = io();
 
 console.log('In chat');
 
@@ -12,11 +12,11 @@ let scrollToBottom = (container = '.message') => {
     }
 }
 
-socket.on('connect', () => {
-    socket.emit('chat-connect', { code: code });
+chatSocket.on('connect', () => {
+    chatSocket.emit('chat-connect', { code: code });
 });
 
-socket.on('chat-messages', data => {
+chatSocket.on('chat-messages', data => {
     console.log(data);
     $('#messages').empty();
     $('#messages').append('<div style="height: 210px;"></div>');
@@ -41,7 +41,7 @@ $(document).on('keypress', '#input', event => {
         let message = $('#input').val().toString();
 
         if (message.length > 0) {
-            socket.emit('chat-message', { user: user, message: message, code: code });
+            chatSocket.emit('chat-message', { user: user, message: message, code: code });
             $('#input').val('')
         }
     }
