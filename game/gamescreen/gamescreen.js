@@ -1,5 +1,7 @@
+let vueMain;
+
 window.onload = async () => {
-  var vueMain = new Vue({
+  vueMain = new Vue({
     el: '#app',
     data: {
       playerList: [''],
@@ -47,10 +49,15 @@ socket.on("connect", () => {
 });
 
 socket.on("pickaword", function () {
+  document.getElementById("startgame").style.display = 'none';
   document.getElementById("overlay").style.display = "block";
 });
 
 socket.on("updateTimer", function (data) {
+  if (data === "DRAW!") {
+    console.log('Start drawing');
+    document.getElementById("waitOverlay").style.display = "none";
+  }
   document.getElementById("timer").innerHTML = data;
 });
 
@@ -87,6 +94,10 @@ async function startGame() {
 
 async function getAsyncRoomLimit(roomCode) {
   return await getRoomLimit();
+}
+
+let assignWord = () => {
+  document.getElementById("selectedWord").innerHTML = vueMain.wordList[0].trim();
 }
 
   //pickTimer();

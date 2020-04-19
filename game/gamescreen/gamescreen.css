@@ -24,7 +24,6 @@
 #userlist-container {
   border-radius: 5px;
   padding: 0px;
-  
 }
 
 #userlist {
@@ -32,7 +31,7 @@
   padding: 0px;
 }
 
-#userlist > li {
+#userlist>li {
   color: var(--grey-font);
   padding: 2px;
   line-height: 6vh;
@@ -43,7 +42,7 @@
   font-size: calc(0.75em + 1vmin);
 }
 
-#userlist > li:nth-child(odd) {
+#userlist>li:nth-child(odd) {
   background: var(--light-yellow);
 }
 
@@ -53,7 +52,7 @@
 }
 
 #whiteboard-container {
-  position:relative;
+  position: relative;
   padding: 5px;
   height: inherit;
   border-radius: 5px;
@@ -65,13 +64,13 @@
   background: white;
   height: 100%;
   border-top-left-radius: 5px;
-  border-bottom-left-radius:5px;
+  border-bottom-left-radius: 5px;
 }
 
 #palette {
   background: #EFEFEF;
   border-top-right-radius: 5px;
-  border-bottom-right-radius:5px;
+  border-bottom-right-radius: 5px;
   display: flex;
   flex-direction: column;
 }
@@ -79,7 +78,7 @@
 #chat {
   background: white;
   border-radius: 5px;
-  border:  #1D97FF solid 5px;
+  border: #1D97FF solid 5px;
 }
 
 #telestrations {
@@ -98,7 +97,6 @@
   font-family: 'Love Ya Like A Sister', cursive;
   font-size: 3.5vw;
   transform: rotate(-10deg);
-
 }
 
 #players-title {
@@ -106,12 +104,12 @@
   font-weight: bold;
   color: var(--blue-titles);
   text-shadow: .2vw .2vw var(--blue-shadow);
-  font-size: calc(1.2em + 1vmin);;
-  
+  font-size: calc(1.2em + 1vmin);
+  ;
 }
 
 #myCanvas {
-  background-color:white;
+  background-color: white;
   width: 670px;
   height: 460px;
   border-radius: 5px;
@@ -123,7 +121,7 @@
   justify-content: left;
 }
 
-#overlay {
+#overlay, #waitOverlay {
   position: fixed;
   display: none;
   width: 100%;
@@ -137,7 +135,11 @@
   cursor: pointer;
 }
 
-#overlayText{
+#waitOverlay {
+  z-index: 3;
+}
+
+#overlayText {
   position: absolute;
   top: 50%;
   left: 50%;
