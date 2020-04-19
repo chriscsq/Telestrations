@@ -257,21 +257,33 @@ io.on('connect', socket => {
     });
 
     socket.on("roundChange", async data => {
-        // let urls = {};
-        // for (let i = 0; i < data.bookOwners.length; i++) {
-        //     let idx = (i + roundCounter[data.roomCode]) % data.bookOwners.length;
-        //     let owner = data.bookOwners[idx];
-        //     try {
-        //     let url = await getLatestImage(owner);
-        //     urls[owner] = url;
-        //     } catch (err) {
-        //         console.log("ERROR IN FOR LOOP");
-        //     }
+        let urls = {};
+        
+        for (let i = 0; i < data.bookOwners.length; i++) {
+            let idx = (i + roundCounter[data.roomCode]) % data.bookOwners.length;
+            let owner = data.bookOwners[idx];
+            try {
+            let url = await getLatestImage(owner);
+            urls[owner] = url;
+            } catch (err) {
+                console.log("ERROR IN FOR LOOP");
+            }
 
-        // }
+        }
         let url = await getLatestImage('username');
         console.log("URL: " + url);
+    
+        var timeToWait = 15;
+
+        setTimer(timeToWait, "viewPicture", data.gameRoomCode);
         io.to(data.gameRoomCode).emit("changedRound", url);
+
+        var timeToGuess = 15;
+        setTimeout(() => {
+            setTimer(timeToGuess, "guess", data.gameRoomCode);
+            io.to(data.gameRoomCode).emit("hidepicture");
+        }, (timeToWait+1) * 1000);
+
         roundCounter[data.gameRoomCode]++;
     });
 
@@ -280,13 +292,20 @@ io.on('connect', socket => {
             if (time === 0) {
                 if (timertype === "pick") {
                     io.to(roomCode).emit("updateTimer", "DRAW!");
+                } else if (timertype == "viewPicture") {
+                    io.to(roomCode).emit("updateTimer", "GUESS");
+                    io.to(roomCode).emit("hidepicture");
                 } else {
                     io.to(roomCode).emit("updateTimer", "Time's up");
+
                 }
                 clearInterval(refresh);
             } else {
-                console.log("your timer: " + time);
-                io.to(roomCode).emit('updateTimer', time);
+                if (timertype == "viewPicture") {
+                    io.to(roomCode).emit('updateTimer', time);
+                } else {
+                    io.to(roomCode).emit('updateTimer', time);
+                }                
             }
             time -= 1;
         }, 1000);

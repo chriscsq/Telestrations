@@ -61,16 +61,21 @@ let assignWord = (word = vueMain.wordList[0].trim()) => {
 }
 
 socket.on("changedRound", data => {
-  console.log('Changed round', data);
   document.getElementById('chosenImage').src = data;
   document.getElementById('myCanvas').style.display = 'none'
   document.getElementById('chosenImage').style.display = 'block'
-
+/*
   setTimeout(function() {
    // $(document.getElementById("chosenImage")).fadeOut('fast');
    document.getElementById('myCanvas').style.display = 'block'
   }, 15000);
+  */
 });
+
+
+socket.on("hidepicture", () => {
+  document.getElementById('myCanvas').style.display = 'block'
+})
 
 socket.on("connect", () => {
   // setPreviousBooks();
