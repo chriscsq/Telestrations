@@ -92,7 +92,7 @@ async function sendImgToFirebase(image){
     let bookOwner = Cookies.get('username');
     let bookOwnerDocID = await getDocID(bookOwner);
     var playerRef = db.collection("players").doc(bookOwnerDocID);
-    
+       
 
     try {
 
@@ -223,5 +223,40 @@ async function updateSavedBook(saveSlot, word, images, owners){
     } catch (err) {
         console.log("Error saving new sketchbook", err);
     }
+
+}
+
+async function setPreviousBooks () {
+    let docID = await getDocID(Cookies.get('username'));
+    var playerRef = db.collection("players").doc(docID);
+
+    let prev1;
+    let prev2;
+
+    try {
+        let docData = await playerRef.get();
+        data = docData.data();
+        prev1 = data.previousBook1;
+        prev2 = data.previousBook2;
+   
+        try {
+            if(prev1 !== undefined) {
+                playerRef.update({
+                    previousBook1 : firebase.firestore.FieldValue.delete(),
+                    previousBook2 : firebase.firestore.FieldValue.delete(),
+                    previousBook3 : firebase.firestore.FieldValue.delete(),
+                    previousBook2 : prev1,
+                    previousBook3 : prev2
+                });
+            }
+
+        } catch (err) {
+            console.log("Error setting previous books", err);
+        }
+    } catch (err) {
+        console.log("Error getting Sketchbook from Database", err);
+    }
+
+
 
 }

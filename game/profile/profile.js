@@ -120,6 +120,8 @@ let profile = new Vue({
     // get users data from firestore
     let data = await getSketchbook();
     // console.log("Data: ", data);
+    // setPreviousBooks();
+
 
     // set data for 3 previous books
     let previousBook1 = data.previousBook1;
