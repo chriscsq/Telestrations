@@ -69,7 +69,7 @@ socket.on("connect", () => {
   socket.emit('gameConnect', { roomCode: gameRoomCode });
 });
 
-let changeRound = async () => {
+async function changeRound() {
   console.log('Round done');
   if (isLeader) {
     console.log('Changing round');
@@ -89,8 +89,6 @@ socket.on("updateTimer", function (data) {
     }
     console.log('Start drawing');
     document.getElementById("waitOverlay").style.display = "none";
-  } else if (data === "Time's up") {
-    changeRound();
   }
   document.getElementById("timer").innerHTML = data;
 });

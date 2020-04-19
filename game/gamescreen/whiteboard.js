@@ -119,9 +119,15 @@ class Whiteboard {
         const lnk = document.createElement('a');
         lnk.download = filename;
         lnk.href = this.canvas.toDataURL();
-        this.canvas.toBlob(function(blob){
-            sendImgToFirebase(blob)
-        })
+        let canvas = this.canvas;
+
+        return new Promise(function (resolve, reject) {
+            canvas.toBlob(function (blob) {
+                sendImgToFirebase(blob).then(() => {
+                    resolve();
+                });
+            });
+        });
         // if (document.createEvent) {
         //     const e = document.createEvent('MouseEvents');
         //     e.initMouseEvent('click', true, true, window,
@@ -164,11 +170,11 @@ class Whiteboard {
         }
     }
 
-    enableEraser(){
+    enableEraser() {
         this.color = '#FFFFFF';
     }
 
-    disableEraser(){
+    disableEraser() {
         this.color = '#4d4d4d';
     }
 }

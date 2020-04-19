@@ -19,14 +19,14 @@
             const whiteboard = new Whiteboard(canvas, socket);
 
             eraser.addEventListener("click", function () {
-                if (isEraser === false){
+                if (isEraser === false) {
                     isEraser = true;
                     console.log('eraser is now true')
                     whiteboard.color = '#FFFFFF';
                     whiteboard.thickness = 15;
                     eraser.innerHTML = 'Pencil';
                 }
-                else{
+                else {
                     isEraser = false;
                     whiteboard.color = lastChosenColor;
                     whiteboard.thickness = 4;
@@ -35,66 +35,68 @@
                 }
             })
             colorSelect.addEventListener('change', (event) => {
-                if(event.target.value == "red"){
+                if (event.target.value == "red") {
                     console.log('red chosen')
                     whiteboard.color = lastChosenColor = '#f08080';
-                    if (whiteboard.thickness > 5){
+                    if (whiteboard.thickness > 5) {
                         whiteboard.color = '#ffffff'
                     }
-                } else if (event.target.value == "black"){
+                } else if (event.target.value == "black") {
                     console.log('black chosen')
                     whiteboard.color = lastChosenColor = '#000000';
-                    if (whiteboard.thickness > 5){
+                    if (whiteboard.thickness > 5) {
                         whiteboard.color = '#ffffff'
                     }
-                } else if (event.target.value == "blue"){
+                } else if (event.target.value == "blue") {
                     console.log('blue chosen')
                     whiteboard.color = lastChosenColor = '#87cefa';
-                    if (whiteboard.thickness > 5){
+                    if (whiteboard.thickness > 5) {
                         whiteboard.color = '#ffffff'
                     }
-                } else if (event.target.value == "green"){
+                } else if (event.target.value == "green") {
                     console.log('green chosen')
                     whiteboard.color = lastChosenColor = '#90ee90';
-                    if (whiteboard.thickness > 5){
+                    if (whiteboard.thickness > 5) {
                         whiteboard.color = '#ffffff'
                     }
-                } else if (event.target.value == "pink"){
+                } else if (event.target.value == "pink") {
                     console.log('pink chosen')
                     whiteboard.color = lastChosenColor = '#ffc0cb';
-                    if (whiteboard.thickness > 5){
+                    if (whiteboard.thickness > 5) {
                         whiteboard.color = '#ffffff'
                     }
-                } else if (event.target.value == "orange"){
+                } else if (event.target.value == "orange") {
                     console.log('orange chosen')
                     whiteboard.color = lastChosenColor = '#ffa07a';
-                    if (whiteboard.thickness > 5){
+                    if (whiteboard.thickness > 5) {
                         whiteboard.color = '#ffffff'
                     }
-                } else if (event.target.value == "yellow"){
+                } else if (event.target.value == "yellow") {
                     console.log('yellow chosen')
                     whiteboard.color = lastChosenColor = '#fafad2';
-                    if (whiteboard.thickness > 5){
+                    if (whiteboard.thickness > 5) {
                         whiteboard.color = '#ffffff'
                     }
-                } 
+                }
             })
             window.whiteboard = whiteboard;
 
-            var watchTimer = {watch: null, prev: timer.innerHTML}
+            var watchTimer = { watch: null, prev: timer.innerHTML }
 
-            function Watch(timerO, e){
-                timerO.watch = setInterval(function() {
-                    if (e.innerHTML != timerO.prev){
+            function Watch(timerO, e) {
+                timerO.watch = setInterval(function () {
+                    if (e.innerHTML != timerO.prev) {
                         timerO.prev = e.innerHTML;
-                        if (timerO.prev === "Time's up" || e.innerHTML === "Time's up"){
+                        if (timerO.prev === "Time's up" || e.innerHTML === "Time's up") {
                             console.log('timer ran out you can trigger download now')
-                            whiteboard.download('image.png')
+                            whiteboard.download('image.png').then(() => {
+                                changeRound();
+                            });
                         }
                     }
                 }, 1000);
             }
-            Watch(watchTimer, timer)
+            Watch(watchTimer, timer);
 
         });
     });
