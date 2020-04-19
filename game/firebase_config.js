@@ -66,15 +66,16 @@ async function sendImgToFirebase(image){
 
     var storage = firebase.storage();
     var storageRef = storage.ref();
-    var nameIncrement = 1;
     var imagesRef = storageRef.child('images/'+ 'canvas' + new Date().getTime());
     var file = image;
     let chosenWord = document.getElementById("selectedWord").innerHTML
 
     //string of current user would be passed in as owner here
+    var username = Cookies.get('username')
+    var chosenWord = document.getElementById("selectedWord").innerHTML
     var metadata = {
         customMetadata: {
-          'owner': 'owner name here',
+          'owner': username,
           'activity': 'drawing',
           'word': chosenWord
         }
@@ -103,8 +104,6 @@ async function sendImgToFirebase(image){
     } catch (err) {
         console.log("Error updating document", err);
     }
-
-    
 }
 
 async function getUserIcons(playerList) {

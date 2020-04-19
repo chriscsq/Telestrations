@@ -1,6 +1,6 @@
 
 window.onload = async() => {
-  new Vue({ el: '#app', 
+  var vueMain = new Vue({ el: '#app', 
     data: {
       playerList: [''],
       timers: [''],
@@ -11,23 +11,18 @@ window.onload = async() => {
       this.getTimeLimit();
       this.getWordList();
     },
-    updated() {
-      // this.getPlayerList();
-    },
     methods: {
+      
       async getPlayerList() {
-        /* replace param with Cookies.get(roomCode) after testing */
         return  this.playerList = await getPlayersInRoom("GCWD");
       },
       async getTimeLimit() {
-          /* replace param with Cookies.get(roomCode) after testing */
         return this.timers = await getTimeLimit("GCWD");
       },
       async getWordList(){
         console.log("wordList " + await getWordList());
         return this.wordList = await getWordList();
       },
-      
       async startGame() {
         /* replace param with Cookies.get(roomCode) after testing */
         let timers = await getTimeLimit("GCWD");
