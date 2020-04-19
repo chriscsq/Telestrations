@@ -61,6 +61,14 @@ setPlayerSnapshot(roomCode, async doc => {
   await updateIcons(data.players);
 });
 
+socket_io.on('connect', () => {
+  socket_io.emit('roomJoined', roomCode);
+});
+
+socket_io.on('gameStarted', () => {
+  $("#game-settings").submit();
+});
+
 function validateForm() {
   var numPlayers = parseInt($("#player-dropdown :selected").val());
   var timeLimit = parseInt($("#time-dropdown :selected").val());
@@ -79,7 +87,7 @@ function validateForm() {
       updateTimeLimit(roomCode, timeLimit),
       updateRoomLimit(roomCode, numPlayers),
     ]).then(() => {
-      $("#game-settings").submit();
+      socket_io.emit('startGame', roomCode);
     });
   }
 }
