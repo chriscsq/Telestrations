@@ -9,7 +9,7 @@
         var colorSelect = document.querySelector('.colorSelect');
         var timer = document.getElementById("timer");
         var isEraser = false;
-        var lastChosenColor;
+        var lastChosenColor = '#000000';
 
         socket.on('connect', () => {
             // At this point we have connected to the server
