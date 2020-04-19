@@ -51,22 +51,17 @@
         <!-- gamescreen, splits into whiteboard and palette -->
         <b-row id="whiteboard-container">
           <b-col cols="9" id="whiteboard">
-            <timercomponent v-for="timer in timers" :value="timer"></timercomponent>
+            <p id="timer"></p>
             <p id="telestrations">
               TELESTRATIONS
             </p>
-            <button id="startgame" onclick="startGame()">Start</button>
+            <button id="startgame" onclick="startGame()" v-if="isLeader">Start</button>
             <label>Your Word is:
               <p id="selectedWord"></p>
             </label>
             <canvas id="myCanvas"></canvas>
           </b-col>
 
-          <script type="text/x-template" id="timer-component">
-              <p id="timer">
-              {{value}}
-              </p>
-            </script>
           <b-col cols="3" id="palette">
             <div>
               <!-- <section class="colorpicker"> -->
