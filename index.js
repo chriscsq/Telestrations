@@ -205,6 +205,7 @@ io.on('connect', socket => {
         });
         io.to(data.roomCode).emit('chat-messages', { messages: messages[data.roomCode] });
     });
+
     socket.on('settings', data => {
         let response = {
             numPlayers: data.numPlayers,
@@ -218,11 +219,15 @@ io.on('connect', socket => {
         console.log('Client disconnected');
     });
 
-
     /* Gamescreen */
 
     let gameOver = false;
     let currentRound = 0;
+
+    socket.on("gameConnect", data => {
+        socket.join(data.roomCode);
+    });
+
     socket.on("loadGame", function (data) {
         let maxRounds = data;
 
@@ -231,28 +236,28 @@ io.on('connect', socket => {
         let drawTime = data.drawLimit[0];
         console.log('Loaded stats: ', data);
 
-        io.emit("pickaword");
+        io.to(data.roomCode).emit("pickaword");
         /* Function to set the time */
-        setTimer(pickWordTimer, "pick");
+        setTimer(pickWordTimer, "pick", data.roomCode);
 
         /* Here is where we get the round time */
         setTimeout(() => {
-            setTimer(drawTime, "draw");
+            setTimer(drawTime, "draw", data.roomCode);
         }, (pickWordTimer + 1) * 1000);
     });
 
-    function setTimer(time, timertype) {
+    function setTimer(time, timertype, roomCode) {
         var refresh = setInterval(function () {
             if (time == 0) {
                 if (timertype === "pick") {
-                    io.emit("updateTimer", "DRAW!");
+                    io.to(roomCode).emit("updateTimer", "DRAW!");
                 } else {
-                    io.emit("updateTimer", "Time's up");
+                    io.to(roomCode).emit("updateTimer", "Time's up");
                 }
                 clearInterval(refresh);
             } else {
                 console.log("your timer: " + time);
-                io.emit('updateTimer', time);
+                io.to(roomCode).emit('updateTimer', time);
             }
             time -= 1;
         }, 1000);

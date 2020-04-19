@@ -49,9 +49,10 @@ let assignWord = (word = vueMain.wordList[0].trim()) => {
 }
 
 let socket = io();
+let gameRoomCode = Cookies.get('roomCode');
 
 socket.on("connect", () => {
-  console.log("connected here");
+  socket.emit('gameConnect', { roomCode: gameRoomCode });
 });
 
 socket.on("pickaword", function () {
@@ -85,6 +86,7 @@ async function startGame() {
     let roomInfo = {
       rounds,
       drawLimit,
+      roomCode: gameRoomCode,
     };
     socket.emit('loadGame', roomInfo);
   });
