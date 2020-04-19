@@ -25,7 +25,7 @@ async function getTimeLimit(roomCode) {
                 timeLimit = doc.data().timeLimit;
                 console.log(doc.data().timeLimit);
             }
-        })
+        });
     } catch (err) {
         console.log("Error getting document", err);
     }
@@ -41,7 +41,7 @@ async function getPlayersInRoom(roomCode) {
             if (doc.data().roomCode == roomCode) {
                 playerList = doc.data().players;
             }
-        })
+        });
     } catch (err) {
         console.log("Error getting document", err);
     }
@@ -66,7 +66,6 @@ async function sendImgToFirebase(image) {
     var storageRef = storage.ref();
     var imagesRef = storageRef.child('images/' + 'canvas' + new Date().getTime());
     var file = image;
-
     //string of current user would be passed in as owner here
     var username = Cookies.get('username')
     var chosenWord = document.getElementById("selectedWord").innerHTML
@@ -76,11 +75,8 @@ async function sendImgToFirebase(image) {
             'activity': 'drawing',
             'word': chosenWord
         }
+      }
     }
-    // imagesRef.put(file, metadata).then(function(snapshot) {
-    //     console.log('blob uploaded to firebase.');
-    //     nameIncrement++;
-    // })
 
     await imagesRef.put(file, metadata);
     console.log('image uploaded to firebase');
@@ -116,7 +112,7 @@ async function getUserIcons(playerList) {
                         iconMap.icon = icon;
                         iconList.push(iconMap);
                     }
-                })
+                });
             }
         })
     } catch (err) {
@@ -129,7 +125,7 @@ async function getUserIcons(playerList) {
 // Parameters : pick is either 0 or 1 (user customization or avatar customization)
 //              info1 is either username color or avatar depending on pick
 //              info2 is either banner color or avatar color depending on pick
-async function updateUserData(pick, info1, info2) {
+async function updateUserData (pick, info1, info2) {
     let docID = await getDocID(Cookies.get('username'));
     var playerRef = db.collection("players").doc(docID);
 
@@ -149,6 +145,26 @@ async function updateUserData(pick, info1, info2) {
         console.log("Error updating document", err);
     }
 }
+
+async function updateTimeLimit(roomCode, timeLimit) {
+    let docID = '';
+    let query = db.collection("game-rooms").where("roomCode", "==", roomCode);
+    try {
+        var snapShot = await query.get();
+        docID = snapShot.docs[0].id;
+    } catch (err) {
+        console.log("Error getting document ID", err);
+    }
+    var roomRef = db.collection("game-rooms").doc(docID);
+    try {
+        await roomRef.update({
+            timeLimit: timeLimit
+        });
+        console.log("SUCCESSFUL UPDATE OF TIME LIMIT TO -- ", timeLimit);
+    } catch (err) {
+        console.log("Error getting room document: ", err);
+
+
 
 async function getDocID(username1) {
     let query = db.collection("players").where("username", "==", username1);
@@ -173,7 +189,27 @@ async function getSketchbook() {
     }
 }
 
-async function updateSavedBook(saveSlot, word, images, owners) {
+async function updateRoomLimit(roomCode, roomLimit) {
+    let docID = '';
+    let query = db.collection("game-rooms").where("roomCode", "==", roomCode);
+    try {
+        var snapShot = await query.get();
+        docID = snapShot.docs[0].id;
+    } catch (err) {
+        console.log("Error getting document ID", err);
+    }
+    var roomRef = db.collection("game-rooms").doc(docID);
+    try {
+        await roomRef.update({
+            roomLimit: roomLimit
+        });
+        console.log("SUCCESSFUL UPDATE OF ROOM LIMIT TO -- ", roomLimit);
+    } catch (err) {
+        console.log("Error getting room document: ", err);
+    }
+
+
+async function updateSavedBook(saveSlot, word, images, owners){
     let docID = await getDocID(Cookies.get('username'));
     var playerRef = db.collection("players").doc(docID);
     let bookNum;
