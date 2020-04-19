@@ -75,7 +75,6 @@ async function sendImgToFirebase(image) {
             'activity': 'drawing',
             'word': chosenWord
         }
-      }
     }
 
     await imagesRef.put(file, metadata);
@@ -125,7 +124,7 @@ async function getUserIcons(playerList) {
 // Parameters : pick is either 0 or 1 (user customization or avatar customization)
 //              info1 is either username color or avatar depending on pick
 //              info2 is either banner color or avatar color depending on pick
-async function updateUserData (pick, info1, info2) {
+async function updateUserData(pick, info1, info2) {
     let docID = await getDocID(Cookies.get('username'));
     var playerRef = db.collection("players").doc(docID);
 
@@ -163,8 +162,8 @@ async function updateTimeLimit(roomCode, timeLimit) {
         console.log("SUCCESSFUL UPDATE OF TIME LIMIT TO -- ", timeLimit);
     } catch (err) {
         console.log("Error getting room document: ", err);
-
-
+    }
+}
 
 async function getDocID(username1) {
     let query = db.collection("players").where("username", "==", username1);
@@ -207,9 +206,9 @@ async function updateRoomLimit(roomCode, roomLimit) {
     } catch (err) {
         console.log("Error getting room document: ", err);
     }
+}
 
-
-async function updateSavedBook(saveSlot, word, images, owners){
+async function updateSavedBook(saveSlot, word, images, owners) {
     let docID = await getDocID(Cookies.get('username'));
     var playerRef = db.collection("players").doc(docID);
     let bookNum;
