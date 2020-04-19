@@ -65,7 +65,7 @@ socket.on("changedRound", data => {
 });
 
 socket.on("connect", () => {
-  setPreviousBooks();
+  // setPreviousBooks();
   socket.emit('gameConnect', { roomCode: gameRoomCode });
 });
 
