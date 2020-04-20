@@ -56,7 +56,7 @@ startButton.isLeader = isLeader;
 let pickedWord = false;
 
 let assignWord = (word = vueMain.wordList[0].trim()) => {
-  document.getElementById("selectedWord").innerHTML = word;
+  document.getElementById("selectedWord").innerHTML = "Your word is: " + "<b>"+word+"</b>";
   socket.emit('wordChosen', { user: Cookies.get('username') });
   pickedWord = true;
   document.getElementById("overlay").style.display = "none";
@@ -69,14 +69,14 @@ socket.on("changedRound", data => {
   document.getElementById('chosenImage').src = myImage;
   document.getElementById('myCanvas').style.display = 'none'
   document.getElementById('chosenImage').style.display = 'block'
-  document.getElementById('selectedWordWrapper').innerHTML = 'Study the image! you will only get a few seconds to view it!'
+  //document.getElementById('selectedWordWrapper').innerHTML = 'Study the image! you will only get a few seconds to view it!'
 });
 
 
 socket.on("hidepicture", () => {
   document.getElementById('myCanvas').style.display = 'block'
   document.getElementById('chosenImage').style.display = 'none'
-  document.getElementById('selectedWordWrapper').innerHTML = 'Now, please guess the image you saw!'
+  //document.getElementById('selectedWordWrapper').innerHTML = 'Now, please guess the image you saw!'
 })
 
 socket.on("connect", () => {
@@ -122,6 +122,7 @@ async function startGame() {
       drawLimit,
       roomCode: gameRoomCode,
     };
+    console.log("startgame: ", roomInfo);
     socket.emit('loadGame', roomInfo);
   });
 

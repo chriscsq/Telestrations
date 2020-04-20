@@ -240,11 +240,9 @@ io.on('connect', socket => {
     });
 
     socket.on("loadGame", function (data) {
-        let maxRounds = data;
-
-        /* needs to get async values, right now they are hardcoded */
-        let pickWordTimer = 15; // in seconds
+        let pickWordTimer = 10; // in seconds
         let drawTime = data.drawLimit;
+
         // let drawTime = 2;
         console.log('Loaded stats: ', data);
 
@@ -314,8 +312,8 @@ io.on('connect', socket => {
                 clearInterval(refresh);
             } else {
                 io.to(roomCode).emit('updateTimer', time);
+                time -= 1;
             }
-            time -= 1;
         }, 1000);
     }
 
