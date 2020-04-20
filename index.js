@@ -305,7 +305,7 @@ io.on('connect', socket => {
                     io.to(roomCode).emit("updateTimer", "GUESS");
                     io.to(roomCode).emit("hidepicture");
                 } else if (timertype === "guess") {
-                    io.to(roomCode).emit("updateTimer", "DRAW AGAIN");
+                    io.to(roomCode).emit("updateTimer", "DRAW YOUR GUESS");
                 } else {
                     io.to(roomCode).emit("updateTimer", "Time's up");
                 }
