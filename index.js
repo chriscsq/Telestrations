@@ -13,7 +13,9 @@ const db = admin.firestore();
 
 app.use(express.static('game/', { extensions: ['html'] }));
 
-let messages = {}
+let messages = {};
+let roundCounter = {};
+let finishCounter = {};
 
 server.listen(80, () => {
     console.log('Game server started on port 80');
@@ -191,20 +193,20 @@ io.on('connect', socket => {
     });
 
     socket.on('chat-connect', data => {
-        socket.join(data.roomCode);
-        if (!(data.roomCode in messages)) {
-            messages[data.roomCode] = [];
+        socket.join(data.code);
+        if (!(data.code in messages)) {
+            messages[data.code] = [];
         }
-        socket.emit('chat-messages', { messages: messages[data.roomCode] });
+        socket.emit('chat-messages', { messages: messages[data.code] });
     });
 
     socket.on('chat-message', data => {
-        messages[data.roomCode].push({
+        messages[data.code].push({
             time: getTimestamp(),
             user: data.user,
             message: data.message,
         });
-        io.to(data.roomCode).emit('chat-messages', { messages: messages[data.roomCode] });
+        io.to(data.code).emit('chat-messages', { messages: messages[data.code] });
     });
 
     socket.on('settings', data => {
@@ -229,20 +231,19 @@ io.on('connect', socket => {
     });
 
     /* Gamescreen */
-
-    let gameOver = false;
-    let currentRound = 0;
-
     socket.on("gameConnect", data => {
         socket.join(data.roomCode);
+        if (!(data.roomCode in roundCounter)) {
+            roundCounter[data.roomCode] = 0;
+            finishCounter[data.roomCode] = 0;
+        }
     });
 
     socket.on("loadGame", function (data) {
-        let maxRounds = data;
+        let pickWordTimer = 10; // in seconds
+        let drawTime = data.drawLimit;
 
-        /* needs to get async values, right now they are hardcoded */
-        let pickWordTimer = 15; // in seconds
-        let drawTime = data.drawLimit[0];
+        // let drawTime = 2;
         console.log('Loaded stats: ', data);
 
         io.to(data.roomCode).emit("pickaword");
@@ -255,55 +256,85 @@ io.on('connect', socket => {
         }, (pickWordTimer + 1) * 1000);
     });
 
+    socket.on("roundChange", async data => {
+        finishCounter[data.gameRoomCode]++;
+        if (finishCounter[data.gameRoomCode] === data.bookOwners.length) {
+            finishCounter[data.gameRoomCode] = 0;
+            roundCounter[data.gameRoomCode]++;
+            console.log('Round number', roundCounter[data.gameRoomCode], data.bookOwners);
+            if (roundCounter[data.gameRoomCode] === data.bookOwners.length) {
+                console.log('Game done');
+                io.to(data.gameRoomCode).emit("gameOver");
+            } else {
+                console.log('Finding image urls')
+                let urls = {};
+                for (let i = 0; i < data.bookOwners.length; i++) {
+                    let idx = (i + roundCounter[data.gameRoomCode]) % data.bookOwners.length;
+                    let owner = data.bookOwners[idx];
+                    console.log('Looking for', owner, idx);
+                    let url = await getLatestImage(owner);
+                    urls[data.bookOwners[i]] = [url, owner];
+                }
+                let drawLimit = data.drawLimit;
+
+                let timeToWait = 10;
+                setTimer(timeToWait, "viewPicture", data.gameRoomCode);
+
+                io.to(data.gameRoomCode).emit("changedRound", urls);
+
+                let timeToView = 15;
+                setTimeout(() => {
+                    setTimer(timeToView, "guess", data.gameRoomCode);
+                }, (timeToWait + 1) * 1000);
+
+                setTimeout(() => {
+                    setTimer(drawLimit, "draw", data.gameRoomCode);
+                }, (timeToView + timeToWait + 1) * 1000);
+            }
+        }
+    });
+
     function setTimer(time, timertype, roomCode) {
-        var refresh = setInterval(function () {
-            if (time == 0) {
+        let refresh = setInterval(function () {
+            if (time === 0) {
                 if (timertype === "pick") {
                     io.to(roomCode).emit("updateTimer", "DRAW!");
+                } else if (timertype === "viewPicture") {
+                    io.to(roomCode).emit("updateTimer", "GUESS");
+                    io.to(roomCode).emit("hidepicture", "Hand write in a guess for the image you saw!");
+                } else if (timertype === "guess") {
+                    io.to(roomCode).emit("updateTimer", "DRAW YOUR GUESS");
+                    io.to(roomCode).emit("hidepicture", "Now draw what you guessed!");
                 } else {
                     io.to(roomCode).emit("updateTimer", "Time's up");
                 }
                 clearInterval(refresh);
             } else {
-                console.log("your timer: " + time);
                 io.to(roomCode).emit('updateTimer', time);
+                time -= 1;
             }
-            time -= 1;
         }, 1000);
     }
 
     socket.on("wordChosen", data => {
         let user = data.user;
         console.log(`${user} chose a word`);
-    })
-});
+    });
 
-// Given a book owner, this function will return a url of the latest image uploaded to that book
-async function getLatestImage(bookOwner) {
-    // let docID = await getDocID(bookOwner);
-    let docID = await getDocID('username');
-    var playerRef = db.collection("players").doc(docID);
-
-    try {
+    // Given a book owner, this function will return a url of the latest image uploaded to that book
+    async function getLatestImage(bookOwner) {
+        let docID = await getDocID(bookOwner);
+        let playerRef = db.collection("players").doc(docID);
         let docData = await playerRef.get();
         let data = docData.data();
-        let latestURL = data.previousBook1[previousBook1.length - 1].imageURL;
-        console.log(latestURL);
+        let latestURL = data.previousBook1[data.previousBook1.length - 1].imageURL;
         return latestURL;
-    } catch (err) {
-        console.log("Error getting Sketchbook from Database", err);
     }
-}
 
-async function getDocID(username1) {
-    let query = db.collection("players").where("username", "==", username1);
-    try {
-        var snapShot = await query.get();
+    async function getDocID(username1) {
+        let query = db.collection("players").where("username", "==", username1);
+        let snapShot = await query.get();
         let docID = snapShot.docs[0].id;
         return docID;
-    } catch (err) {
-        console.log("Error getting document ID", err);
     }
-}
-
-
+});

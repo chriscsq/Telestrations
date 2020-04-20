@@ -1,5 +1,9 @@
 let vueMain;
 let gameRoomCode = Cookies.get('roomCode');
+let isLeader = Cookies.get('isLeader') === "true";
+let socket = io();
+
+Cookies.set('currentOwner', Cookies.get('username'));
 
 window.onload = async () => {
   vueMain = new Vue({
@@ -41,22 +45,56 @@ Vue.component("playerlist", {
   props: ['name'],
 });
 
+let startButton = new Vue({
+  el: "#startgame",
+  data: {
+    isLeader: false,
+  },
+});
+startButton.isLeader = isLeader;
+
 let pickedWord = false;
 
 let assignWord = (word = vueMain.wordList[0].trim()) => {
-  document.getElementById("selectedWord").innerHTML = word;
+  document.getElementById("selectedWord").innerHTML = "Your word is: " + "<b>"+word+"</b>";
   socket.emit('wordChosen', { user: Cookies.get('username') });
   pickedWord = true;
+  document.getElementById("overlay").style.display = "none";
+  Cookies.set('chosenWord', word);
 }
 
-let socket = io();
+socket.on("changedRound", data => {
+  console.log('Changed round', data);
+  Cookies.set('currentOwner', data[Cookies.get('username')][1]);
+  let myImage = data[Cookies.get('username')][0];
+  document.getElementById('chosenImage').src = myImage;
+  document.getElementById('myCanvas').style.display = 'none'
+  document.getElementById('chosenImage').style.display = 'block'
+  //document.getElementById('selectedWordWrapper').innerHTML = 'Study the image! you will only get a few seconds to view it!'
+});
+
+
+socket.on("hidepicture", message => {
+  document.getElementById('myCanvas').style.display = 'block'
+  document.getElementById('chosenImage').style.display = 'none'
+  if (message) {
+    document.getElementById('selectedWordWrapper').innerHTML = message;
+  }
+});
 
 socket.on("connect", () => {
+  setPreviousBooks();
   socket.emit('gameConnect', { roomCode: gameRoomCode });
 });
 
+async function changeRound() {
+  console.log('Round done');
+  let bookOwners = await getPlayersInRoom(gameRoomCode);
+  let drawLimit = await getTimeLimit(gameRoomCode);
+  socket.emit("roundChange", { gameRoomCode, bookOwners, drawLimit });
+};
+
 socket.on("pickaword", function () {
-  document.getElementById("startgame").style.display = 'none';
   document.getElementById("overlay").style.display = "block";
 });
 
@@ -71,12 +109,15 @@ socket.on("updateTimer", function (data) {
   document.getElementById("timer").innerHTML = data;
 });
 
+socket.on("gameOver", () => {
+  console.log('Done game');
+  window.location.href = '../index.html';
+});
+
 // start game called on click
 async function startGame() {
   //Socket connects to the namespace of the gameroom
   document.getElementById("startgame").style.display = 'none';
-  var roomCode = Cookies.get(roomCode);
-  //let socket = io('/'+ roomCode);
   console.log('start game pressed');
 
   let rounds = await getRoomLimit(gameRoomCode);
@@ -88,40 +129,8 @@ async function startGame() {
       drawLimit,
       roomCode: gameRoomCode,
     };
+    console.log("startgame: ", roomInfo);
     socket.emit('loadGame', roomInfo);
   });
 
-  // var rounds = await getRoomLimit("GCWD");
-  // console.log('Rounds after promise', rounds);
-  // var drawLimit = await getTimeLimit("GCWD");
-  // console.log('Draw limit after promise', drawLimit[0]);
-
-  // let roomInfo = {};
-  // let setObj = async function (maxRounds, drawTime) {
-  //   roomInfo.maxRounds = maxRounds;
-  //   roomInfo.drawTime = drawTime;
-  // }
 }
-
-async function getAsyncRoomLimit(roomCode) {
-  return await getRoomLimit();
-}
-
-  //pickTimer();
-/*
-while (game_over != true) {
-
-  if (round == roundLimit) {
-      game_over = true;
-  }
-  pickWord(round);
-
-  console.log(round);
-    //pickWord();
-
-  /* have people pick a word for 15 seconds */
-
-/* draw for 50 seconds */
-
-/* guess for 30 seconds */
-

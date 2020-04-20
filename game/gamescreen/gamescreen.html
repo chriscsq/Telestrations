@@ -55,18 +55,24 @@
             <p id="telestrations">
               TELESTRATIONS
             </p>
-            <button id="startgame" onclick="startGame()" v-if="isLeader">Start</button>
-            <label>Your Word is:
-              <p id="selectedWord"></p>
-            </label>
+            <div id="selectedWordWrapper">
+              <p id="selectedWord">Your Word is:
+              </p>
+            </div>
             <canvas id="myCanvas"></canvas>
+            <div>
+              <img id="chosenImage" height="400px" width="600px">
+
+            </div>
           </b-col>
 
           <b-col cols="3" id="palette">
             <div>
               <!-- <section class="colorpicker"> -->
               <!-- <div class="pickr"></div> -->
-              <label>Choose your color:
+              <button id="startgame" onclick="startGame()" v-if="isLeader">Start</button>
+
+              <label class="colorlabel">Choose your color:
                 <select class="colorSelect" name="colorSelect">
                   <option value="">Select one..</option>
                   <option value="black" selected style="background-color: black; color: white;">Black</option>
@@ -79,7 +85,7 @@
                 </select>
               </label>
               <!-- </section> -->
-              <button type="button" id="eraser">Eraser</button>
+              <input type="image" src="https://i.imgur.com/PB7ggOx.png" id="eraser"/>
             </div>
           </b-col>
         </b-row>

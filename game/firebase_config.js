@@ -80,33 +80,53 @@ async function getRoomLimit(roomCode) {
     return roomLimit;
 }
 
+async function roomFull(roomCode) {
+    let roomFull;
+    let roomLimit;
+    let players;
+    try {
+        roomLimit = await getRoomLimit(roomCode);
+        players = await getPlayersInRoom(roomCode);
+    } catch (err) {
+        console.log(err);
+    }
+
+    if (players.length === roomLimit) {
+        roomFull = true;
+    }
+    else {
+        roomFull = false;
+    }
+    return roomFull;
+}
+
 async function sendImgToFirebase(image) {
     var storage = firebase.storage();
     var storageRef = storage.ref();
     var imagesRef = storageRef.child('images/' + 'canvas' + new Date().getTime());
     var file = image;
     //string of current user would be passed in as owner here
-    var username = Cookies.get('username')
-    var chosenWord = document.getElementById("selectedWord").innerHTML
+    var username = Cookies.get('username');
+    var chosenWord = Cookies.get('chosenWord');
     var metadata = {
         customMetadata: {
             'owner': username,
             'activity': 'drawing',
             'word': chosenWord
         }
-    }
+    };
 
     await imagesRef.put(file, metadata);
     console.log('image uploaded to firebase');
 
     let url = await imagesRef.getDownloadURL();
     let imageOwner = Cookies.get('username');
-    let bookOwner = Cookies.get('username');
+    let bookOwner = Cookies.get('currentOwner');
     let bookOwnerDocID = await getDocID(bookOwner);
     var playerRef = db.collection("players").doc(bookOwnerDocID);
 
     try {
-        playerRef.update({
+        await playerRef.update({
             previousBook1: firebase.firestore.FieldValue.arrayUnion({ imageOwner, imageURL: url, word: chosenWord })
         })
     } catch (err) {
