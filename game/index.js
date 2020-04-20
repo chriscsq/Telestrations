@@ -1,18 +1,5 @@
 let socket = io();
 
-if (Cookies.get('username') === undefined) {
-    let defaultUser = {
-        username: 'Anonymous',
-        usericon: 'fas fa-crow',
-        iconColor: '#5A5ACA',
-        bannerColor: '#5ACA5A',
-        usernameColor: '#CA5A5A',
-    };
-    for (key in defaultUser) {
-        Cookies.set(key, defaultUser[key]);
-    }
-}
-
 socket.on('create-room', data => {
     Cookies.set('roomCode', data.code);
     window.location.href = 'lobby/lobby.html';
@@ -30,7 +17,7 @@ socket.on('join-room', data => {
 let loginButton = new Vue({
     el: '#loginButton',
     data: {
-        isLoggedIn: Cookies.get('username') !== 'Anonymous',
+        isLoggedIn: Cookies.get('username') !== undefined,
         userIconClasses: 'justify-content-center align-self-center fas fa-3x ' + Cookies.get('usericon'),
         username: Cookies.get('username'),
         userIconStyle: { color: Cookies.get('iconColor') },
@@ -63,6 +50,8 @@ let playArea = new Vue({
         altButtonText: 'Create Room',
         roomCode: '',
         errorMsg: '',
+        isLoggedIn: loginButton.isLoggedIn,
+        playMessage: loginButton.isLoggedIn ? 'Play' : 'Please login to play',
     },
     methods: {
         createRoom: function (event) {
@@ -85,7 +74,7 @@ let playArea = new Vue({
                     } else {
                         socket.emit('join-room', { code: this.roomCode, user: Cookies.get('username') });
                     }
-                    
+
                 }
             } else {
                 this.altButtonText = 'Back';
