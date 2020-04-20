@@ -80,6 +80,26 @@ async function getRoomLimit(roomCode) {
     return roomLimit;
 }
 
+async function roomFull(roomCode) {
+    let roomFull;
+    let roomLimit;
+    let players;
+    try {
+        roomLimit = await getRoomLimit(roomCode);
+        players = await getPlayersInRoom(roomCode);
+    } catch (err) {
+        console.log(err);
+    }
+
+    if (players.length === roomLimit) {
+        roomFull = true;
+    }
+    else { 
+        roomFull = false;
+    }
+    return roomFull;
+}
+
 async function sendImgToFirebase(image) {
     var storage = firebase.storage();
     var storageRef = storage.ref();
