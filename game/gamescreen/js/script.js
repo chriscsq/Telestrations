@@ -25,8 +25,10 @@
                     whiteboard.color = '#FFFFFF';
                     whiteboard.thickness = 15;
                     eraser.innerHTML = 'Pencil';
+                    eraser.src="https://i.imgur.com/PB7ggOx.png"
                 }
                 else {
+                    eraser.src="https://i.imgur.com/BBNKLpl.png";
                     isEraser = false;
                     whiteboard.color = lastChosenColor;
                     whiteboard.thickness = 4;
