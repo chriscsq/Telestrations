@@ -3,10 +3,10 @@
 <html>
 
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<title>Telestrations</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Telestrations - Profile</title>
 
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
@@ -24,12 +24,13 @@
 
 			<div class="col-6" id="banner">
 				<div class="row banner-colour" :style="{backgroundColor: userInfo.bannerColor}">
-					<div class="col justify-content-center d-flex align-items-center username-font" :style="{color: userInfo.userColor}">{{userInfo.username}}</div>
+					<div class="col justify-content-center d-flex align-items-center username-font"
+						:style="{color: userInfo.userColor}">{{userInfo.username}}</div>
 				</div>
 				<div class="row change-btn-row">
 					<div class="col change-btn-parent">
-						<button v-on:click="setModalColor()" class="btn change-btn" data-toggle="modal" data-target="#changeColour"><i
-						class="material-icons">color_lens</i></button>
+						<button v-on:click="setModalColor()" class="btn change-btn" data-toggle="modal"
+							data-target="#changeColour"><i class="material-icons">color_lens</i></button>
 					</div>
 				</div>
 			</div>
@@ -47,32 +48,44 @@
 							</button>
 						</div>
 						<div class="modal-body modal-changeArea">
-							<div class="row modal-banner banner-colour" :style="{backgroundColor: modalInfo.bannerColor}">
-								<div class="col justify-content-center d-flex align-items-center username-font" :style="{color: modalInfo.userColor}">
+							<div class="row modal-banner banner-colour"
+								:style="{backgroundColor: modalInfo.bannerColor}">
+								<div class="col justify-content-center d-flex align-items-center username-font"
+									:style="{color: modalInfo.userColor}">
 									{{userInfo.username}}</div>
 							</div>
 							<div class="row modal-top-row">
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchModalColor(0)" class="btn"><i
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchModalColor(0)" class="btn"><i
 											class="fas fa-square color-size modal-first"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchModalColor(1)" class="btn"><i
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchModalColor(1)" class="btn"><i
 											class="fas fa-square color-size modal-second"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchModalColor(2)" class="btn"><i
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchModalColor(2)" class="btn"><i
 											class="fas fa-square color-size modal-third"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchModalColor(3)" class="btn"><i
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchModalColor(3)" class="btn"><i
 											class="fas fa-square color-size modal-fourth"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchModalColor(4)" class="btn"><i
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchModalColor(4)" class="btn"><i
 											class="fas fa-square color-size modal-fifth"></i></button></div>
 							</div>
 							<div class="row modal-bottom-row">
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchModalColor(5)" class="btn"><i
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchModalColor(5)" class="btn"><i
 											class="fas fa-square color-size modal-sixth"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchModalColor(6)" class="btn"><i
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchModalColor(6)" class="btn"><i
 											class="fas fa-square color-size modal-seventh"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchModalColor(7)" class="btn"><i
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchModalColor(7)" class="btn"><i
 											class="fas fa-square color-size modal-eighth"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchModalColor(8)" class="btn"><i
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchModalColor(8)" class="btn"><i
 											class="fas fa-square color-size modal-nineth"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchModalColor(9)" class="btn"><i
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchModalColor(9)" class="btn"><i
 											class="fas fa-square color-size modal-tenth"></i></button></div>
 							</div>
 						</div>
@@ -90,7 +103,8 @@
 								</div>
 							</div>
 							<div class="col">
-								<button v-on:click="saveModalColor()" type="button" class="btn btn-primary" data-dismiss="modal">Save Changes</button>
+								<button v-on:click="saveModalColor()" type="button" class="btn btn-primary"
+									data-dismiss="modal">Save Changes</button>
 							</div>
 						</div>
 					</div>
@@ -107,8 +121,8 @@
 				</div>
 				<div class="row change-btn-row">
 					<div class="col change-btn-parent">
-						<button v-on:click="setAvatar()" class="btn change-btn" data-toggle="modal" data-target="#changeAvatar"><i
-						class="material-icons">collections</i></button>
+						<button v-on:click="setAvatar()" class="btn change-btn" data-toggle="modal"
+							data-target="#changeAvatar"><i class="material-icons">collections</i></button>
 					</div>
 				</div>
 			</div>
@@ -128,32 +142,43 @@
 						<div class="modal-body modal-changeArea">
 							<div class="row">
 								<div class="col justify-content-center d-flex align-items-center">
-									<i class="fa-7x" :class="modalAvatar.avatar" :style="{color : modalAvatar.avatarColor}"></i>
+									<i class="fa-7x" :class="modalAvatar.avatar"
+										:style="{color : modalAvatar.avatarColor}"></i>
 								</div>
 							</div>
 							<div class="row modal-top-row">
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchAvatar(0)" class="btn"><i
-											class="fas avatar-picker-size" :class="avatarModalSelection[0]"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchAvatar(1)" class="btn"><i
-											class="fas avatar-picker-size" :class="avatarModalSelection[1]"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchAvatar(2)" class="btn"><i
-											class="fas avatar-picker-size" :class="avatarModalSelection[2]"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchAvatar(3)" class="btn"><i
-											class="fas avatar-picker-size" :class="avatarModalSelection[3]"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchAvatar(4)" class="btn"><i
-											class="fas avatar-picker-size" :class="avatarModalSelection[4]"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchAvatar(0)" class="btn"><i class="fas avatar-picker-size"
+											:class="avatarModalSelection[0]"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchAvatar(1)" class="btn"><i class="fas avatar-picker-size"
+											:class="avatarModalSelection[1]"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchAvatar(2)" class="btn"><i class="fas avatar-picker-size"
+											:class="avatarModalSelection[2]"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchAvatar(3)" class="btn"><i class="fas avatar-picker-size"
+											:class="avatarModalSelection[3]"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchAvatar(4)" class="btn"><i class="fas avatar-picker-size"
+											:class="avatarModalSelection[4]"></i></button></div>
 							</div>
 							<div class="row modal-bottom-row">
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchAvatar(5)" class="btn"><i
-											class="fas avatar-picker-size" :class="avatarModalSelection[5]"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchAvatar(6)" class="btn"><i
-											class="fas avatar-picker-size" :class="avatarModalSelection[6]"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchAvatar(7)" class="btn"><i
-											class="fas avatar-picker-size" :class="avatarModalSelection[7]"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchAvatar(8)" class="btn"><i
-											class="fas avatar-picker-size" :class="avatarModalSelection[8]"></i></button></div>
-								<div class="col justify-content-center d-flex align-items-center"><button v-on:click="switchAvatar(9)" class="btn"><i
-											class="fas avatar-picker-size" :class="avatarModalSelection[9]"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchAvatar(5)" class="btn"><i class="fas avatar-picker-size"
+											:class="avatarModalSelection[5]"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchAvatar(6)" class="btn"><i class="fas avatar-picker-size"
+											:class="avatarModalSelection[6]"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchAvatar(7)" class="btn"><i class="fas avatar-picker-size"
+											:class="avatarModalSelection[7]"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchAvatar(8)" class="btn"><i class="fas avatar-picker-size"
+											:class="avatarModalSelection[8]"></i></button></div>
+								<div class="col justify-content-center d-flex align-items-center"><button
+										v-on:click="switchAvatar(9)" class="btn"><i class="fas avatar-picker-size"
+											:class="avatarModalSelection[9]"></i></button></div>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -170,7 +195,8 @@
 								</div>
 							</div>
 							<div class="col">
-								<button v-on:click="saveAvatar" type="button" class="btn btn-primary" data-dismiss="modal">Save Changes</button>
+								<button v-on:click="saveAvatar" type="button" class="btn btn-primary"
+									data-dismiss="modal">Save Changes</button>
 							</div>
 						</div>
 					</div>
@@ -180,13 +206,13 @@
 		</div>
 
 		<div class="row" id=bottom-section>
-    <div class="col" id="previous"><span id="sub-title">PREVIOUS GAMES</span>
+			<div class="col" id="previous"><span id="sub-title">PREVIOUS GAMES</span>
 
 				<div class=" row first-content d-flex align-items-center">
 					<div class="col vote">{{prevSketchbook.vote[0]}}</div>
 					<div class="col">
-						<button :disabled="checkNA(0,0)" v-on:click="setSketchbook(0,0)" class="btn" data-toggle="modal" data-target="#viewSketch"><i
-								class="far fa-edit sketchbook-size"></i></button>
+						<button :disabled="checkNA(0,0)" v-on:click="setSketchbook(0,0)" class="btn" data-toggle="modal"
+							data-target="#viewSketch"><i class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">{{prevSketchbook.word[0]}}</div>
 				</div>
@@ -194,8 +220,8 @@
 				<div class=" row content d-flex align-items-center">
 					<div class="col vote">{{prevSketchbook.vote[1]}}</div>
 					<div class="col">
-						<button :disabled="checkNA(0,1)" v-on:click="setSketchbook(0,1)"class="btn" data-toggle="modal" data-target="#viewSketch"><i
-								class="far fa-edit sketchbook-size"></i></button>
+						<button :disabled="checkNA(0,1)" v-on:click="setSketchbook(0,1)" class="btn" data-toggle="modal"
+							data-target="#viewSketch"><i class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">{{prevSketchbook.word[1]}}</div>
 				</div>
@@ -203,8 +229,8 @@
 				<div class=" row content d-flex align-items-center">
 					<div class="col vote">{{prevSketchbook.vote[2]}}</div>
 					<div class="col">
-						<button :disabled="checkNA(0,2)" v-on:click="setSketchbook(0,2)" class="btn" data-toggle="modal" data-target="#viewSketch"><i
-								class="far fa-edit sketchbook-size"></i></button>
+						<button :disabled="checkNA(0,2)" v-on:click="setSketchbook(0,2)" class="btn" data-toggle="modal"
+							data-target="#viewSketch"><i class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">{{prevSketchbook.word[2]}}</div>
 				</div>
@@ -221,22 +247,30 @@
 								</button>
 							</div>
 							<div class="modal-body modal-sketchArea">
-								<div class="modal-sketchbook"><img class="img-size" v-bind:src="currentSketchbook"/></div>
+								<div class="modal-sketchbook"><img class="img-size" v-bind:src="currentSketchbook" />
+								</div>
 								<div class="modal-whichUser">{{action}} By: <span>{{currentOwner}}</span> <span
-										class="counter">{{displaySketchbook.counter}}/{{displaySketchbook.counterSize}}</span></div>
+										class="counter">{{displaySketchbook.counter}}/{{displaySketchbook.counterSize}}</span>
+								</div>
 							</div>
 							<div class="modal-footer">
 								<div class="col">
-									<button v-on:click="counterCheck(-1)" class="btn"><i class="fas fa-arrow-circle-left fa-3x"></i></button>
-									<button v-on:click="counterCheck(+1)" class="btn"><i class="fas fa-arrow-circle-right fa-3x"></i></button>
+									<button v-on:click="counterCheck(-1)" class="btn"><i
+											class="fas fa-arrow-circle-left fa-3x"></i></button>
+									<button v-on:click="counterCheck(+1)" class="btn"><i
+											class="fas fa-arrow-circle-right fa-3x"></i></button>
 								</div>
 								<div v-if="displaySketchbook.showSaveButton" class="col">
-									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio" value="1" v-model="displaySketchbook.saveSlot">Slot 1</label>
-									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio" value="2" v-model="displaySketchbook.saveSlot">Slot 2</label>
-									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio" value="3" v-model="displaySketchbook.saveSlot">Slot 3</label>
+									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio"
+											value="1" v-model="displaySketchbook.saveSlot">Slot 1</label>
+									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio"
+											value="2" v-model="displaySketchbook.saveSlot">Slot 2</label>
+									<label class="radio-inline"><input class="radio-space" type="radio" name="optradio"
+											value="3" v-model="displaySketchbook.saveSlot">Slot 3</label>
 								</div>
 								<div class="col">
-									<button v-on:click="saveBook" v-if="displaySketchbook.showSaveButton" type="button" class="btn btn-primary" data-dismiss="modal">Save
+									<button v-on:click="saveBook" v-if="displaySketchbook.showSaveButton" type="button"
+										class="btn btn-primary" data-dismiss="modal">Save
 										Sketchbook</button>
 								</div>
 							</div>
@@ -251,8 +285,8 @@
 				<div class=" row first-content d-flex align-items-center">
 					<div class="col vote">{{savedSketchbook.vote[0]}}</div>
 					<div class="col sketch">
-						<button :disabled="checkNA(1,0)" v-on:click="setSketchbook(1,0)" class="btn" data-toggle="modal" data-target="#viewSketch"><i
-								class="far fa-edit sketchbook-size"></i></button>
+						<button :disabled="checkNA(1,0)" v-on:click="setSketchbook(1,0)" class="btn" data-toggle="modal"
+							data-target="#viewSketch"><i class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">{{savedSketchbook.word[0]}}</div>
 				</div>
@@ -260,8 +294,8 @@
 				<div class=" row content d-flex align-items-center">
 					<div class="col vote">{{savedSketchbook.vote[1]}}</div>
 					<div class="col">
-						<button :disabled="checkNA(1,1)" v-on:click="setSketchbook(1,1)" class="btn" data-toggle="modal" data-target="#viewSketch"><i
-								class="far fa-edit sketchbook-size"></i></button>
+						<button :disabled="checkNA(1,1)" v-on:click="setSketchbook(1,1)" class="btn" data-toggle="modal"
+							data-target="#viewSketch"><i class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">{{savedSketchbook.word[1]}}</div>
 				</div>
@@ -269,8 +303,8 @@
 				<div class=" row content d-flex align-items-center">
 					<div class="col vote">{{savedSketchbook.vote[2]}}</div>
 					<div class="col">
-						<button :disabled="checkNA(1,2)" v-on:click="setSketchbook(1,2)" class="btn" data-toggle="modal" data-target="#viewSketch"><i
-								class="far fa-edit sketchbook-size"></i></button>
+						<button :disabled="checkNA(1,2)" v-on:click="setSketchbook(1,2)" class="btn" data-toggle="modal"
+							data-target="#viewSketch"><i class="far fa-edit sketchbook-size"></i></button>
 					</div>
 					<div class="col word">{{savedSketchbook.word[2]}}</div>
 				</div>
@@ -293,12 +327,12 @@
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 	<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-storage.js"></script>
-	
+
 	<script src="../firebase_config.js"></script>
-	
+
 	<script src="profile.js"></script>
 </body>
 
