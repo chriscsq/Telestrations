@@ -12,15 +12,6 @@ if (Cookies.get('username') === undefined) {
   }
 }
 
-// Retrieve sketchbook data from firebase
-let previousBook = [{vote : '+1', word : 'Dog', images : ['./images/dog1.jpg', './images/dog2.jpg', './images/dog3.jpg'], owners : ['David', 'Chris', 'Inderpreet']},
-                    {vote : 'N/A', word : 'N/A', images : [], owners : []},
-                    {vote : 'N/A', word : 'N/A', images : [], owners : []}]
-
-let savedBook =    [{vote : '+4', word : 'Goat', images : ['./images/goat1.jpeg', './images/goat2.jpg', './images/goat3.png'], owners : ['Chintav', 'Hassan', 'Other guy']},
-                    {vote : 'N/A', word : 'N/A', images : [], owners : []},
-                    {vote : 'N/A', word : 'N/A', images : [], owners : []}]
-
 let profile = new Vue({
   el: '#profile',
   data: {
@@ -49,10 +40,6 @@ let profile = new Vue({
       owners : [[], [], []]
     },
     savedSketchbook: {
-      // vote : [savedBook[0].vote, savedBook[1].vote, savedBook[2].vote],
-      // word : [savedBook[0].word, savedBook[1].word, savedBook[2].word],
-      // images : [savedBook[0].images, savedBook[1].images, savedBook[2].images],
-      // owners : [savedBook[0].owners, savedBook[1].owners, savedBook[2].owners]
       vote : ['', '', ''],
       word : ['', '', ''],
       images : [[], [], []],
@@ -120,8 +107,6 @@ let profile = new Vue({
     // get users data from firestore
     let data = await getSketchbook();
     // console.log("Data: ", data);
-    // setPreviousBooks();
-
 
     // set data for 3 previous books
     let previousBook1 = data.previousBook1;
