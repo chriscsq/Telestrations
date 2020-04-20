@@ -126,6 +126,10 @@
   justify-content: left;
 }
 
+#selectedWordWrapper{
+  display: block;
+}
+
 #overlay, #waitOverlay {
   position: fixed;
   display: none;

@@ -64,16 +64,19 @@ let assignWord = (word = vueMain.wordList[0].trim()) => {
 
 socket.on("changedRound", data => {
   console.log('Changed round', data);
+  Cookies.set('currentOwner', data[Cookies.get('username')][1]);
   let myImage = data[Cookies.get('username')][0];
   document.getElementById('chosenImage').src = myImage;
-  document.getElementById('myCanvas').style.display = 'none';
-  document.getElementById('chosenImage').style.display = 'block';
-  Cookies.set('currentOwner', data[Cookies.get('username')][1]);
+  document.getElementById('myCanvas').style.display = 'none'
+  document.getElementById('chosenImage').style.display = 'block'
+  document.getElementById('selectedWordWrapper').innerHTML = 'Study the image! you will only get a few seconds to view it!'
 });
 
 
 socket.on("hidepicture", () => {
   document.getElementById('myCanvas').style.display = 'block'
+  document.getElementById('chosenImage').style.display = 'none'
+  document.getElementById('selectedWordWrapper').innerHTML = 'Now, please guess the image you saw!'
 })
 
 socket.on("connect", () => {
@@ -153,4 +156,3 @@ while (game_over != true) {
 /* draw for 50 seconds */
 
 /* guess for 30 seconds */
-
