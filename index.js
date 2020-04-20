@@ -261,51 +261,50 @@ io.on('connect', socket => {
         if (finishCounter[data.gameRoomCode] === data.bookOwners.length) {
             finishCounter[data.gameRoomCode] = 0;
             roundCounter[data.gameRoomCode]++;
-            console.log('Round number', roundCounter[data.gameRoomCode]);
-            let urls = {};
-            for (let i = 0; i < data.bookOwners.length; i++) {
-                let idx = (i + roundCounter[data.gameRoomCode]) % data.bookOwners.length;
-                let owner = data.bookOwners[idx];
-                console.log('Looking for', owner, idx);
-                let url = await getLatestImage(owner);
-                urls[data.bookOwners[i]] = [url, owner];
+            console.log('Round number', roundCounter[data.gameRoomCode], data.bookOwners);
+            if (roundCounter[data.gameRoomCode] === data.bookOwners.length) {
+                console.log('Game done');
+                io.to(data.gameRoomCode).emit("gameOver");
+            } else {
+                console.log('Finding image urls')
+                let urls = {};
+                for (let i = 0; i < data.bookOwners.length; i++) {
+                    let idx = (i + roundCounter[data.gameRoomCode]) % data.bookOwners.length;
+                    let owner = data.bookOwners[idx];
+                    console.log('Looking for', owner, idx);
+                    let url = await getLatestImage(owner);
+                    urls[data.bookOwners[i]] = [url, owner];
+                }
+                let drawLimit = data.drawLimit;
+
+                let timeToWait = 10;
+                setTimer(timeToWait, "viewPicture", data.gameRoomCode);
+
+                io.to(data.gameRoomCode).emit("changedRound", urls);
+
+                let timeToView = 15;
+                setTimeout(() => {
+                    setTimer(timeToView, "guess", data.gameRoomCode);
+                }, (timeToWait + 1) * 1000);
+
+                setTimeout(() => {
+                    setTimer(drawLimit, "draw", data.gameRoomCode);
+                }, (timeToView + timeToWait + 1) * 1000);
             }
-            let drawLimit = data.drawLimit;
-
-            let timeToWait = 10;
-            setTimer(timeToWait, "viewPicture", data.gameRoomCode);
-
-            io.to(data.gameRoomCode).emit("changedRound", urls);
-
-            let timeToGuess = 15;
-            setTimeout(() => {
-                console.log("guess timer");
-                setTimer(timeToGuess, "guess", data.gameRoomCode);
-                io.to(data.gameRoomCode).emit("hidepicture");
-            }, (timeToWait + 1) * 1000);
-
-            
-
-            setTimeout(() => {
-                console.log("draw timer");
-                setTimer(drawLimit, "drawyourguess", data.gameRoomCode);
-
-            }, (timeToGuess + timeToWait + 1) * 1000);
-            
-
         }
     });
 
     function setTimer(time, timertype, roomCode) {
-        var refresh = setInterval(function () {
+        let refresh = setInterval(function () {
             if (time === 0) {
                 if (timertype === "pick") {
                     io.to(roomCode).emit("updateTimer", "DRAW!");
                 } else if (timertype === "viewPicture") {
                     io.to(roomCode).emit("updateTimer", "GUESS");
-                    io.to(roomCode).emit("hidepicture");
+                    io.to(roomCode).emit("hidepicture", "Hand write in a guess for the image you saw!");
                 } else if (timertype === "guess") {
                     io.to(roomCode).emit("updateTimer", "DRAW YOUR GUESS");
+                    io.to(roomCode).emit("hidepicture", "Now draw what you guessed!");
                 } else {
                     io.to(roomCode).emit("updateTimer", "Time's up");
                 }
