@@ -40,25 +40,22 @@ getRoomOwner(roomCode).then(roomOwner => {
 var socket_io = io();
 document.getElementById("game-code").innerHTML += roomCode;
 
-let updatePlayers = players => {
-  $("#room_players").empty();
-  for (var i = 0; i < players.length; i++) {
-    $("#room_players").append(`<b>${players[i]}</b> &nbsp &nbsp`);
-  }
-  $("#room_players").append("<br>");
-};
+
 
 let updateIcons = async players => {
   $("#player_icons").empty();
   let icons = await getUserIcons(players);
+  console.log(icons);
   for (let i = 0; i < icons.length; i++) {
-    $("#player_icons").append(`<i class='${icons[i]} avatar-size'></i>&nbsp &nbsp`);
+    let iconMap = icons[i];
+    let name = iconMap.name;
+    let icon = iconMap.usericon;
+    $("#player_icons").append(`<b>${name}</b>&nbsp&nbsp<i class='${icon} avatar-size'></i><br>`);
   }
 };
 
 setPlayerSnapshot(roomCode, async doc => {
   let data = doc.data();
-  updatePlayers(data.players);
   await updateIcons(data.players);
 });
 

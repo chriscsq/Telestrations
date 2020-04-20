@@ -138,9 +138,12 @@ async function getUserIcons(playerList) {
     let iconList = [];
     let playerDB = db.collection("players");
     for (let i = 0; i < playerList.length; i++) {
+        let iconMap = Object();
         let playerData = await playerDB.where('username', '==', playerList[i]).get();
         let icon = playerData.docs[0].data();
-        iconList.push(icon.usericon);
+        iconMap.name = icon.username;
+        iconMap.usericon = icon.usericon;
+        iconList.push(iconMap);
     }
     return iconList;
 }
