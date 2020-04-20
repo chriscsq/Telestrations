@@ -87,7 +87,9 @@ socket.on("connect", () => {
 async function changeRound() {
   console.log('Round done');
   let bookOwners = await getPlayersInRoom(gameRoomCode);
+  let drawLimit = await getTimeLimit(gameRoomCode);
   socket.emit("roundChange", { gameRoomCode, bookOwners });
+  socket.emit("roundChange", { gameRoomCode, bookOwners, drawLimit });
 };
 
 socket.on("pickaword", function () {
@@ -123,36 +125,4 @@ async function startGame() {
     socket.emit('loadGame', roomInfo);
   });
 
-  // var rounds = await getRoomLimit("GCWD");
-  // console.log('Rounds after promise', rounds);
-  // var drawLimit = await getTimeLimit("GCWD");
-  // console.log('Draw limit after promise', drawLimit[0]);
-
-  // let roomInfo = {};
-  // let setObj = async function (maxRounds, drawTime) {
-  //   roomInfo.maxRounds = maxRounds;
-  //   roomInfo.drawTime = drawTime;
-  // }
 }
-
-// async function getAsyncRoomLimit(roomCode) {
-//   return await getRoomLimit();
-// }
-
-  //pickTimer();
-/*
-while (game_over != true) {
-
-  if (round == roundLimit) {
-      game_over = true;
-  }
-  pickWord(round);
-
-  console.log(round);
-    //pickWord();
-
-  /* have people pick a word for 15 seconds */
-
-/* draw for 50 seconds */
-
-/* guess for 30 seconds */

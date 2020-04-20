@@ -272,16 +272,29 @@ io.on('connect', socket => {
                 let url = await getLatestImage(owner);
                 urls[data.bookOwners[i]] = [url, owner];
             }
-            let timeToWait = 15;
+            let drawLimit = data.drawLimit;
+
+            let timeToWait = 10;
             setTimer(timeToWait, "viewPicture", data.gameRoomCode);
 
             io.to(data.gameRoomCode).emit("changedRound", urls);
 
             let timeToGuess = 15;
             setTimeout(() => {
+                console.log("guess timer");
                 setTimer(timeToGuess, "guess", data.gameRoomCode);
                 io.to(data.gameRoomCode).emit("hidepicture");
             }, (timeToWait + 1) * 1000);
+
+            
+
+            setTimeout(() => {
+                console.log("draw timer");
+                setTimer(drawLimit, "drawyourguess", data.gameRoomCode);
+
+            }, (timeToGuess + timeToWait + 1) * 1000);
+            
+
         }
     });
 
@@ -290,20 +303,17 @@ io.on('connect', socket => {
             if (time === 0) {
                 if (timertype === "pick") {
                     io.to(roomCode).emit("updateTimer", "DRAW!");
-                } else if (timertype == "viewPicture") {
+                } else if (timertype === "viewPicture") {
                     io.to(roomCode).emit("updateTimer", "GUESS");
                     io.to(roomCode).emit("hidepicture");
+                } else if (timertype === "guess") {
+                    io.to(roomCode).emit("updateTimer", "DRAW YOUR GUESS");
                 } else {
                     io.to(roomCode).emit("updateTimer", "Time's up");
-
                 }
                 clearInterval(refresh);
             } else {
-                if (timertype == "viewPicture") {
-                    io.to(roomCode).emit('updateTimer', time);
-                } else {
-                    io.to(roomCode).emit('updateTimer', time);
-                }
+                io.to(roomCode).emit('updateTimer', time);
             }
             time -= 1;
         }, 1000);
