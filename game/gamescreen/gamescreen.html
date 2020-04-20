@@ -72,20 +72,17 @@
               <!-- <div class="pickr"></div> -->
               <button id="startgame" onclick="startGame()" v-if="isLeader">Start</button>
 
-              <label class="colorlabel">Choose your color:
-                <select class="colorSelect" name="colorSelect">
-                  <option value="">Select one..</option>
-                  <option value="black" selected style="background-color: black; color: white;">Black</option>
-                  <option value="red" style="background-color: lightcoral;">Red</option>
-                  <option value="blue" style="background-color: lightskyblue;">Blue</option>
-                  <option value="green" style="background-color: rgb(176, 204, 176);">Green</option>
-                  <option value="pink" style="background-color: pink;">Pink</option>
-                  <option value="yellow" style="background-color: lightgoldenrodyellow;">Yellow</option>
-                  <option value="orange" style="background-color: lightsalmon;">Orange</option>
-                </select>
-              </label>
+              
+              <label class="colorlabel">Choose your color:</label><br><br>
               <!-- </section> -->
-              <input type="image" src="https://i.imgur.com/PB7ggOx.png" id="eraser"/>
+              <input type="image" src="js/icons/redcolor.png" id="redColor"/>
+              <input type="image" src="js/icons/blackcolor.png" id="blackColor"/>
+              <input type="image" src="js/icons/bluecolor.png" id="blueColor"/> <br><br>
+              <input type="image" src="js/icons/greencolor.png" id="greenColor"/>
+              <input type="image" src="js/icons/orangecolor.png" id="orangeColor"/>
+              <input type="image" src="js/icons/yellowcolor.png" id="yellowColor"/> <br><br>
+
+              <input type="image" src="js/icons/eraser.png" id="eraser"/>
             </div>
           </b-col>
         </b-row>
