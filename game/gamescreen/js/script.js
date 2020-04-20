@@ -95,8 +95,10 @@
                                 window.whiteboard = whiteboard;
                             });
                         } else if (timerO.prev === "DRAW YOUR GUESS") {
-                            whiteboard = new Whiteboard(canvas, socket);
-                            window.whiteboard = whiteboard;
+                            whiteboard.download('image.png').then(() => {
+                                whiteboard = new Whiteboard(canvas, socket);
+                                window.whiteboard = whiteboard;
+                            });
                         }
                     }
                 }, 1000);

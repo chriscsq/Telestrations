@@ -94,7 +94,7 @@ async function roomFull(roomCode) {
     if (players.length === roomLimit) {
         roomFull = true;
     }
-    else { 
+    else {
         roomFull = false;
     }
     return roomFull;
@@ -106,15 +106,15 @@ async function sendImgToFirebase(image) {
     var imagesRef = storageRef.child('images/' + 'canvas' + new Date().getTime());
     var file = image;
     //string of current user would be passed in as owner here
-    var username = Cookies.get('username')
-    var chosenWord = document.getElementById("selectedWord").innerHTML
+    var username = Cookies.get('username');
+    var chosenWord = Cookies.get('chosenWord');
     var metadata = {
         customMetadata: {
             'owner': username,
             'activity': 'drawing',
             'word': chosenWord
         }
-    }
+    };
 
     await imagesRef.put(file, metadata);
     console.log('image uploaded to firebase');

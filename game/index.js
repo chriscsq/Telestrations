@@ -74,7 +74,7 @@ let playArea = new Vue({
                 this.errorMsg = '';
             }
         },
-        joinRoom: function (event) {
+        joinRoom: async function (event) {
             if (this.inputVisible) {
                 if (this.roomCode.length !== 4) {
                     this.errorMsg = 'Room code must be four characters';

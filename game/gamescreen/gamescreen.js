@@ -60,6 +60,7 @@ let assignWord = (word = vueMain.wordList[0].trim()) => {
   socket.emit('wordChosen', { user: Cookies.get('username') });
   pickedWord = true;
   document.getElementById("overlay").style.display = "none";
+  Cookies.set('chosenWord', word);
 }
 
 socket.on("changedRound", data => {
@@ -73,11 +74,13 @@ socket.on("changedRound", data => {
 });
 
 
-socket.on("hidepicture", () => {
+socket.on("hidepicture", message => {
   document.getElementById('myCanvas').style.display = 'block'
   document.getElementById('chosenImage').style.display = 'none'
-  document.getElementById('selectedWordWrapper').innerHTML = 'Now, please guess the image you saw!'
-})
+  if (message) {
+    document.getElementById('selectedWordWrapper').innerHTML = message;
+  }
+});
 
 socket.on("connect", () => {
   setPreviousBooks();
@@ -88,7 +91,6 @@ async function changeRound() {
   console.log('Round done');
   let bookOwners = await getPlayersInRoom(gameRoomCode);
   let drawLimit = await getTimeLimit(gameRoomCode);
-  socket.emit("roundChange", { gameRoomCode, bookOwners });
   socket.emit("roundChange", { gameRoomCode, bookOwners, drawLimit });
 };
 
@@ -105,6 +107,11 @@ socket.on("updateTimer", function (data) {
     document.getElementById("waitOverlay").style.display = "none";
   }
   document.getElementById("timer").innerHTML = data;
+});
+
+socket.on("gameOver", () => {
+  console.log('Done game');
+  window.location.href = '../index.html';
 });
 
 // start game called on click
