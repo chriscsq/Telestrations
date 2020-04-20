@@ -128,12 +128,6 @@ let profile = new Vue({
     this.savedSketchbook.word[1] = savedBook2[0].word;
     this.savedSketchbook.word[2] = savedBook3[0].word;
 
-    // TEMPORARY : vote is hardcoded until voting system is implemented
-    this.prevSketchbook.vote[0] = '+5';
-    this.prevSketchbook.vote[1] = '+6';
-    this.prevSketchbook.vote[2] = '+7';
- 
-
     var i;
     // push images from database into the 3 previous books
     for (i = 0; i < previousBook1.length; i++) {

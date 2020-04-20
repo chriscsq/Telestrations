@@ -47,7 +47,7 @@
         </div>
         <div id="contentArea" class="row">
             <div id="playArea" class="col">
-                <div class="header">Play</div>
+                <div class="header">{{ playMessage }}</div>
                 <template v-if="inputVisible">
                     <div class="row">
                         <input class="col" type="text" placeholder=" Enter Room Code" maxlength="4"
@@ -59,13 +59,16 @@
                         {{ errorMsg }}
                     </div>
                 </template>
-                <div class="row">
-                    <div id="joinRoomButton" class="col justify-content-center align-self-center btn btn-primary btn-lg"
-                        v-on:click="joinRoom">Join Room</div>
-                    <div id="createRoomButton"
-                        class="col justify-content-center align-self-center btn btn-primary btn-lg"
-                        v-on:click="createRoom">{{ altButtonText }}</div>
-                </div>
+                <template v-if="isLoggedIn">
+                    <div class="row">
+                        <div id="joinRoomButton"
+                            class="col justify-content-center align-self-center btn btn-primary btn-lg"
+                            v-on:click="joinRoom">Join Room</div>
+                        <div id="createRoomButton"
+                            class="col justify-content-center align-self-center btn btn-primary btn-lg"
+                            v-on:click="createRoom">{{ altButtonText }}</div>
+                    </div>
+                </template>
             </div>
             <div id="infoArea" class="col">
                 <div class="header">Updates & News</div>
