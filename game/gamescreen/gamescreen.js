@@ -3,6 +3,8 @@ let gameRoomCode = Cookies.get('roomCode');
 let isLeader = Cookies.get('isLeader') === "true";
 let socket = io();
 
+Cookies.set('currentOwner', Cookies.get('username'));
+
 window.onload = async () => {
   vueMain = new Vue({
     el: '#app',
@@ -62,10 +64,11 @@ let assignWord = (word = vueMain.wordList[0].trim()) => {
 
 socket.on("changedRound", data => {
   console.log('Changed round', data);
-  let myImage = data[Cookies.get('username')];
+  let myImage = data[Cookies.get('username')][0];
   document.getElementById('chosenImage').src = myImage;
-  document.getElementById('myCanvas').style.display = 'none'
-  document.getElementById('chosenImage').style.display = 'block'
+  document.getElementById('myCanvas').style.display = 'none';
+  document.getElementById('chosenImage').style.display = 'block';
+  Cookies.set('currentOwner', data[Cookies.get('username')][1]);
 });
 
 
@@ -74,7 +77,7 @@ socket.on("hidepicture", () => {
 })
 
 socket.on("connect", () => {
-  // setPreviousBooks();
+  setPreviousBooks();
   socket.emit('gameConnect', { roomCode: gameRoomCode });
 });
 

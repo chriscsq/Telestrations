@@ -101,7 +101,7 @@ async function sendImgToFirebase(image) {
 
     let url = await imagesRef.getDownloadURL();
     let imageOwner = Cookies.get('username');
-    let bookOwner = Cookies.get('username');
+    let bookOwner = Cookies.get('currentOwner');
     let bookOwnerDocID = await getDocID(bookOwner);
     var playerRef = db.collection("players").doc(bookOwnerDocID);
 

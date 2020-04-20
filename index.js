@@ -243,9 +243,9 @@ io.on('connect', socket => {
         let maxRounds = data;
 
         /* needs to get async values, right now they are hardcoded */
-        let pickWordTimer = 1; // in seconds
-        // let drawTime = data.drawLimit;
-        let drawTime = 2;
+        let pickWordTimer = 15; // in seconds
+        let drawTime = data.drawLimit;
+        // let drawTime = 2;
         console.log('Loaded stats: ', data);
 
         io.to(data.roomCode).emit("pickaword");
@@ -263,14 +263,14 @@ io.on('connect', socket => {
         if (finishCounter[data.gameRoomCode] === data.bookOwners.length) {
             finishCounter[data.gameRoomCode] = 0;
             roundCounter[data.gameRoomCode]++;
-            console.log(data.bookOwners);
+            console.log('Round number', roundCounter[data.gameRoomCode]);
             let urls = {};
             for (let i = 0; i < data.bookOwners.length; i++) {
                 let idx = (i + roundCounter[data.gameRoomCode]) % data.bookOwners.length;
                 let owner = data.bookOwners[idx];
                 console.log('Looking for', owner, idx);
                 let url = await getLatestImage(owner);
-                urls[data.bookOwners[i]] = url;
+                urls[data.bookOwners[i]] = [url, owner];
             }
             let timeToWait = 15;
             setTimer(timeToWait, "viewPicture", data.gameRoomCode);
